@@ -1,0 +1,26 @@
+import { all, fork } from "redux-saga/effects"
+
+//public
+import AccountSaga from "./auth/register/saga"
+import AuthSaga from "./../pages/auth/login/store/saga"
+import BlogSaga from "./../pages/blog/store/saga"
+import ProfileSaga from "./../pages/profile/store/saga"
+import ForgotPasswordSaga from "./../pages/auth/forgot-password/store/saga"
+import ResetPasswordSaga from "./../pages/auth/reset-password/store/saga"
+import DashboardSaga from "./../pages/dashboard/store/saga"
+import TeachersSaga from "./../pages/teachers/store/saga"
+import StudentsSaga from "./../pages/students/store/saga"
+
+export default function* rootSaga() {
+  yield all([
+    AccountSaga(),
+    AuthSaga(),
+    BlogSaga(),
+    ProfileSaga(),
+    ForgotPasswordSaga(),
+    ResetPasswordSaga(),
+    DashboardSaga(),
+    TeachersSaga(),
+    StudentsSaga()
+  ])
+}
