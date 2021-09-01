@@ -16,7 +16,7 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router';
 import {
-    getTeachers
+    getTeachersStats
 } from './store/actions'
 
 import { ChevronDown } from 'react-feather'
@@ -36,6 +36,8 @@ const Teachers = (props) => {
 
     const [currentPage, setCurrentPage] = useState(0)
 
+    const {teachersStats} = props
+
     // ** Function to handle Pagination
     const handlePagination = page => {
         setCurrentPage(page.selected)
@@ -47,8 +49,8 @@ const Teachers = (props) => {
             nextLabel=''
             forcePage={currentPage}
             onPageChange={page => handlePagination(page)}
-            // pageCount={props.newAssignments.length > 0 ? props.newAssignments.length / 10 : 1}
-            pageCount={1}
+            pageCount={  teachersStats.teachers.data.length > 0 ?   teachersStats.teachers.data.length / 10 : 1}
+            // pageCount={1}
             breakLabel='...'
             pageRangeDisplayed={2}
             marginPagesDisplayed={2}
@@ -68,7 +70,8 @@ const Teachers = (props) => {
     )
 
     const handleViewTeacher = (id) => {
-        props.history.push('/teachers/' + id)
+        // props.history.push('/teachers/' + id)
+        props.history.push(`/teacher-history/${id}`)
     }
 
     const columns = [
@@ -130,7 +133,7 @@ const Teachers = (props) => {
     ]
 
     useEffect(() => {
-        props.getTeachers()
+        props.getTeachersStats()
     }, [])
 
     return (
@@ -151,25 +154,25 @@ const Teachers = (props) => {
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
                                     label={"Teachers January"}
-                                    value={0}
+                                    value={teachersStats.thisMonthCount}
                                 />
                             </Col>
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
                                     label={"Teachers 2021"}
-                                    value={0}
+                                    value={teachersStats.thisYearCount}
                                 />
                             </Col>
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
                                     label={"Teachers All"}
-                                    value={0}
+                                    value={teachersStats.allTimeCount}
                                 />
                             </Col>
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
                                     label={"Teachers Active"}
-                                    value={0}
+                                    value={teachersStats.activeCount}
                                 />
                             </Col>
                         </Row>
@@ -182,13 +185,17 @@ const Teachers = (props) => {
                             {
                                 !props.teachersLoading &&
                                 !props.teachersError &&
-                                props.teachers.length == 0 &&
+                                teachersStats.teachers &&
+                                teachersStats.teachers.data &&
+                                teachersStats.teachers.data.length == 0 &&
                                 <NotFound message="No teacher found" />
                             }
                             {
                                 !props.teachersLoading &&
                                 !props.teachersError &&
-                                props.teachers.length > 0 &&
+                                teachersStats.teachers &&
+                                teachersStats.teachers.data &&
+                                teachersStats.teachers.data.length > 0 &&
                                 <DataTable
                                     noHeader
                                     pagination
@@ -198,7 +205,7 @@ const Teachers = (props) => {
                                     sortIcon={<ChevronDown size={10} />}
                                     paginationDefaultPage={currentPage + 1}
                                     paginationComponent={CustomPagination}
-                                    data={props.teachers}
+                                    data={teachersStats.teachers.data}
                                 />}
                         </div>
                     </CardBody>
@@ -211,13 +218,13 @@ const Teachers = (props) => {
 const mapStateToProps = (state) => {
 
     const {
-        teachers,
+        teachersStats,
         teachersError,
         teachersLoading,
     } = state.Teachers
 
     return {
-        teachers,
+        teachersStats,
         teachersError,
         teachersLoading,
     }
@@ -225,6 +232,6 @@ const mapStateToProps = (state) => {
 
 export default withRouter(
     connect(mapStateToProps, {
-        getTeachers
+        getTeachersStats
     })(Teachers)
 )

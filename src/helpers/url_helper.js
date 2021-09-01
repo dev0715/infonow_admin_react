@@ -22,6 +22,8 @@ export const GET_DOCUMENT_URL = url => DOCUMENT_BASE_URL + url
 
 //Dashboard
 export const GET_DASHBOARD_DATA = `${BASE_URL}/api/v1/admins/dashboard`
+export const GET_TEACHER_HISTORY_STATS = (teacherId) => `${BASE_URL}/api/v1/admins/teacher-history-stats/${teacherId}`
+export const GET_STUDENT_HISTORY_STATS = (studentId) => `${BASE_URL}/api/v1/admins/student-history-stats/${studentId}`
 
 // admins
 export const POST_STUDENT_LOGIN = `${BASE_URL}/authenticate/admin`
@@ -45,9 +47,9 @@ export const UPLOAD_PROFILE_PICTURE = id => `${BASE_URL}/api/v1/admins/${id}/pro
 export const UPDATE_PASSWORD = id => `${BASE_URL}/api/v1/admins/${id}/password`
 
 //Teacher 
-export const TEACHERS = (adminId) => `${BASE_URL}/api/v1/admins/${adminId}/teachers`
+export const GET_TEACHERS_STATS = `${BASE_URL}/api/v1/admins/teacher-stats`
 export const TEACHER = (teacherId) => `${BASE_URL}/api/v1/teachers/${teacherId}`
 
 //Student 
-export const STUDENTS = (adminId) => `${BASE_URL}/api/v1/admins/${adminId}/students`
+export const GET_STUDENTS_STATS = `${BASE_URL}/api/v1/admins/student-stats`
 export const STUDENT = (studentId) => `${BASE_URL}/api/v1/students/${studentId}`

@@ -1,28 +1,27 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 
 // Login Redux States
-import { GET_TEACHERS, GET_TEACHER_DETAILS } from "./actionTypes"
+import { GET_TEACHERS_STATS, GET_TEACHER_DETAILS } from "./actionTypes"
 import {
-    getTeachersSuccess, getTeachersFailure,
+    getTeachersStatsSuccess, getTeachersStatsFailure,
     getTeacherDetailsSuccess, getTeacherDetailsFailure
 } from "./actions"
 
 //Include Both Helper File with needed methods
-import { getLoggedInUser, getTeachers, getTeacher } from "../../../helpers/backend-helpers";
+import { getTeachersStats, getTeacher } from "../../../helpers/backend-helpers";
 
 
-function* getTeachersHttp() {
+function* getTeachersStatsHttp() {
     try {
-        let user = getLoggedInUser()
-        const response = yield call(getTeachers, user.userId);
+        const response = yield call(getTeachersStats);
         if (response) {
-            yield put(getTeachersSuccess(response))
+            yield put(getTeachersStatsSuccess(response))
             return;
         }
         throw "Unknown response received from Server";
 
     } catch (error) {
-        yield put(getTeachersFailure(error.message ? error.message : error))
+        yield put(getTeachersStatsFailure(error.message ? error.message : error))
     }
 }
 
@@ -42,7 +41,7 @@ function* getTeacherDetailsHttp({ payload }) {
 
 
 function* teachersSaga() {
-    yield takeEvery(GET_TEACHERS, getTeachersHttp)
+    yield takeEvery(GET_TEACHERS_STATS, getTeachersStatsHttp)
     yield takeEvery(GET_TEACHER_DETAILS, getTeacherDetailsHttp)
 }
 

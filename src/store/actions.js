@@ -27,3 +27,7 @@ export * from './../pages/teachers/store/actions'
 
 //Students
 export * from './../pages/students/store/actions'
+
+
+//history
+export * from './../pages/history-profile/store/actions'

@@ -44,6 +44,28 @@ const Routes = [
       accessToAdmin: true
     }
   },
+
+  {
+    path: '/teacher-history/:teacherId',
+    exact: true,
+    component: lazy(() => import('../../pages/history-profile/teacher-history')),
+    meta: {
+      navLink: '/teacher-history/:teacherId',
+      accessToAdmin: true
+    }
+  },
+
+  {
+    path: '/student-history/:studentId',
+    exact: true,
+    component: lazy(() => import('../../pages/history-profile/student-history')),
+    meta: {
+      navLink: '/student-history/:studentId',
+      accessToAdmin: true
+    }
+  },
+
+
   {
     path: '/students',
     exact: true,

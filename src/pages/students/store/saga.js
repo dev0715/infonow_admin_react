@@ -1,28 +1,27 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 
 // Login Redux States
-import { GET_STUDENTS, GET_STUDENT_DETAILS } from "./actionTypes"
+import { GET_STUDENTS_STATS, GET_STUDENT_DETAILS } from "./actionTypes"
 import {
-    getStudentsSuccess, getStudentsFailure,
+    getStudentsStatsSuccess, getStudentsStatsFailure,
     getStudentDetailsSuccess, getStudentDetailsFailure
 } from "./actions"
 
 //Include Both Helper File with needed methods
-import { getLoggedInUser, getStudents, getStudent } from "../../../helpers/backend-helpers";
+import { getStudentsStats, getStudent } from "../../../helpers/backend-helpers";
 
 
-function* getStudentsHttp() {
+function* getStudentsStatsHttp() {
     try {
-        let user = getLoggedInUser()
-        const response = yield call(getStudents, user.userId);
+        const response = yield call(getStudentsStats);
         if (response) {
-            yield put(getStudentsSuccess(response))
+            yield put(getStudentsStatsSuccess(response))
             return;
         }
         throw "Unknown response received from Server";
 
     } catch (error) {
-        yield put(getStudentsFailure(error.message ? error.message : error))
+        yield put(getStudentsStatsFailure(error.message ? error.message : error))
     }
 }
 
@@ -42,7 +41,7 @@ function* getStudentDetailsHttp({ payload }) {
 
 
 function* StudentsSaga() {
-    yield takeEvery(GET_STUDENTS, getStudentsHttp)
+    yield takeEvery(GET_STUDENTS_STATS, getStudentsStatsHttp)
     yield takeEvery(GET_STUDENT_DETAILS, getStudentDetailsHttp)
 }
 

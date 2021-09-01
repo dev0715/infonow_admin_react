@@ -16,7 +16,7 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router';
 import {
-    getStudents
+    getStudentsStats
 } from './store/actions'
 
 import { ChevronDown } from 'react-feather'
@@ -36,7 +36,9 @@ import NoNetwork from '../../components/no-network';
 const Students = (props) => {
 
     const [currentPage, setCurrentPage] = useState(0)
-
+    const { studentStats,
+        studentStatsError,
+        studentStatsLoading,} = props
     // ** Function to handle Pagination
     const handlePagination = page => {
         setCurrentPage(page.selected)
@@ -48,8 +50,8 @@ const Students = (props) => {
             nextLabel=''
             forcePage={currentPage}
             onPageChange={page => handlePagination(page)}
-            // pageCount={props.newAssignments.length > 0 ? props.newAssignments.length / 10 : 1}
-            pageCount={1}
+             pageCount={studentStats.students.data.length > 0 ? studentStats.students.data.length / 10 : 1}
+            // pageCount={1}
             breakLabel='...'
             pageRangeDisplayed={2}
             marginPagesDisplayed={2}
@@ -69,11 +71,12 @@ const Students = (props) => {
     )
 
     useEffect(() => {
-        props.getStudents()
+        props.getStudentsStats()
     }, [])
 
     const handleViewStudent = (id) => {
-        props.history.push('/students/' + id)
+        // props.history.push('/students/' + id)
+        props.history.push(`/student-history/${id}`)
     }
 
 
@@ -153,44 +156,50 @@ const Students = (props) => {
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
                                     label={"Students January"}
-                                    value={0}
+                                    value={studentStats.thisMonthCount}
                                 />
                             </Col>
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
                                     label={"Students 2021"}
-                                    value={0}
+                                    value={studentStats.thisYearCount}
                                 />
                             </Col>
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
                                     label={"Students All"}
-                                    value={0}
+                                    value={studentStats.allTimeCount}
                                 />
                             </Col>
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
                                     label={"Students Active"}
-                                    value={0}
+                                    value={studentStats.activeCount}
                                 />
                             </Col>
                         </Row>
                         <div className="shadow-stats-item mt-3">
                             {
-                                !props.studentsLoading &&
-                                props.studentsError &&
-                                <NoNetwork message={props.studentsError} />
+                                !studentStatsLoading &&
+                                studentStatsError &&
+                                <NoNetwork message={studentStatsError} />
                             }
+
                             {
-                                !props.studentsLoading &&
-                                !props.studentsError &&
-                                props.students.length == 0 &&
+                                !studentStatsLoading &&
+                                !studentStatsError &&
+                                studentStats.students &&
+                                studentStats.students.data &&
+                                 studentStats.students.data.length == 0 &&
                                 <NotFound message="No student found" />
                             }
+
                             {
-                                !props.studentsLoading &&
-                                !props.studentsError &&
-                                props.students.length > 0 &&
+                                !studentStatsLoading &&
+                                !studentStatsError &&
+                                studentStats.students &&
+                                studentStats.students.data &&
+                                studentStats.students.data.length > 0 &&
                                 <DataTable
                                     noHeader
                                     pagination
@@ -200,7 +209,7 @@ const Students = (props) => {
                                     sortIcon={<ChevronDown size={10} />}
                                     paginationDefaultPage={currentPage + 1}
                                     paginationComponent={CustomPagination}
-                                    data={props.students}
+                                    data={studentStats.students.data}
                                 />}
                         </div>
                     </CardBody>
@@ -213,20 +222,21 @@ const Students = (props) => {
 const mapStateToProps = (state) => {
 
     const {
-        students,
-        studentsError,
-        studentsLoading,
+        studentStats,
+        studentStatsError,
+        studentStatsLoading,
+    
     } = state.Students
 
     return {
-        students,
-        studentsError,
-        studentsLoading,
+        studentStats,
+        studentStatsError,
+        studentStatsLoading,
     }
 }
 
 export default withRouter(
     connect(mapStateToProps, {
-        getStudents
+        getStudentsStats
     })(Students)
 )

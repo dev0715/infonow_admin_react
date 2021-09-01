@@ -1,16 +1,18 @@
 import {
-    GET_TEACHERS,
-    GET_TEACHERS_SUCCESS,
-    GET_TEACHERS_FAILURE,
+    GET_TEACHERS_STATS,
+    GET_TEACHERS_STATS_SUCCESS,
+    GET_TEACHERS_STATS_FAILURE,
+
     GET_TEACHER_DETAILS,
     GET_TEACHER_DETAILS_SUCCESS,
     GET_TEACHER_DETAILS_FAILURE,
 } from "./actionTypes"
 
 const initialState = {
-    teachers: [],
+    teachersStats: {},
     teachersError: null,
     teachersLoading: false,
+
     teacher: {},
     teacherLoading: false,
     teacherError: null,
@@ -19,14 +21,14 @@ const initialState = {
 const teachersReducer = (state = initialState, action) => {
     switch (action.type) {
 
-        case GET_TEACHERS:
-            return { ...state, teachersError: null, teachersLoading: true }
+        case GET_TEACHERS_STATS:
+            return { ...state, teachersLoading: true }
 
-        case GET_TEACHERS_SUCCESS:
-            return { ...state, teachers: action.payload, teachersError: null, teachersLoading: false }
+        case GET_TEACHERS_STATS_SUCCESS:
+            return { ...state, teachersStats: action.payload, teachersLoading: false }
 
-        case GET_TEACHERS_FAILURE:
-            return { ...state, teachers: [], teachersError: action.payload, teachersLoading: false }
+        case GET_TEACHERS_STATS_FAILURE:
+            return { ...state, teachersError: action.payload, teachersLoading: false }
 
         case GET_TEACHER_DETAILS:
             return { ...state, teacherError: null, teacherLoading: true }

@@ -27,7 +27,8 @@ export const isUserAuthenticated = () => {
 
 //Dashboard
 export const getDashboardData = () => get(url.GET_DASHBOARD_DATA)
-
+export const getTeacherHistoryStats = (teacherId) => get(url.GET_TEACHER_HISTORY_STATS(teacherId))
+export const getStudentHistoryStats = (studentId) => get(url.GET_STUDENT_HISTORY_STATS(studentId))
 
 //Blogs 
 export const getBlogList = () => get(url.GET_BLOG_LIST)
@@ -52,9 +53,9 @@ export const uploadProfilePicture = (id, data) => postForm(url.UPLOAD_PROFILE_PI
 export const updatePassword = (id, data) => put(url.UPDATE_PASSWORD(id), data);
 
 //Teacher 
-export const getTeachers = (adminId) => get(url.TEACHERS(adminId))
+export const getTeachersStats = () => get(url.GET_TEACHERS_STATS)
 export const getTeacher = (teacherId) => get(url.TEACHER(teacherId))
 
 //Student 
-export const getStudents = (adminId) => get(url.STUDENTS(adminId))
+export const getStudentsStats = () => get(url.GET_STUDENTS_STATS)
 export const getStudent = (studentId) => get(url.STUDENT(studentId))

@@ -10,6 +10,7 @@ import ResetPasswordSaga from "./../pages/auth/reset-password/store/saga"
 import DashboardSaga from "./../pages/dashboard/store/saga"
 import TeachersSaga from "./../pages/teachers/store/saga"
 import StudentsSaga from "./../pages/students/store/saga"
+import HistorySaga from "./../pages/history-profile/store/saga"
 
 export default function* rootSaga() {
   yield all([
@@ -21,6 +22,7 @@ export default function* rootSaga() {
     ResetPasswordSaga(),
     DashboardSaga(),
     TeachersSaga(),
-    StudentsSaga()
+    StudentsSaga(),
+    HistorySaga()
   ])
 }

@@ -1,29 +1,30 @@
 import {
-  GET_TEACHERS,
-  GET_TEACHERS_SUCCESS,
-  GET_TEACHERS_FAILURE,
+  GET_TEACHERS_STATS,
+  GET_TEACHERS_STATS_SUCCESS,
+  GET_TEACHERS_STATS_FAILURE,
+
   GET_TEACHER_DETAILS,
   GET_TEACHER_DETAILS_SUCCESS,
   GET_TEACHER_DETAILS_FAILURE,
 
 } from "./actionTypes"
 
-export const getTeachers = () => {
+export const getTeachersStats = () => {
   return {
-    type: GET_TEACHERS,
+    type: GET_TEACHERS_STATS,
   }
 }
 
-export const getTeachersSuccess = (data) => {
+export const getTeachersStatsSuccess = (data) => {
   return {
-    type: GET_TEACHERS_SUCCESS,
+    type: GET_TEACHERS_STATS_SUCCESS,
     payload: data,
   }
 }
 
-export const getTeachersFailure = (error) => {
+export const getTeachersStatsFailure = (error) => {
   return {
-    type: GET_TEACHERS_FAILURE,
+    type: GET_TEACHERS_STATS_FAILURE,
     payload: error,
   }
 }

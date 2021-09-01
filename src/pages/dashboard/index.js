@@ -37,11 +37,13 @@ const Dashboard = (props) => {
     }, [])
 
     const handleViewTeacher = (id) => {
-        props.history.push('/teachers/' + id)
+        props.history.push(`/teacher-history/${id}`)
     }
 
     const handleViewStudent = (id) => {
-        props.history.push('/students/' + id)
+        // props.history.push('/students/' + id)
+       
+        props.history.push(`/student-history/${id}`)
     }
 
     return (

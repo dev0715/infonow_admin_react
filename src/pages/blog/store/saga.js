@@ -1,7 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 
-
-// Login Redux States
 import {
   GET_BLOG_LIST,
   GET_BLOG,
