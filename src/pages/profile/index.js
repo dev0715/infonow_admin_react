@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import Tabs from './Tabs'
-import Breadcrumbs from '@components/breadcrumbs'
 import GeneralTabContent from './GeneralTabContent'
+import InfoTabContent from './InfoTabContent'
 import PasswordTabContent from './PasswordTabContent'
 import { Row, Col, TabContent, TabPane, Card, CardBody } from 'reactstrap'
 
@@ -32,10 +32,9 @@ const AccountSettings = (props) => {
 
   return (
     <Fragment>
-      <Breadcrumbs
-        breadCrumbTitle='Account Settings'
-        breadCrumbParent='Pages'
-        breadCrumbActive='Account Settings' />
+      <h3 className="mb-2">
+        Account Settings
+      </h3>
       <UILoader blocking={
         props.updateProfileLoading ||
         props.updateProfilePictureLoading ||
@@ -53,6 +52,9 @@ const AccountSettings = (props) => {
                     <GeneralTabContent />
                   </TabPane>
                   <TabPane tabId='2'>
+                    <InfoTabContent />
+                  </TabPane>
+                  <TabPane tabId='3'>
                     <PasswordTabContent />
                   </TabPane>
                 </TabContent>
