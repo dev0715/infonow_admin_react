@@ -94,9 +94,9 @@ export async function put(url, data, config = {}) {
 		.then((response) => response.data);
 }
 
-export async function del(url, config = {}) {
+export async function del(url, data ,config = {}) {
 	resetAPIAuthToken();
 	return await axiosApi
-		.delete(url, { ...config })
+		.delete(url, {...data},{ ...config })
 		.then((response) => response.data);
 }

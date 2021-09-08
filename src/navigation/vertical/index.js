@@ -1,4 +1,5 @@
 import React from 'react';
+import { Circle } from 'react-feather';
 export default [
   {
     header: ' '
@@ -22,7 +23,23 @@ export default [
     title: 'Students',
     icon: <i className="las la-user-friends" />,
     navLink: '/students',
-    accessToAdmin: true
+    accessToAdmin: true,
+    children: [
+      {
+        id: 'active',
+        title: 'Active',
+        icon: <Circle size={12} />,
+        navLink: '/students',
+        accessToAdmin: true
+      },  
+      {
+        id: 'new-student-or-waiting-for-teacher',
+        title: 'New / Waiting for teacher',
+        icon: <Circle size={12} />,
+        navLink: '/students/new-or-waiting-for-teacher',
+        accessToAdmin: true
+      }
+    ]
   },
   {
     id: 'payments',

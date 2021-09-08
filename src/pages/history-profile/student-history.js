@@ -8,7 +8,8 @@ import { useEffect, useState } from 'react'
 import { getStudentHistoryStats } from '@store/actions'
 import HistoryList from './history-list'
 
-import { Card, Row, Col, } from 'reactstrap'
+import { Card, Row, Col, Button } from 'reactstrap'
+import { ArrowLeft } from 'react-feather'
 import ProfileDetail from './profile-detail'
 
 export const StudentHistory = (props) => {
@@ -18,7 +19,6 @@ export const StudentHistory = (props) => {
 
     const { studentHistory, studentHistoryLoading } = props
     let studentId = props.match.params.studentId;
-    console.log("CHECK PARMAS HERE ==>", props.match.params);
 
     const fetchStudentHistory = () => {
         props.getStudentHistoryStats(studentId);
@@ -42,34 +42,42 @@ export const StudentHistory = (props) => {
 
     }
 
+
     useEffect(() => {
         studentsOfTeacher();
     }, [studentHistory])
 
     return (
+        <>
+            <Row className="mb-2">
+                <Col md="6">
+                    <Button.Ripple className="btn-icon" size="sm" onClick={() => props.history.goBack()}><ArrowLeft size={16} /></Button.Ripple>
+                    <h3 className='ml-2 d-inline m-0'>Student profile</h3>
+                </Col>
+            </Row>
 
-        <Row>
-            <Col md="9">
-                {
-                    teachers &&
-                    <HistoryList
-                        users={teachers}
-                        isTeacher={false}
-                        fetchHistory={fetchStudentHistory}
-                        isReloading={studentHistoryLoading}
-                        onBack={props.onBack} />
-                }
-            </Col>
-            <Col md="3">
-                {
-                    user &&
-                    <ProfileDetail user={user} />
-                }
+            <Row>
+                <Col md="9">
+                    {
+                        teachers &&
+                        <HistoryList
+                            users={teachers}
+                            isTeacher={false}
+                            fetchHistory={fetchStudentHistory}
+                            isReloading={studentHistoryLoading}
+                            onBack={props.onBack} />
+                    }
+                </Col>
+                <Col md="3">
+                    {
+                        user &&
+                        <ProfileDetail user={user} />
+                    }
 
-            </Col>
-        </Row>
+                </Col>
+            </Row>
 
-
+        </>
 
     )
 }

@@ -1,5 +1,6 @@
 import { lazy } from 'react'
-
+import React from 'react'
+import { Circle } from 'react-feather'
 // ** Document title
 const TemplateTitle = '%s - InfoNow'
 
@@ -64,13 +65,20 @@ const Routes = [
       accessToAdmin: true
     }
   },
-
-
   {
     path: '/students',
     exact: true,
     className: 'students-application',
     component: lazy(() => import('../../pages/students')),
+    meta: {
+      accessToAdmin: true
+    }
+  },
+  {
+    path: '/students/new-or-waiting-for-teacher',
+    exact: true,
+    className: 'students-application',
+    component: lazy(() => import('../../pages/students/new-student-or-waiting-for-teacher')),
     meta: {
       accessToAdmin: true
     }
@@ -82,6 +90,15 @@ const Routes = [
     component: lazy(() => import('../../pages/students/student-details')),
     meta: {
       navLink: '/students/:id',
+      accessToAdmin: true
+    }
+  },
+ 
+  {
+    path: '/assign-unassign-teacher',
+    exact: true,
+    component: lazy(() => import('../../pages/assign/index')),
+    meta: {
       accessToAdmin: true
     }
   },

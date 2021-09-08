@@ -70,8 +70,14 @@ const Teachers = (props) => {
     )
 
     const handleViewTeacher = (id) => {
-        // props.history.push('/teachers/' + id)
         props.history.push(`/teacher-history/${id}`)
+    }
+
+    const onSelect = (student) =>{
+        props.history.push({
+            pathname: `/assign-unassign-teacher`,
+            state: { user: student , isTeacher:false }
+        })
     }
 
     const columns = [
@@ -125,6 +131,21 @@ const Teachers = (props) => {
                             onClick={() => handleViewTeacher(t.userId)}
                         >
                             View
+                        </Button.Ripple>
+                    </>
+                )
+            }
+        },
+        {
+            name: 'Unassign',
+            minWidth: '250px',
+            cell: t => {
+                return (
+                    <>
+                        <Button.Ripple color='flat-primary'
+                            onClick={() => onSelect(t)}
+                        >
+                            Unassign 
                         </Button.Ripple>
                     </>
                 )

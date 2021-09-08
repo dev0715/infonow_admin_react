@@ -54,8 +54,16 @@ export const updatePassword = (id, data) => put(url.UPDATE_PASSWORD(id), data);
 
 //Teacher 
 export const getTeachersStats = () => get(url.GET_TEACHERS_STATS)
+export const getAllTeachers  = () => get(url.GET_TEACHERS)
 export const getTeacher = (teacherId) => get(url.TEACHER(teacherId))
+export const getTeacherStudents = (teacherId) => get(url.GET_TEACHER_STUDENTS(teacherId))
 
 //Student 
 export const getStudentsStats = () => get(url.GET_STUDENTS_STATS)
+export const getAllStudents = () => get(url.GET_STUDENTS)
 export const getStudent = (studentId) => get(url.STUDENT(studentId))
+export const getStudentOfStatusNewOrWaiting = () => get(url.GET_STUDENTS_BY_NEW_OR_WAITING_STATUS)
+
+//Assign
+export const postAssignTeacher = data => post(url.ASSIGN_UNASSIGN_TEACHER,data)
+export const deleteAssignTeacher = data => del(url.ASSIGN_UNASSIGN_TEACHER,data)

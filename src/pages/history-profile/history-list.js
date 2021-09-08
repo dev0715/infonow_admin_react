@@ -14,9 +14,10 @@ const HistoryList = (props) => {
 
     const { users, isTeacher, fetchHistory, isReloading  } = props;
  
+   
 
     return (
-        <CardReload className="p-0 test-list"
+        <CardReload className="p-0"
             title={isTeacher ? 'Students' : 'Teachers'}
             onReload={fetchHistory}
             isReloading={isReloading}>
@@ -44,7 +45,7 @@ const HistoryList = (props) => {
                                 </td>
                                 <td><DateTime dateTime={u.createdAt} type="dateTime" /></td>
                                 <td>
-                                    <Button.Ripple  color='flat-primary' >
+                                    <Button.Ripple  color='flat-primary'  >
                                         <span className='align-middle'>View</span>
                                     </Button.Ripple>
                                </td>

@@ -11,6 +11,7 @@ import DashboardSaga from "./../pages/dashboard/store/saga"
 import TeachersSaga from "./../pages/teachers/store/saga"
 import StudentsSaga from "./../pages/students/store/saga"
 import HistorySaga from "./../pages/history-profile/store/saga"
+import AssignSaga from "./../pages/assign/store/saga"
 
 export default function* rootSaga() {
   yield all([
@@ -23,6 +24,7 @@ export default function* rootSaga() {
     DashboardSaga(),
     TeachersSaga(),
     StudentsSaga(),
-    HistorySaga()
+    HistorySaga(),
+    AssignSaga(),
   ])
 }

@@ -12,6 +12,7 @@ import Dashboard from './../pages/dashboard/store/reducer'
 import Teachers from './../pages/teachers/store/reducer'
 import Students from './../pages/students/store/reducer'
 import History from './../pages/history-profile/store/reducer'
+import Assign from './../pages/assign/store/reducer'
 
 const rootReducer = combineReducers({
 
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
   Dashboard,
   Teachers,
   Students,
-  History
+  History,
+  Assign
 });
 
 export default rootReducer;

@@ -7,6 +7,14 @@ import {
   GET_TEACHER_DETAILS_SUCCESS,
   GET_TEACHER_DETAILS_FAILURE,
 
+  GET_ALL_TEACHERS,
+  GET_ALL_TEACHERS_SUCCESS,
+  GET_ALL_TEACHERS_FAILURE,
+
+  GET_TEACHER_STUDENTS,
+GET_TEACHER_STUDENTS_SUCCESS,
+GET_TEACHER_STUDENTS_FAILURE,
+
 } from "./actionTypes"
 
 export const getTeachersStats = () => {
@@ -46,6 +54,48 @@ export const getTeacherDetailsSuccess = (data) => {
 export const getTeacherDetailsFailure = (error) => {
   return {
     type: GET_TEACHER_DETAILS_FAILURE,
+    payload: error,
+  }
+}
+
+export const getAllTeachers = () => {
+  return {
+    type: GET_ALL_TEACHERS
+  }
+}
+
+export const getAllTeachersSuccess = (data) => {
+  return {
+    type: GET_ALL_TEACHERS_SUCCESS,
+    payload: data
+  }
+}
+
+
+export const getAllTeachersFailure = (error) => {
+  return {
+    type: GET_ALL_TEACHERS_FAILURE,
+    payload: error
+  }
+}
+
+export const getTeacherStudents = (id) => {
+  return {
+    type: GET_TEACHER_STUDENTS,
+    payload: id
+  }
+}
+
+export const getTeacherStudentsSuccess = (data) => {
+  return {
+    type: GET_TEACHER_STUDENTS_SUCCESS,
+    payload: data,
+  }
+}
+
+export const getTeacherStudentsFailure = (error) => {
+  return {
+    type: GET_TEACHER_STUDENTS_FAILURE,
     payload: error,
   }
 }

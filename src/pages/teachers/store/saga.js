@@ -1,14 +1,19 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 
 // Login Redux States
-import { GET_TEACHERS_STATS, GET_TEACHER_DETAILS } from "./actionTypes"
+import { GET_TEACHERS_STATS, 
+        GET_TEACHER_DETAILS,
+        GET_ALL_TEACHERS ,
+        GET_TEACHER_STUDENTS } from "./actionTypes"
 import {
     getTeachersStatsSuccess, getTeachersStatsFailure,
-    getTeacherDetailsSuccess, getTeacherDetailsFailure
+    getTeacherDetailsSuccess, getTeacherDetailsFailure,
+    getAllTeachersSuccess, getAllTeachersFailure,
+    getTeacherStudentsSuccess, getTeacherStudentsFailure
 } from "./actions"
 
 //Include Both Helper File with needed methods
-import { getTeachersStats, getTeacher } from "../../../helpers/backend-helpers";
+import { getTeachersStats, getTeacher , getAllTeachers , getTeacherStudents } from "../../../helpers/backend-helpers";
 
 
 function* getTeachersStatsHttp() {
@@ -39,10 +44,40 @@ function* getTeacherDetailsHttp({ payload }) {
     }
 }
 
+function* getAllTeachersHttp() {
+    try {
+        const response = yield call(getAllTeachers);
+        if (response) {
+            yield put(getAllTeachersSuccess(response))
+            return;
+        }
+        throw "Unknown response received from Server";
+
+    } catch (error) {
+        yield put(getAllTeachersFailure(error.message ? error.message : error))
+    }
+}
+
+function* getTeacherStudentsHttp({ payload }) {
+    try {
+        const response = yield call(getTeacherStudents, payload);
+        if (response) {
+            yield put(getTeacherStudentsSuccess(response))
+            return;
+        }
+        throw "Unknown response received from Server";
+
+    } catch (error) {
+        yield put(getTeacherStudentsFailure(error.message ? error.message : error))
+    }
+}
+
 
 function* teachersSaga() {
     yield takeEvery(GET_TEACHERS_STATS, getTeachersStatsHttp)
     yield takeEvery(GET_TEACHER_DETAILS, getTeacherDetailsHttp)
+    yield takeEvery(GET_ALL_TEACHERS, getAllTeachersHttp)
+    yield takeEvery(GET_TEACHER_STUDENTS, getTeacherStudentsHttp)
 }
 
 export default teachersSaga

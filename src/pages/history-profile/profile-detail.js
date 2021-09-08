@@ -36,19 +36,6 @@ const ProfileDetail = (props) => {
 
             {
                 user &&
-                //     <>  
-                //         <Row>
-                //         <Avatar
-                //             img={GET_IMAGE_URL(user.profilePicture)}
-                //             size={'xl'}
-                //         />
-                //         </Row>
-                //         <Row> <h5 className="mt-2 mb-0">   {user.name}  </h5></Row>
-                //         <Row><Link color="primary" to={'#'} >  <small>{user.email}</small> </Link></Row>
-                //         <Row><Link color="primary" to={'#'} >  <small>{user.email}</small> </Link></Row>
-                //         <Row><Link color="primary" to={'#'} >  <small>{user.email}</small> </Link></Row>
-                //         <Row><Link color="primary" to={'#'} >  <small>{user.email}</small> </Link></Row>
-                //   </>
                 <>
                     <div className="shadow-stats-item p-2 d-flex flex-column align-items-center">
                         <div>
