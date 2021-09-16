@@ -44,9 +44,10 @@ function* getTeacherDetailsHttp({ payload }) {
     }
 }
 
-function* getAllTeachersHttp() {
+function* getAllTeachersHttp({payload}) {
     try {
-        const response = yield call(getAllTeachers);
+      
+        const response = yield call(getAllTeachers, payload);
         if (response) {
             yield put(getAllTeachersSuccess(response))
             return;

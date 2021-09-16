@@ -48,8 +48,7 @@ const NewStudentsOrWaitingForTeachers = (props) => {
     return (
         <Fragment >
             <UILoader
-                blocking={waitingOrNewStudentsLoading}
-            >
+                blocking={waitingOrNewStudentsLoading}>
                 <Card>
                     <CardBody >
                         <Row className="d-flex align-items-center">

@@ -25,9 +25,6 @@ const UserInfo = (props) => {
             Object.keys(user).length > 0 && (
                 <CardReload
                 title=''>
-                {/* // title='Assignments'
-                // onReload={fetchAssignments}
-                // isReloading={isReloading} */}
                     <CardBody>
                         <Row >
                             <Col>

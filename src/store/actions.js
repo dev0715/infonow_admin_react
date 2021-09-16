@@ -33,3 +33,6 @@ export * from './../pages/history-profile/store/actions'
 
 //Assign
 export * from './../pages/assign/store/actions'
+
+//Ebook
+export * from './../pages/ebook/store/actions'

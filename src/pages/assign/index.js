@@ -14,7 +14,6 @@ import '@styles/base/plugins/extensions/ext-component-sweet-alerts.scss'
 
 const assignTeacher = (props) => {
 
-
     const { user, isTeacher } = props.history.location.state
 
     const [selectedUser, setSelectedUser] = useState(user)
@@ -35,22 +34,24 @@ const assignTeacher = (props) => {
     }, [props.assignTeacherLoading])
 
     useEffect(() => {
-        if(props.assignTeacherSuccess)
+        if (props.assignTeacherSuccess)
             successAlertDialog('Teacher assigned successfully')
+         fetchData()
     }, [props.assignTeacherSuccess])
 
     useEffect(() => {
-        if(props.assignTeacheError)
+        if (props.assignTeacheError)
             errorAlertDialog(assignTeacherError)
     }, [props.assignTeacherError])
 
     useEffect(() => {
-        if(props.unassignTeacherSuccess)
+        if (props.unassignTeacherSuccess)
             successAlertDialog('Teacher unassigned successfully')
+        fetchData()
     }, [props.unassignTeacherSuccess])
 
     useEffect(() => {
-        if(props.unassignTeacherError)
+        if (props.unassignTeacherError)
             errorAlertDialog(unassignTeacherError)
     }, [props.unassignTeacherError])
 
@@ -58,9 +59,9 @@ const assignTeacher = (props) => {
         fetchData()
     }, [])
 
-    const fetchData = () => {
+    const fetchData = (data) => {
         if (isTeacher) {
-            props.getAllTeachers()
+            props.getAllTeachers(data)
         } else {
             props.getTeacherStudents(user.userId)
         }
@@ -83,7 +84,6 @@ const assignTeacher = (props) => {
 
     useEffect(() => {
         setlistData([])
-        console.log("CHECK STUDENTS ==>" , teacherStudents)
         if (allTeachers.length > 0) setlistData(allTeachers)
         if (teacherStudents.length > 0) setlistData(teacherStudents)
     }, [allTeachers, teacherStudents])
@@ -100,8 +100,8 @@ const assignTeacher = (props) => {
                 }
 
                 {
-                    listData &&
-                    listData.length > 0 &&
+                    // listData &&
+                    // listData.length > 0 &&
                     <Card>
                         <UsersList
                             listData={listData}
@@ -109,7 +109,8 @@ const assignTeacher = (props) => {
                             fetchListData={fetchData}
                             isReloading={isTeacher ? allTeachersLoading : teacherStudentsLoading}
                             onAssignTeacher={onAssignTeacher}
-                            onUnassignTeacher={onUnassignTeacher} />
+                            onUnassignTeacher={onUnassignTeacher}
+                            fetchData={fetchData} />
                     </Card>
                 }
             </UILoader>

@@ -58,9 +58,10 @@ export const getTeacherDetailsFailure = (error) => {
   }
 }
 
-export const getAllTeachers = () => {
+export const getAllTeachers = (data) => {
   return {
-    type: GET_ALL_TEACHERS
+    type: GET_ALL_TEACHERS,
+    payload:data
   }
 }
 

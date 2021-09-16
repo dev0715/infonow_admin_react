@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 
 
-import { ChevronDown } from 'react-feather'
+import { ChevronDown , RefreshCcw} from 'react-feather'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
 import { connect } from 'react-redux'
@@ -27,7 +27,6 @@ const UsersList = (props) => {
     const { listData , fetchListData , isReloading ,isTeacher } = props;
     const [searchValue, setSearchValue] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
-    const [rowsPerPage, setRowsPerPage] = useState(10)
 
     const onAssignTeacher = (teacher) => {
         props.onAssignTeacher(teacher)
@@ -36,6 +35,12 @@ const UsersList = (props) => {
     const onUnAssignTeacher = (student) =>{
         props.onUnassignTeacher(student)
     }
+
+    const searchTeacherByName = () =>{
+        if(searchValue)
+            props.fetchData(searchValue)
+    }
+
 
     // ** Function to handle filter
     const handleFilter = e => {
@@ -166,8 +171,9 @@ const UsersList = (props) => {
                             bsSize='sm'
                             id='search-input'
                             value={searchValue}
-                            onChange={listData}
+                            onChange={e => {setSearchValue(e.target.value)}}
                         />
+                        <Button.Ripple  className="btn-icon ml-1" size="sm" onClick={searchTeacherByName}><RefreshCcw size={14}/></Button.Ripple>
                     </Col>
                 </Row>
 
