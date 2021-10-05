@@ -5,24 +5,63 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
-import { getTeacherHistoryStats } from '@store/actions'
+import {
+    getTeacherHistoryStats, getTeacherPaymentPlan,
+    postTeacherPaymentPlan, updateTeacherPaymentPlan
+} from '@store/actions'
 import HistoryList from './history-list'
 
-import { ArrowLeft} from 'react-feather'
-import { Card, Row, Col, Button } from 'reactstrap'
+import { ArrowLeft } from 'react-feather'
+import { Row, Col, Button } from 'reactstrap'
 import ProfileDetail from './profile-detail'
+
+import UILoader from '../../@core/components/ui-loader';
+import { errorAlertDialog, successAlertDialog } from '../../helpers/HelperFunctions'
+import '@styles/base/plugins/extensions/ext-component-sweet-alerts.scss'
 
 export const TeacherHistory = (props) => {
 
     const [students, setStudents] = useState([])
     const [user, setUser] = useState(null)
 
-    const { teacherHistory, teacherHistoryLoading } = props
+
+    const { teacherHistory, teacherHistoryLoading,
+        paymentPlan, paymentPlanLoading, paymentPlanError,
+        postPaymentPlanSuccess, postPaymentPlanLoading, postPaymentPlanError,
+        putPaymentPlanSuccess, putPaymentPlanLoading, putPaymentPlanError, } = props
     let teacherId = props.match.params.teacherId;
 
     const fetchTeacherHistory = () => {
         props.getTeacherHistoryStats(teacherId);
+        props.getTeacherPaymentPlan(teacherId);
     }
+
+    const updateSubscribtion = (data) => {
+        data.userId = teacherId
+        data.paymentPlanId = paymentPlan.paymentPlanId
+        props.updateTeacherPaymentPlan(data)
+    }
+
+    const createSubscribtion = (data) => {
+        data.userId = teacherId
+        props.postTeacherPaymentPlan(data)
+    }
+
+    useEffect(() => {
+        if (postPaymentPlanSuccess) successAlertDialog('Subscribtion created successfully')
+    }, [postPaymentPlanSuccess])
+
+    useEffect(() => {
+        if (postPaymentPlanError) errorAlertDialog(postPaymentPlanError)
+    }, [postPaymentPlanError])
+
+    useEffect(() => {
+        if (putPaymentPlanSuccess) successAlertDialog('Subscribtion created successfully')
+    }, [putPaymentPlanSuccess])
+
+    useEffect(() => {
+        if (putPaymentPlanError) errorAlertDialog(putPaymentPlanError)
+    }, [putPaymentPlanError])
 
     const studentsOfTeacher = () => {
 
@@ -38,7 +77,6 @@ export const TeacherHistory = (props) => {
 
     }
 
-  
 
     useEffect(() => {
         fetchTeacherHistory();
@@ -50,34 +88,39 @@ export const TeacherHistory = (props) => {
 
     return (
         <>
-            <Row className="mb-2">
-                <Col md="6">
-                    <Button.Ripple className="btn-icon" size="sm" onClick={() => props.history.goBack()}><ArrowLeft size={16} /></Button.Ripple>
-                    <h3 className='ml-2 d-inline m-0'>Teacher profile</h3>
-                </Col>
-            </Row>
+            <UILoader blocking={paymentPlanLoading || postPaymentPlanLoading || putPaymentPlanLoading}>
+                <Row className="mb-2">
+                    <Col md="6">
+                        <Button.Ripple className="btn-icon" size="sm" onClick={() => props.history.goBack()}><ArrowLeft size={16} /></Button.Ripple>
+                        <h3 className='ml-2 d-inline m-0'>Teacher profile</h3>
+                    </Col>
+                </Row>
 
-            <Row>
-                <Col md="9">
-                    {
-                        students &&
-                        <HistoryList
-                            users={students}
-                            isTeacher={true}
-                            fetchHistory={fetchTeacherHistory}
-                            isReloading={teacherHistoryLoading}
-                            onBack={props.onBack} />
-                    }
-                </Col>
-                <Col md="3">
-                    {
-                        user &&
-                        <ProfileDetail user={user} />
-                    }
+                <Row>
+                    <Col md="9">
+                        {
+                            students &&
+                            <HistoryList
+                                users={students}
+                                isTeacher={true}
+                                fetchHistory={fetchTeacherHistory}
+                                isReloading={teacherHistoryLoading}
+                                onBack={props.onBack} />
+                        }
+                    </Col>
+                    <Col md="3">
+                        {
+                            user &&
+                            <ProfileDetail
+                                user={user}
+                                isTeacher={true}
+                                paymentPlan={paymentPlan}
+                                updateOrCreateSubscribtion={paymentPlan ? updateSubscribtion : createSubscribtion} />
+                        }
 
-                </Col>
-            </Row>
-
+                    </Col>
+                </Row>
+            </UILoader>
         </>
 
     )
@@ -90,12 +133,46 @@ TeacherHistory.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    const { teacherHistory, teacherHistoryLoading, teacherHistoryError } = state.History;
-    return { teacherHistory, teacherHistoryLoading, teacherHistoryError };
+    const { teacherHistory,
+        teacherHistoryLoading,
+        teacherHistoryError,
+
+        paymentPlan,
+        paymentPlanLoading,
+        paymentPlanError,
+
+        postPaymentPlanSuccess,
+        postPaymentPlanLoading,
+        postPaymentPlanError,
+
+        putPaymentPlanSuccess,
+        putPaymentPlanLoading,
+        putPaymentPlanError,
+
+    } = state.History;
+
+    return {
+        teacherHistory,
+        teacherHistoryLoading,
+        teacherHistoryError,
+
+        paymentPlan,
+        paymentPlanLoading,
+        paymentPlanError,
+
+        postPaymentPlanSuccess,
+        postPaymentPlanLoading,
+        postPaymentPlanError,
+
+        putPaymentPlanSuccess,
+        putPaymentPlanLoading,
+        putPaymentPlanError,
+    };
 }
 
 const mapDispatchToProps = {
-    getTeacherHistoryStats
+    getTeacherHistoryStats, getTeacherPaymentPlan,
+    postTeacherPaymentPlan, updateTeacherPaymentPlan,
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TeacherHistory))

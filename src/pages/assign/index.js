@@ -100,8 +100,6 @@ const assignTeacher = (props) => {
                 }
 
                 {
-                    // listData &&
-                    // listData.length > 0 &&
                     <Card>
                         <UsersList
                             listData={listData}

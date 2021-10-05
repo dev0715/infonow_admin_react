@@ -49,6 +49,9 @@ export const GET_TEACHERS_STATS = `${BASE_URL}/api/v1/admins/teacher-stats`
 export const GET_TEACHERS = `${BASE_URL}/api/v1/teachers`
 export const TEACHER = (teacherId) => `${BASE_URL}/api/v1/teachers/${teacherId}`
 export const GET_TEACHER_STUDENTS = (teacherId) => `${BASE_URL}/api/v1/teachers/${teacherId}/students`
+export const GET_TEACHER_PAYMENT_PLAN = (teacherId) => `${BASE_URL}/api/v1/admins/teachers/${teacherId}/payment-plan`
+export const CREATE_TEACHER_PAYMENT_PLAN = (teacherId) => `${BASE_URL}/api/v1/admins/teachers/${teacherId}/payment-plan`
+export const UPDATE_TEACHER_PAYMENT_PLAN = (teacherId) => `${BASE_URL}/api/v1/admins/teachers/${teacherId}/payment-plan`
 
 //Student 
 export const GET_STUDENTS_STATS = `${BASE_URL}/api/v1/admins/student-stats`

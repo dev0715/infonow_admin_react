@@ -61,6 +61,9 @@ export const getAllTeachers  = (search) => {
 }
 export const getTeacher = (teacherId) => get(url.TEACHER(teacherId))
 export const getTeacherStudents = (teacherId) => get(url.GET_TEACHER_STUDENTS(teacherId))
+export const getTeacherPaymentPlan = (teacherId) => get(url.GET_TEACHER_PAYMENT_PLAN(teacherId))
+export const postTeacherPaymentPlan = (teacherId,data) => post(url.CREATE_TEACHER_PAYMENT_PLAN(teacherId), data)
+export const putTeacherPaymentPlan = (teacherId,data) => put(url.UPDATE_TEACHER_PAYMENT_PLAN(teacherId), data)
 
 //Student 
 export const getStudentsStats = () => get(url.GET_STUDENTS_STATS)

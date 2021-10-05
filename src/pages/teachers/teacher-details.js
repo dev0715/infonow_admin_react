@@ -20,16 +20,12 @@ import {
 } from './store/actions'
 
 import { ChevronDown } from 'react-feather'
-
-
 import { DateTime } from '../../components/date-time';
 import UILoader from '../../@core/components/ui-loader';
-
 import { useParams, Link } from 'react-router-dom'
 
 // ** Custom Components
 import Avatar from '@components/avatar'
-
 import { GET_IMAGE_URL } from '../../helpers/url_helper';
 
 // ** Styles
