@@ -111,6 +111,15 @@ const Routes = [
       accessToAdmin: true
     }
   },
+
+  {
+    path: '/edit-ebook/:ebookId',
+    exact: true,
+    component: lazy(() => import('../../pages/ebook/edit-ebook')),
+    meta: {
+      accessToAdmin: true
+    }
+  },
  
   {
     path: '/assign-unassign-teacher',

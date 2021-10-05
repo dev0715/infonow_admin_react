@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Card, CardTitle, CardBody, CardText, CardImg, Row, Col } from 'reactstrap'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect ,useState } from 'react';
 import Cropper from 'cropperjs';
 import UILoader from '../../@core/components/ui-loader';
 import {
@@ -10,11 +10,16 @@ import {
     getEbooks
 } from '@store/actions'
 import { DOCUMENT_BASE_URL } from '../../helpers/url_helper';
+import PreviewBookModal from './preview-book-modal';
 const Ebook = (props) => {
 
     const { ebooks,
         ebooksError,
         ebooksLoading } = props
+
+    const [isOpen, setIsOpen] = useState(false)
+    const [previewImage, setPreviewImage] = useState(null)
+
     const fetchEbooks = () => {
         props.getEbooks()
     }
@@ -23,9 +28,21 @@ const Ebook = (props) => {
         props.history.push('/new-ebook')
     }
 
+    const EditEbook = (ebook) => {
+        props.history.push({
+            pathname :`/edit-ebook/${ebook.ebookId}`,
+            state: { ebook}  
+        })
+    }
+
+    const toggleModal = () => {
+        setIsOpen(!isOpen)
+    }
+
     useEffect(() => {
-        
-    }, [])
+        if(previewImage)
+           setIsOpen(!!previewImage)
+    }, [previewImage])
 
     useEffect(() => {
         fetchEbooks()
@@ -45,7 +62,6 @@ const Ebook = (props) => {
                 </Row>
 
                 <Row className='match-height'>
-
                     {
                         ebooks &&
                         ebooks.length > 0 &&
@@ -62,8 +78,11 @@ const Ebook = (props) => {
                                             <Button.Ripple color='primary' outline>
                                                 Download
                                             </Button.Ripple>
-                                            <Button.Ripple className="ml-2" color='secondary' outline>
+                                            <Button.Ripple onClick= {() => setPreviewImage(book.previewImage)} className="ml-2" color='secondary' outline>
                                                 Preview
+                                            </Button.Ripple>
+                                            <Button.Ripple  onClick= {() => EditEbook(book)} className="ml-2" color='primary' outline>
+                                                Edit
                                             </Button.Ripple>
                                         </CardBody>
                                     </Card>
@@ -71,10 +90,12 @@ const Ebook = (props) => {
                             )
                         )
                     }
-
-
-
                 </Row>
+                <PreviewBookModal 
+                isOpen ={isOpen}
+                Image ={previewImage}
+                toggleModal= {toggleModal}
+                />
             </UILoader>
         </>
     )

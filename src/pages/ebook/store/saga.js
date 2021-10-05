@@ -1,9 +1,10 @@
 import { call, put, takeEvery } from "redux-saga/effects"
-import { GET_EBOOKS , POST_EBOOK} from './actionTypes'
+import { GET_EBOOKS , POST_EBOOK , PUT_EBOOK} from './actionTypes'
 import  {getEbooksSuccess , getEbooksFailure,
-            postEbookSuccess,postEbookFailure } from './actions'
+            postEbookSuccess,postEbookFailure ,
+          putEbookSuccess, putEbookFailure} from './actions'
 
-import {postEbook, getEbooks} from '../../../helpers/backend-helpers'
+import {postEbook, getEbooks , putEbook} from '../../../helpers/backend-helpers'
 
 function* getEbooksHttp(){
     try {
@@ -22,7 +23,6 @@ function* getEbooksHttp(){
 
 function* postEbookHttp({payload:{data}}) {
     try {
-      console.log("CHECK DATA HERE ==>", data)
       const response = yield call(postEbook , data);
       if (response) {
         yield put(postEbookSuccess(response))
@@ -35,11 +35,26 @@ function* postEbookHttp({payload:{data}}) {
     }
   }
 
+  function* putEbookHttp({payload:{data}}) {
+    try {
+      const response = yield call(putEbook , data);
+      if (response) {
+        yield put(putEbookSuccess(response))
+        return;
+      }
+      throw "Unknown response received from Server";
+  
+    } catch (error) {
+      yield put(putEbookFailure(error))
+    }
+  }
+
 
 
 function* EbookSaga() {
     yield takeEvery(GET_EBOOKS, getEbooksHttp)
     yield takeEvery(POST_EBOOK, postEbookHttp)
+    yield takeEvery(PUT_EBOOK, putEbookHttp)
   }
   
   export default EbookSaga

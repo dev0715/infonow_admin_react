@@ -14,9 +14,6 @@ import {
 import { ChevronDown , RefreshCcw} from 'react-feather'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom';
-
 import { Button } from 'reactstrap';
 // ** Styles
 import '@styles/react/libs/tables/react-dataTable-component.scss'
@@ -41,20 +38,6 @@ const UsersList = (props) => {
             props.fetchData(searchValue)
     }
 
-
-    // ** Function to handle filter
-    const handleFilter = e => {
-        setSearchValue(e.target.value)
-
-        // dispatch(
-        //     getData({
-        //         page: currentPage,
-        //         perPage: rowsPerPage,
-        //         q: e.target.value
-        //     })
-        // )
-    }
-
     // ** Function to handle Pagination and get data
     const handlePagination = page => {
         // dispatch(
@@ -66,8 +49,6 @@ const UsersList = (props) => {
         // )
         setCurrentPage(page.selected + 1)
     }
-
- 
 
     // ** Custom Pagination
     const CustomPagination = () => {

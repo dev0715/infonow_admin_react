@@ -1,4 +1,4 @@
-import { post, del, get, put, postForm } from "./api_helper"
+import { post, del, get, put, postForm, putForm } from "./api_helper"
 import * as  url from "./url_helper"
 
 
@@ -74,4 +74,5 @@ export const deleteAssignTeacher = data => put(url.ASSIGN_UNASSIGN_TEACHER,data)
 
 //Ebook
 export const postEbook = data => postForm(url.POST_EBOOKS,data)
+export const putEbook = data => putForm(url.POST_EBOOKS,data)
 export const getEbooks = () => get(url.GET_EBOOKS)

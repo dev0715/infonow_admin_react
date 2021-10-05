@@ -7,6 +7,10 @@ import {
     POST_EBOOK_SUCCESS,
     POST_EBOOK_FAILURE,
 
+    PUT_EBOOK,
+    PUT_EBOOK_SUCCESS,
+    PUT_EBOOK_FAILURE,
+
 } from './actionTypes'
 
 const initialState = {
@@ -16,7 +20,11 @@ const initialState = {
 
     postEbookSuccess: false,
     postEbookError: null,
-    postEbookLoading: false
+    postEbookLoading: false,
+
+    putEbookSuccess: false,
+    putEbookError: null,
+    putEbookLoading: false
 
 }
 
@@ -32,9 +40,16 @@ const EbookReducer = (state = initialState, action) => {
         case POST_EBOOK:
             return { ...state, postEbookLoading: true }
         case POST_EBOOK_SUCCESS:
-            return { ...state, postEbookLoading: false ,  postEbookSuccess: true}
+            return { ...state, postEbookLoading: false, postEbookSuccess: true }
         case POST_EBOOK_FAILURE:
             return { ...state, postEbookLoading: false, postEbookError: action.payload }
+
+        case PUT_EBOOK:
+            return { ...state, putEbookLoading: true }
+        case PUT_EBOOK_SUCCESS:
+            return { ...state, putEbookLoading: false, putEbookSuccess: true }
+        case PUT_EBOOK_FAILURE:
+            return { ...state, putEbookLoading: false, putEbookError: action.payload }
 
         default:
             return state

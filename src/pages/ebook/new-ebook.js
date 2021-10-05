@@ -22,8 +22,6 @@ const CreateEbook = (props) => {
         postEbookError,
         postEbookLoading } = props
 
-
-
     const [title, setTitle] = useState()
     const [description, setDescription] = useState()
     const [currentType, setCurrentType] = useState()
@@ -75,7 +73,6 @@ const CreateEbook = (props) => {
     const onCrop = (type, cropImage) => {
         if (type == 'cover') {
             setCoverImage(cropImage)
-           
         }
         if (type == 'preview') {
             setPreviewImage(cropImage)

@@ -5,10 +5,17 @@ export function titleCase(str) {
     return str.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase());
 }
 
+const toTitleCase = (string) => {
+    let str = String(string);
+    return str.charAt(0).toUpperCase() + str.substr(1);
+}
+
+
 const showAlertDialog = (msg, icon) => {
     const MySwal = withReactContent(Swal)
     return MySwal.fire({
-        title: msg,
+        text: msg,
+        title: toTitleCase(icon),
         icon: icon,
         customClass: {
             confirmButton: 'btn btn-primary'
@@ -16,6 +23,7 @@ const showAlertDialog = (msg, icon) => {
         buttonsStyling: false
     })
 }
+
 
 export const errorAlertDialog = (msg) => {
     showAlertDialog(msg, 'error')

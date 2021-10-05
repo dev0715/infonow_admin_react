@@ -87,6 +87,13 @@ export async function postForm(url, data, config = {}) {
 		.then((response) => response.data);
 }
 
+
+export async function putForm(url, data, config = {}) {
+	return await axiosApi
+		.put(url, data, { 'Content-Type': 'multipart/form-data', ...config })
+		.then((response) => response.data);
+}
+
 export async function put(url, data, config = {}) {
 	resetAPIAuthToken();
 	return axiosApi
