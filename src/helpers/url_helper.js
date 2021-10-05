@@ -66,3 +66,6 @@ export const ASSIGN_UNASSIGN_TEACHER = `${BASE_URL}/api/v1/admins/assign`
 //Ebooks
 export const GET_EBOOKS = `${BASE_URL}/api/v1/ebooks`
 export const POST_EBOOKS = `${BASE_URL}/api/v1/ebooks`
+
+//Counties
+export const GET_COUNTIES = `${BASE_URL}/counties`

@@ -79,3 +79,6 @@ export const deleteAssignTeacher = data => put(url.ASSIGN_UNASSIGN_TEACHER,data)
 export const postEbook = data => postForm(url.POST_EBOOKS,data)
 export const putEbook = data => putForm(url.POST_EBOOKS,data)
 export const getEbooks = () => get(url.GET_EBOOKS)
+
+//Counties
+export const getCounties = () => get(url.GET_COUNTIES)
