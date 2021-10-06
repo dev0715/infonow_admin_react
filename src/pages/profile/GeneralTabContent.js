@@ -21,36 +21,60 @@ import { GET_IMAGE_URL } from '../../helpers/url_helper'
 import { notifyError, notifySuccess } from '../../utility/toast'
 
 const GeneralTabs = (props) => {
-
+  
   const [isEditing, setIsEditing] = useState(false)
   const [avatar, setAvatar] = useState('')
-  const [name, setName] = useState("")
-  const [city, setCity] = useState("")
-  const [county, setCounty] = useState("")
+  const [name, setName] = useState(props.user.name || "")
+  const [city, setCity] = useState(props.user.city || "")
+  const [county, setCounty] = useState(props.user.county || "")
   const [country, setCountry] = useState("Romania")
-  const [address, setAddress] = useState("")
-  const [about, setAbout] = useState("")
+  const [address, setAddress] = useState(props.user.address || "")
+  const [about, setAbout] = useState(props.user.about)
   const [file, setFile] = useState(null)
   const [cities, setCities] = useState([]);
 
+  let counties__ = props.countiesData.counties || [];
+  const countiesOptions = counties__.map(x=>{return {value: x.id, label: x.name}});
+  
+
   useEffect(() => {
-    setName(props.user.name || "")
-    setAbout(props.user.about || "")
-    setCity(props.user.city || "")
-    setCounty(props.user.county || "")
-    setCountry(props.user.country || "")
-    setAddress(props.user.address || "")
+    if (county) {
+      let defaultCounty = countiesOptions.find(e => (e.value == county))
+      if (defaultCounty) {
+        setCounty(defaultCounty.value);
+      }
+      
+    }
+  }, [props.countiesData])
+
+  useEffect(() => {
+    if (cities && city) {
+      let defaultCity = cities.find(e => (e.value == city))
+      if (defaultCity) {
+        setCity(defaultCity.value);
+      }
+    }
+  }, [cities])
+
+  useEffect(() => {
+    if (props.user) {
+      setName(props.user.name || "")
+      setAbout(props.user.about || "")
+      setCity(props.user.city || "")
+      setCounty(props.user.county || "")
+      setCountry(props.user.country || "")
+      setAddress(props.user.address || "")
+    } 
   }, [props.user])
 
-  useEffect(()=>{
+  useEffect(() => {
     if(county){
       let citiesDataList = props.countiesData.cities || {};
       let citiesList = citiesDataList[county] || []
       let filteredCities = citiesList.map(x=>{return {label: x.name, value: x.name}});
       setCities(filteredCities)
-      setCity(filteredCities[0]);
     }
-  },[county])
+  },[county, props.countiesData])
 
   const onChange = e => {
     const reader = new FileReader(),
@@ -111,9 +135,7 @@ const GeneralTabs = (props) => {
     { value: 'Romania', label: 'Romania' }
   ]
 
-  let counties__  = props.countiesData.counties || []
-  const countiesOptions = counties__.map(x=>{return {value: x.id, label: x.name}});
-
+ 
   return (
     <Fragment>
       <Media>
@@ -208,15 +230,31 @@ const GeneralTabs = (props) => {
               <Label className="ml-25">
                 County
               </Label>
-              <Select
+              {
+                isEditing &&
+                <Select
                   theme={selectThemeColors}
                   className='react-select'
                   classNamePrefix='select'
+                  value={countiesOptions.find(e => (e.value == county))}
                   defaultValue={countiesOptions.find(e => (e.value == county))}
                   options={countiesOptions}
                   isClearable={false}
+                  disabled={!isEditing}
                   onChange={e => setCounty(e.value)}
                 />
+              }
+              {
+                !isEditing &&
+                <InputGroup className='input-group-merge'>
+                <Input
+                  type="text"
+                  placeholder='Your county'
+                  value={county}
+                  disabled={!isEditing}
+                />
+              </InputGroup>
+               } 
             </FormGroup>
           </Col>
           <Col md='6'>
@@ -224,22 +262,39 @@ const GeneralTabs = (props) => {
               <Label className="ml-25">
                 City
               </Label>
-              <Select
+              {
+                isEditing &&
+                <Select
                   theme={selectThemeColors}
                   className='react-select'
                   classNamePrefix='select'
+                  value={cities.find(e => (e.value == city))}
                   defaultValue={city}
                   options={cities}
                   isClearable={false}
+                  disabled={!isEditing}
                   onChange={e => setCity(e.value)}
                 />
+              }
+              {
+                !isEditing &&
+                <InputGroup className='input-group-merge'>
+                <Input
+                  type="text"
+                  placeholder='Your City'
+                  value={city}
+                  disabled={!isEditing}
+                />
+              </InputGroup>
+               } 
             </FormGroup>
           </Col>
           
           <Col md='6'>
             <FormGroup>
               <Label className="ml-25">Country</Label>
-                <Label  className="ml-25" >Country</Label>
+              {
+                isEditing &&
                 <Select
                   theme={selectThemeColors}
                   className='react-select'
@@ -249,6 +304,18 @@ const GeneralTabs = (props) => {
                   isClearable={false}
                   onChange={e => setCountry(e.value)}
                 />
+              }
+              {
+                !isEditing &&
+                <InputGroup className='input-group-merge'>
+                <Input
+                  type="text"
+                  placeholder='Your country'
+                  value={country}
+                  disabled={!isEditing}
+                />
+              </InputGroup>
+               } 
             </FormGroup>
           </Col>
           <Col sm='12'>

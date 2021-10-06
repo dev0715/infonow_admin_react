@@ -29,12 +29,6 @@ const Tabs = ({ activeTab, toggleTab }) => {
           <span className='font-weight-bold'>Change Password</span>
         </NavLink>
       </NavItem>
-      <NavItem>
-        <NavLink active={activeTab === '4'} onClick={() => history.push('/calender')}>
-          <Calendar size={18} className='mr-1' />
-          <span className='font-weight-bold'>Calender</span>
-        </NavLink>
-      </NavItem>
     </Nav>
   )
 }
