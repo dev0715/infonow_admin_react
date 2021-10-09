@@ -31,9 +31,11 @@ import { GET_IMAGE_URL } from '../../helpers/url_helper';
 // ** Styles
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import './style.scss'
+import { useTranslation} from 'react-i18next'
 
 const TeacherDetails = (props) => {
 
+    const {t} = useTranslation()
     const { id } = useParams()
 
     const [currentPage, setCurrentPage] = useState(0)
@@ -44,91 +46,91 @@ const TeacherDetails = (props) => {
 
 
     // ** Function to handle Pagination
-    const handlePagination = page => {
-        setCurrentPage(page.selected)
-    }
+    // const handlePagination = page => {
+    //     setCurrentPage(page.selected)
+    // }
     // ** Custom Pagination
-    const CustomPagination = () => (
-        <ReactPaginate
-            previousLabel=''
-            nextLabel=''
-            forcePage={currentPage}
-            onPageChange={page => handlePagination(page)}
-            // pageCount={props.newAssignments.length > 0 ? props.newAssignments.length / 10 : 1}
-            pageCount={1}
-            breakLabel='...'
-            pageRangeDisplayed={2}
-            marginPagesDisplayed={2}
-            activeClassName='active'
-            pageClassName='page-item'
-            breakClassName='page-item'
-            breakLinkClassName='page-link'
-            nextLinkClassName='page-link'
-            nextClassName='page-item next'
-            previousClassName='page-item prev'
-            previousLinkClassName='page-link'
-            pageLinkClassName='page-link'
-            breakClassName='page-item'
-            breakLinkClassName='page-link'
-            containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-end pr-1 mt-1'
-        />
-    )
+    // const CustomPagination = () => (
+    //     <ReactPaginate
+    //         previousLabel=''
+    //         nextLabel=''
+    //         forcePage={currentPage}
+    //         onPageChange={page => handlePagination(page)}
+    //         // pageCount={props.newAssignments.length > 0 ? props.newAssignments.length / 10 : 1}
+    //         pageCount={1}
+    //         breakLabel='...'
+    //         pageRangeDisplayed={2}
+    //         marginPagesDisplayed={2}
+    //         activeClassName='active'
+    //         pageClassName='page-item'
+    //         breakClassName='page-item'
+    //         breakLinkClassName='page-link'
+    //         nextLinkClassName='page-link'
+    //         nextClassName='page-item next'
+    //         previousClassName='page-item prev'
+    //         previousLinkClassName='page-link'
+    //         pageLinkClassName='page-link'
+    //         breakClassName='page-item'
+    //         breakLinkClassName='page-link'
+    //         containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-end pr-1 mt-1'
+    //     />
+    // )
 
-    const columns = [
-        {
-            name: 'Name',
-            sortable: true,
-            minWidth: '250px',
-            cell: t => {
-                return (
-                    <>
-                        {
-                            t.name
-                        }
-                    </>
-                )
-            }
-        },
-        {
-            name: 'Email',
-            sortable: true,
-            minWidth: '250px',
-            cell: t => {
-                return (
-                    <>
-                        {
-                            t.email
-                        }
-                    </>
-                )
-            }
-        },
-        {
-            name: 'Date/Time',
-            sortable: false,
-            minWidth: '100px',
-            cell: t => {
-                return (
-                    <>
-                        <DateTime dateTime={t.createdAt} />
-                    </>
-                )
-            }
-        },
-        {
-            name: 'Action',
-            minWidth: '250px',
-            cell: t => {
-                return (
-                    <>
-                        <Button.Ripple color='flat-primary'>
-                            View
-                        </Button.Ripple>
-                    </>
-                )
-            }
-        },
-    ]
+    // const columns = [
+    //     {
+    //         name: 'Name',
+    //         sortable: true,
+    //         minWidth: '250px',
+    //         cell: t => {
+    //             return (
+    //                 <>
+    //                     {
+    //                         t.name
+    //                     }
+    //                 </>
+    //             )
+    //         }
+    //     },
+    //     {
+    //         name: 'Email',
+    //         sortable: true,
+    //         minWidth: '250px',
+    //         cell: t => {
+    //             return (
+    //                 <>
+    //                     {
+    //                         t.email
+    //                     }
+    //                 </>
+    //             )
+    //         }
+    //     },
+    //     {
+    //         name: 'Date/Time',
+    //         sortable: false,
+    //         minWidth: '100px',
+    //         cell: t => {
+    //             return (
+    //                 <>
+    //                     <DateTime dateTime={t.createdAt} />
+    //                 </>
+    //             )
+    //         }
+    //     },
+    //     {
+    //         name: 'Action',
+    //         minWidth: '250px',
+    //         cell: t => {
+    //             return (
+    //                 <>
+    //                     <Button.Ripple color='flat-primary'>
+    //                         View
+    //                     </Button.Ripple>
+    //                 </>
+    //             )
+    //         }
+    //     },
+    // ]
 
     const handleViewStudent = (id) => {
         props.history.push('/students/' + id)
@@ -148,7 +150,7 @@ const TeacherDetails = (props) => {
                                 <Row className="d-flex align-items-center">
                                     <Col sm='6'>
                                         <h4 className="m-0">
-                                            Teacher Profile
+                                            {t('Teacher Profile')}
                                         </h4>
                                     </Col>
                                 </Row>
@@ -156,7 +158,7 @@ const TeacherDetails = (props) => {
                                     <Col lg='8'>
                                         <div className="shadow-stats-item">
                                             <h5 className="m-0 p-1">
-                                                Students
+                                                {t('Students')}
                                             </h5>
                                             <div>
                                                 {

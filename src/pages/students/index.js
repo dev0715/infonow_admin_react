@@ -16,7 +16,7 @@ import {
     getStudentsStats
 } from './store/actions'
 
-
+import { useTranslation } from 'react-i18next'
 import UILoader from '../../@core/components/ui-loader';
 
 import { StatsItemCard } from '../../views/stats-item-card'
@@ -29,8 +29,14 @@ import NoNetwork from '../../components/no-network';
 import StudentList from './student-list';
 
 const ActiveStudents = (props) => {
-    
-    const { studentStats,studentStatsError,studentStatsLoading,} = props
+
+    const { studentStats,
+        studentStatsError,
+        studentStatsLoading, } = props
+  
+    // console.log("CHECK b ==>", useTranslation());
+    const { t } = useTranslation()
+    // console.log("CHECK a ==>", t);
 
     useEffect(() => {
         props.getStudentsStats()
@@ -39,7 +45,7 @@ const ActiveStudents = (props) => {
     const onSelect = (student) => {
         props.history.push({
             pathname: `/assign-unassign-teacher`,
-            state: { user: student , isTeacher:true }
+            state: { user: student, isTeacher: true }
         })
     }
 
@@ -59,37 +65,37 @@ const ActiveStudents = (props) => {
                         <Row className="d-flex align-items-center">
                             <Col sm='6'>
                                 <h4 className="m-0">
-                                    Students
+                                    {t("Students")}
                                 </h4>
                             </Col>
                         </Row>
                         <Row className="mt-2">
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
-                                    label={"Students January"}
+                                    label={`${t('Students')} January`}
                                     value={studentStats.thisMonthCount}
                                 />
                             </Col>
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
-                                    label={"Students 2021"}
+                                    label={`${t('Students')} 2021`}
                                     value={studentStats.thisYearCount}
                                 />
                             </Col>
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
-                                    label={"Students All"}
+                                    label={`${t('Students')} ${t('All')}`}
                                     value={studentStats.allTimeCount}
                                 />
                             </Col>
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
-                                    label={"Students Active"}
+                                    label={`${t('Students')} ${t('Active')}`}
                                     value={studentStats.activeCount}
                                 />
                             </Col>
                         </Row>
-                       
+
                         <div className="shadow-stats-item mt-3">
                             {
                                 !studentStatsLoading &&
@@ -102,8 +108,8 @@ const ActiveStudents = (props) => {
                                 !studentStatsError &&
                                 studentStats.students &&
                                 studentStats.students.data &&
-                                 studentStats.students.data.length == 0 &&
-                                <NotFound message="No student found" />
+                                studentStats.students.data.length == 0 &&
+                                <NotFound message={t("No student found")} />
                             }
 
                             {
@@ -115,10 +121,10 @@ const ActiveStudents = (props) => {
 
                                 <StudentList
                                     isNew={false}
-                                    dataList = {studentStats.students.data}
+                                    dataList={studentStats.students.data}
                                     handleViewStudent={handleViewStudent}
                                 />
-                             }
+                            }
                         </div>
                     </CardBody>
                 </Card>
@@ -133,7 +139,7 @@ const mapStateToProps = (state) => {
         studentStats,
         studentStatsError,
         studentStatsLoading,
-    
+
     } = state.Students
 
     return {

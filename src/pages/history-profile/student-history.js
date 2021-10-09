@@ -11,9 +11,10 @@ import HistoryList from './history-list'
 import { Card, Row, Col, Button } from 'reactstrap'
 import { ArrowLeft } from 'react-feather'
 import ProfileDetail from './profile-detail'
-
+import {useTranslation} from 'react-i18next'
 export const StudentHistory = (props) => {
 
+    const {t} = useTranslation()
     const [teachers, setTeachers] = useState([])
     const [user, setUser] = useState(null)
 
@@ -52,7 +53,7 @@ export const StudentHistory = (props) => {
             <Row className="mb-2">
                 <Col md="6">
                     <Button.Ripple className="btn-icon" size="sm" onClick={() => props.history.goBack()}><ArrowLeft size={16} /></Button.Ripple>
-                    <h3 className='ml-2 d-inline m-0'>Student profile</h3>
+                    <h3 className='ml-2 d-inline m-0'>{t('Student Profile')}</h3>
                 </Col>
             </Row>
 

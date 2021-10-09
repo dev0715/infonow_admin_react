@@ -10,6 +10,8 @@ import store from './store'
 // ** Toast & ThemeColors Context
 import { ToastContainer } from 'react-toastify'
 import { ThemeContext } from './utility/context/ThemeColors'
+import { IntlProviderWrapper } from './utility/context/Internationalization'
+import './configs/i18nextConfig'
 
 // ** Spinner (Splash Screen)
 import Spinner from './@core/components/spinner/Fallback-spinner'
@@ -35,20 +37,24 @@ import './assets/scss/style.scss'
 
 // ** Service Worker
 import * as serviceWorker from './serviceWorker'
-
+import i18next from "i18next";
 // ** Lazy load app
 const LazyApp = lazy(() => import('./App'))
-
+i18next.changeLanguage('ro')
 ReactDOM.render(
   <Provider store={store}>
     <Suspense fallback={<Spinner />}>
       <ThemeContext>
-        <LazyApp />
-        <ToastContainer newestOnTop />
+        <IntlProviderWrapper>
+          <LazyApp />
+          <ToastContainer newestOnTop />
+        </IntlProviderWrapper>
       </ThemeContext>
     </Suspense>
   </Provider>,
   document.getElementById('root')
+
+  
 )
 
 // If you want your app to work offline and load faster, you can change

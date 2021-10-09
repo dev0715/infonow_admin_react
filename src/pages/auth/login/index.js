@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSkin } from '@hooks/useSkin'
 import { Link, useHistory, withRouter } from 'react-router-dom'
-import { Coffee } from 'react-feather'
-import Avatar from '@components/avatar'
 import { loginUser, loginError } from '@store/actions'
 import { Row, Col, CardTitle, CardText, FormGroup, Label, CustomInput, Button, Alert } from 'reactstrap'
 import { AvForm, AvField } from 'availity-reactstrap-validation-safe';
 import '@styles/base/pages/page-auth.scss'
 import BrandLogo from '../../../components/brand-logo'
-import { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { useEffect } from 'react';
-
+import {useTranslation} from 'react-i18next'
 
 
 const Login = (props) => {
     const [skin, setSkin] = useSkin()
 
+    const {t} = useTranslation()
     const history = useHistory()
 
     const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
@@ -53,9 +51,9 @@ const Login = (props) => {
                 <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
                     <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
                         <CardTitle tag='h2' className='font-weight-bold mb-1'>
-                            LOGIN
+                            {t('LOGIN')}
                         </CardTitle>
-                        <CardText className='mb-2'>Welcome back! Please sign-in to your account</CardText>
+                        <CardText className='mb-2'>{t(`Welcome back! Please sign-in to your account`)}</CardText>
 
                         <AvForm
                             className='auth-login-form mt-2'
@@ -74,7 +72,7 @@ const Login = (props) => {
 
                             <AvField
                                 name='email'
-                                label={'Email'}
+                                label={t('Email')}
                                 value={'admin@mail.com'}
                                 className='form-control'
                                 placeholder='john@example.com'
@@ -85,10 +83,10 @@ const Login = (props) => {
 
                             <div className='d-flex justify-content-between'>
                                 <Label className='form-label' for='password'>
-                                    Password
+                                    {t('Password')}
                                 </Label>
                                 <Link to='/forgot-password'>
-                                    <small>Forgot Password?</small>
+                                    <small>{t('Forgot Password?')}</small>
                                 </Link>
                             </div>
                             <AvField
@@ -97,7 +95,7 @@ const Login = (props) => {
                                 value='12345678'
                                 type='password'
                                 required
-                                placeholder='Enter Password'
+                                placeholder={t('Enter Password')}
                             />
 
                             <FormGroup>
@@ -109,7 +107,7 @@ const Login = (props) => {
                                 color='primary'
                                 block
                                 disabled={props.loading}>
-                                {(props.loading) && <><i className="las la-spinner la-spin"></i>&nbsp;&nbsp;</>}Sign in
+                                {(props.loading) && <><i className="las la-spinner la-spin"></i>&nbsp;&nbsp;</>}{t('Sign in')}
                             </Button.Ripple>
                         </AvForm>
                     </Col>

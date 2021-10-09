@@ -1,3 +1,4 @@
+import React from 'react'
 // ** React Imports
 import { useState, createContext } from 'react'
 
@@ -19,9 +20,7 @@ import userMessagesPt from '@src/assets/data/locales/pt.json'
 // ** Menu msg obj
 const menuMessages = {
   en: { ...messagesEn, ...userMessagesEn },
-  de: { ...messagesDe, ...userMessagesDe },
-  fr: { ...messagesFr, ...userMessagesFr },
-  pt: { ...messagesPt, ...userMessagesPt }
+  ro: { ...messagesDe, ...userMessagesDe },
 }
 
 // ** Create Context
@@ -29,8 +28,8 @@ const Context = createContext()
 
 const IntlProviderWrapper = ({ children }) => {
   // ** States
-  const [locale, setLocale] = useState('en')
-  const [messages, setMessages] = useState(menuMessages['en'])
+  const [locale, setLocale] = useState('ro')
+  const [messages, setMessages] = useState(menuMessages['ro'])
 
   // ** Switches Language
   const switchLanguage = lang => {
@@ -40,7 +39,7 @@ const IntlProviderWrapper = ({ children }) => {
 
   return (
     <Context.Provider value={{ locale, switchLanguage }}>
-      <IntlProvider key={locale} locale={locale} messages={messages} defaultLocale='en'>
+      <IntlProvider key={locale} locale={locale} messages={messages} defaultLocale='ro'>
         {children}
       </IntlProvider>
     </Context.Provider>

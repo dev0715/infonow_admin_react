@@ -11,9 +11,11 @@ import UsersList from './users-list'
 import UserInfo from './user-info'
 import { errorAlertDialog, successAlertDialog } from '../../helpers/HelperFunctions';
 import '@styles/base/plugins/extensions/ext-component-sweet-alerts.scss'
+import { useTranslation } from 'react-i18next'
 
 const assignTeacher = (props) => {
 
+    const { t } = useTranslation()
     const { user, isTeacher } = props.history.location.state
 
     const [selectedUser, setSelectedUser] = useState(user)
@@ -35,8 +37,8 @@ const assignTeacher = (props) => {
 
     useEffect(() => {
         if (props.assignTeacherSuccess)
-            successAlertDialog('Teacher assigned successfully')
-         fetchData()
+            successAlertDialog(t('Teacher assigned successfully'))
+        fetchData()
     }, [props.assignTeacherSuccess])
 
     useEffect(() => {
@@ -46,7 +48,7 @@ const assignTeacher = (props) => {
 
     useEffect(() => {
         if (props.unassignTeacherSuccess)
-            successAlertDialog('Teacher unassigned successfully')
+            successAlertDialog(t('Teacher unassigned successfully'))
         fetchData()
     }, [props.unassignTeacherSuccess])
 

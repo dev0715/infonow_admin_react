@@ -26,10 +26,11 @@ import './style.scss'
 import NotFound from '../../components/not-found';
 import NoNetwork from '../../components/no-network';
 import StudentList from './student-list';
-
+import { useTranslation } from 'react-i18next'
 const NewStudentsOrWaitingForTeachers = (props) => {
 
-    const {  waitingOrNewStudents,
+    const { t } = useTranslation();
+    const { waitingOrNewStudents,
         waitingOrNewStudentsLoading,
         waitingOrNewStudentsError, } = props
 
@@ -54,7 +55,7 @@ const NewStudentsOrWaitingForTeachers = (props) => {
                         <Row className="d-flex align-items-center">
                             <Col sm='6'>
                                 <h4 className="m-0">
-                                    New or waiting for teachers
+                                    {t(`${t('New')} ${t('or')} ${t('Waiting for teachers')}`)}
                                 </h4>
                             </Col>
                         </Row>
@@ -73,7 +74,7 @@ const NewStudentsOrWaitingForTeachers = (props) => {
                                 waitingOrNewStudents &&
                                 waitingOrNewStudents.data &&
                                 waitingOrNewStudents.data.length == 0 &&
-                                <NotFound message="No student found" />
+                                <NotFound message={t("No student found")} />
                             }
 
                             {

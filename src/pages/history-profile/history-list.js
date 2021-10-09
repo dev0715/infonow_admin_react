@@ -8,17 +8,18 @@ import PropTypes from 'prop-types';
 import CardReload from '../../@core/components/card-reload';
 import { Button } from 'reactstrap'
 
+import { useTranslation } from 'react-i18next'
 
 
 const HistoryList = (props) => {
 
     const { users, isTeacher, fetchHistory, isReloading  } = props;
- 
+    const {t} = useTranslation()
    
 
     return (
         <CardReload className="p-0"
-            title={isTeacher ? 'Students' : 'Teachers'}
+            title={isTeacher ? `${t('Students')}` : `${t('Teachers')}`}
             onReload={fetchHistory}
             isReloading={isReloading}>
            
@@ -27,9 +28,9 @@ const HistoryList = (props) => {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Created At</th>
-                            <th>Action</th>
+                            <th>{t('Name')}</th>
+                            <th>{t('Created At')}</th>
+                            <th>{t('Action')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,7 +47,7 @@ const HistoryList = (props) => {
                                 <td><DateTime dateTime={u.createdAt} type="dateTime" /></td>
                                 <td>
                                     <Button.Ripple  color='flat-primary'  >
-                                        <span className='align-middle'>View</span>
+                                        <span className='align-middle'>{t('View')}</span>
                                     </Button.Ripple>
                                </td>
                               
