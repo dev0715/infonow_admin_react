@@ -75,7 +75,7 @@ const Dashboard = (props) => {
                                 </Row>
                                 <Row className="mt-2 d-flex justify-content-around">
                                     {/* Stats With Icons */}
-                                    <Col xl='2' md='4' sm='6'>
+                                    <Col xl='4' md='4' sm='6'>
                                         <StatsVertical
                                             className="shadow-stats-item"
                                             icon={<Users size={21} />}
@@ -84,7 +84,7 @@ const Dashboard = (props) => {
                                             statTitle={t('Students')}
                                         />
                                     </Col>
-                                    <Col xl='2' md='4' sm='6'>
+                                    <Col xl='4' md='4' sm='6'>
                                         <StatsVertical
                                             className="shadow-stats-item"
                                             icon={<User size={21} />}
@@ -93,7 +93,7 @@ const Dashboard = (props) => {
                                             statTitle={t('Teachers')}
                                         />
                                     </Col>
-                                    <Col xl='2' md='4' sm='6'>
+                                    <Col xl='2' md='4' sm='6' className="d-none">
                                         <StatsVertical
                                             className="shadow-stats-item"
                                             icon={<TrendingUp size={21} />}
@@ -102,7 +102,7 @@ const Dashboard = (props) => {
                                             statTitle={t('Revenue')}
                                         />
                                     </Col>
-                                    <Col xl='2' md='4' sm='6'>
+                                    <Col xl='2' md='4' sm='6' className="d-none">
                                         <StatsVertical
                                             className="shadow-stats-item"
                                             icon={<TrendingDown size={21} />}
@@ -111,7 +111,7 @@ const Dashboard = (props) => {
                                             statTitle={t('Cancellations')}
                                         />
                                     </Col>
-                                    <Col xl='2' md='4' sm='6'>
+                                    <Col xl='4' md='4' sm='6'>
                                         <StatsVertical
                                             className="shadow-stats-item"
                                             icon={<Book size={21} />}

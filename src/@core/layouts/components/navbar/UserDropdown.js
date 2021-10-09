@@ -63,18 +63,6 @@ const UserDropdown = (props) => {
           <User size={14} className='mr-75' />
           <span className='align-middle'>{t('Profile')}</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to='#' onClick={e => e.preventDefault()}>
-          <Mail size={14} className='mr-75' />
-          <span className='align-middle'>{t('Inbox')}</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to='#' onClick={e => e.preventDefault()}>
-          <CheckSquare size={14} className='mr-75' />
-          <span className='align-middle'>{t('Tasks')}</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to='#' onClick={e => e.preventDefault()}>
-          <MessageSquare size={14} className='mr-75' />
-          <span className='align-middle'>{t('Chats')}</span>
-        </DropdownItem>
         <DropdownItem tag={Link} to='#' onClick={() => props.logoutUser(history)}>
           <Power size={14} className='mr-75' />
           <span className='align-middle'>{t("Logout")}</span>

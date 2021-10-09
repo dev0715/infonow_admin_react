@@ -102,87 +102,98 @@ const InfoTabContent = (props) => {
       onSubmit={e => handleSubmit(e)}
     >
       <Row>
-        <Col sm='12'>
-          <FormGroup>
-            <Label className="ml-25">
-              Github
-            </Label>
-            <InputGroup className='input-group-merge'>
-              <Input
-                type="text"
-                placeholder={t('Enter github url')}
-                value={gitLink}
-                onChange={e => setGitLink(e.target.value)}
-              />
-            </InputGroup>
-          </FormGroup>
-        </Col>
-        <Col sm='12'>
-          <FormGroup>
-            <Label className="ml-25">
-              LinkedIn
-            </Label>
-            <InputGroup className='input-group-merge'>
-              <Input
-                type="text"
-                placeholder={t('Enter linkedIn url')}
-                value={linkedInLink}
-                onChange={e => setLinkedInLink(e.target.value)}
-              />
-            </InputGroup>
-          </FormGroup>
-        </Col>
-        <Col sm='12'>
-          <FormGroup>
-            <Label className="ml-25">
-              Facebook
-            </Label>
-            <InputGroup className='input-group-merge'>
-              <Input
-                type="text"
-                placeholder={t('Enter facebook url')}
-                value={fbLink}
-                onChange={e => setFbLink(e.target.value)}
-              />
-            </InputGroup>
-          </FormGroup>
-        </Col>
-        <Col sm='12'>
-          <FormGroup>
-            <Label className="ml-25">
-              Twitter
-            </Label>
-            <InputGroup className='input-group-merge'>
-              <Input
-                type="text"
-                placeholder={t('Enter twitter url')}
-                value={twitterLink}
-                onChange={e => setTwitterLink(e.target.value)}
-              />
-            </InputGroup>
-          </FormGroup>
-        </Col>
-        <Col sm='12'>
-          <IntlTelInput
-            containerClassName="intl-tel-input"
-            inputClassName="form-control"
-            defaultValue={contactNo}
-            onPhoneNumberChange={(...args) => {
-              setContactNo(args[3])
-            }}
-          />
-        </Col>
-        <Col className='mt-2' sm='12'>
-          <Button.Ripple type='submit' className='mr-1' color='primary'>
-            {t('Save changes')}
-          </Button.Ripple>
-          <Button.Ripple
-            type={'button'}
-            color='secondary' outline
-            onClick={() => cancelEditing()}
-          >
-            {t('Cancel')}
-          </Button.Ripple>
+        <Col md="6">
+          <Row>
+            <Col sm='12'>
+              <FormGroup>
+                <Label className="ml-25">
+                  Phone
+                </Label>
+                <div className="d-block">
+                  <IntlTelInput
+                    containerClassName="intl-tel-input"
+                    inputClassName="form-control"
+                    defaultValue={contactNo}
+                    onPhoneNumberChange={(...args) => {
+                      setContactNo(args[3])
+                    }}
+                  />
+                </div>
+              </FormGroup>
+            </Col>
+            <Col sm='12'>
+              <FormGroup>
+                <Label className="ml-25">
+                  Github
+                </Label>
+                <InputGroup className='input-group-merge'>
+                  <Input
+                    type="text"
+                    placeholder={t('Enter github url')}
+                    value={gitLink}
+                    onChange={e => setGitLink(e.target.value)}
+                  />
+                </InputGroup>
+              </FormGroup>
+            </Col>
+            <Col sm='12'>
+              <FormGroup>
+                <Label className="ml-25">
+                  LinkedIn
+                </Label>
+                <InputGroup className='input-group-merge'>
+                  <Input
+                    type="text"
+                    placeholder={t('Enter linkedIn url')}
+                    value={linkedInLink}
+                    onChange={e => setLinkedInLink(e.target.value)}
+                  />
+                </InputGroup>
+              </FormGroup>
+            </Col>
+            <Col sm='12'>
+              <FormGroup>
+                <Label className="ml-25">
+                  Facebook
+                </Label>
+                <InputGroup className='input-group-merge'>
+                  <Input
+                    type="text"
+                    placeholder={t('Enter facebook url')}
+                    value={fbLink}
+                    onChange={e => setFbLink(e.target.value)}
+                  />
+                </InputGroup>
+              </FormGroup>
+            </Col>
+            <Col sm='12'>
+              <FormGroup>
+                <Label className="ml-25">
+                  Twitter
+                </Label>
+                <InputGroup className='input-group-merge'>
+                  <Input
+                    type="text"
+                    placeholder={t('Enter twitter url')}
+                    value={twitterLink}
+                    onChange={e => setTwitterLink(e.target.value)}
+                  />
+                </InputGroup>
+              </FormGroup>
+            </Col>
+            <Col className='mt-2' sm='12'>
+              <Button.Ripple type='submit' className='mr-1' color='primary'>
+                Save changes
+              </Button.Ripple>
+              <Button.Ripple
+                type={'button'}
+                color='secondary' outline
+                onClick={() => cancelEditing()}
+              >
+                Cancel
+              </Button.Ripple>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </form>

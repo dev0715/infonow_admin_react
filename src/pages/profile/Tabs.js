@@ -30,12 +30,6 @@ const Tabs = ({ activeTab, toggleTab }) => {
           <span className='font-weight-bold'>{t('Change Password')}</span>
         </NavLink>
       </NavItem>
-      <NavItem>
-        <NavLink active={activeTab === '4'} onClick={() => history.push('/calender')}>
-          <Calendar size={18} className='mr-1' />
-          <span className='font-weight-bold'>{t('Calender')}</span>
-        </NavLink>
-      </NavItem>
     </Nav>
   )
 }

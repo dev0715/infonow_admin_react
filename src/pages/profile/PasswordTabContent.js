@@ -100,6 +100,9 @@ const PasswordTabContent = (props) => {
             />
           </FormGroup>
         </Col>
+
+      </Row>
+      <Row>
         <Col sm='6'>
           <FormGroup>
             <InputPasswordToggle
