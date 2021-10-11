@@ -9,14 +9,13 @@ import Avatar from '@components/avatar'
 // ** Utils
 import { isUserAuthenticated, getLoggedInUser } from '@helpers/backend-helpers'
 
-
 // ** Store & Actions
-import { connect, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { logoutUser } from '@store/actions'
 
 // ** Third Party Components
 import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap'
-import { User, Mail, CheckSquare, MessageSquare, Settings, CreditCard, HelpCircle, Power } from 'react-feather'
+import { User, Power } from 'react-feather'
 
 // ** Default Avatar Image
 import defaultAvatar from '@src/assets/images/portrait/small/avatar-default.jpg'

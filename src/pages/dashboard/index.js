@@ -169,7 +169,7 @@ const Dashboard = (props) => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {props.data.teachers.map((teacher, index) =>
+                                                {props.data.teachers.filter((tea, i) => i < 5).map((teacher, index) =>
                                                     <tr key={'teachers' + index} >
                                                         <td>
                                                             {teacher.name}
@@ -213,7 +213,7 @@ const Dashboard = (props) => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {props.data.students.map((s, index) =>
+                                                {props.data.students.filter((std, i) => i < 5).map((s, index) =>
                                                     <tr key={'student' + index} >
                                                         <td>
                                                             {s.name}

@@ -1,18 +1,15 @@
 import React from 'react'
 // ** React Imports
-import { useContext } from 'react'
+import {  useState} from 'react'
 
 // ** Third Party Components
 import ReactCountryFlag from 'react-country-flag'
 import { UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap'
 
-// ** Internationalization Context
-import { IntlContext } from '@src/utility/context/Internationalization'
 import i18next from "i18next";
 const LangDropdown = () => {
-    // ** Context
-    const intlContext = useContext(IntlContext)
-
+   
+    const [locale, setLocale] = useState('ro')
     // ** Vars
     const langObj = {
         ro: 'Romanian',
@@ -22,9 +19,8 @@ const LangDropdown = () => {
     // ** Function to switch Language
     const handleLangUpdate = (e, lang) => {
         e.preventDefault()
-        // intlContext.switchLanguage(lang)
+        setLocale(lang)
         i18next.changeLanguage(lang)
-
     }
 
     return (
@@ -34,12 +30,10 @@ const LangDropdown = () => {
                 <ReactCountryFlag
                     className='country-flag flag-icon'
                     countryCode='us'
-                    countryCode={intlContext.locale === 'en'
-                        ? 'us'
-                        : intlContext.locale}
+                    countryCode={locale === 'en' ? 'us' : locale}
                     svg
                 />
-                <span className='selected-language'>{langObj[intlContext.locale]}</span>
+                <span className='selected-language'>{langObj[locale]}</span>
             </DropdownToggle>
             <DropdownMenu className='mt-0' right>
                 <DropdownItem href='/' tag='a' onClick={e => handleLangUpdate(e, 'en')}>

@@ -39,10 +39,10 @@ const NavbarUser = props => {
         </NavItem>
       </div>
 
-      <ul className='nav navbar-nav align-items-center '>
+      <ul className='nav navbar-nav align-items-center ml-auto '>
         <LangDropdown /> </ul>
 
-      <ul className='nav navbar-nav align-items-center ml-auto'>
+      <ul className='nav navbar-nav align-items-center '>
         <UserDropdown />
       </ul>
     </Fragment>
