@@ -19,8 +19,10 @@ import UILoader from '../../@core/components/ui-loader';
 import { errorAlertDialog, successAlertDialog } from '../../helpers/HelperFunctions'
 import '@styles/base/plugins/extensions/ext-component-sweet-alerts.scss'
 
+import {useTranslation} from 'react-i18next'
 export const TeacherHistory = (props) => {
 
+    const {t} = useTranslation()
     const [students, setStudents] = useState([])
     const [user, setUser] = useState(null)
 
@@ -48,7 +50,7 @@ export const TeacherHistory = (props) => {
     }
 
     useEffect(() => {
-        if (postPaymentPlanSuccess) successAlertDialog('Subscribtion created successfully')
+        if (postPaymentPlanSuccess) successAlertDialog(t('Subscribtion created successfully'))
     }, [postPaymentPlanSuccess])
 
     useEffect(() => {
@@ -56,7 +58,7 @@ export const TeacherHistory = (props) => {
     }, [postPaymentPlanError])
 
     useEffect(() => {
-        if (putPaymentPlanSuccess) successAlertDialog('Subscribtion created successfully')
+        if (putPaymentPlanSuccess) successAlertDialog(t('Subscribtion created successfully'))
     }, [putPaymentPlanSuccess])
 
     useEffect(() => {
@@ -92,7 +94,7 @@ export const TeacherHistory = (props) => {
                 <Row className="mb-2">
                     <Col md="6">
                         <Button.Ripple className="btn-icon" size="sm" onClick={() => props.history.goBack()}><ArrowLeft size={16} /></Button.Ripple>
-                        <h3 className='ml-2 d-inline m-0'>Teacher profile</h3>
+                        <h3 className='ml-2 d-inline m-0'>{t('Teacher Profile')}</h3>
                     </Col>
                 </Row>
 

@@ -7,9 +7,10 @@ import { Button } from 'reactstrap'
 import { ChevronDown } from 'react-feather'
 import { DateTime } from '../../components/date-time';
 import { isNewExpression } from 'typescript'
-
+import { useTranslation} from 'react-i18next'
 const StudentList = (props) => {
 
+    const { t } = useTranslation();
     const { dataList ,isNew} = props
     const [currentPage, setCurrentPage] = useState(0)
 
@@ -54,7 +55,7 @@ const StudentList = (props) => {
 
     const columns = [
         {
-            name: 'Name',
+            name: `${t('Name')}`,
             sortable: true,
             minWidth: '250px',
             cell: s => {
@@ -68,7 +69,7 @@ const StudentList = (props) => {
             }
         },
         {
-            name: 'Email',
+            name: `${t('Email')}`,
             sortable: true,
             minWidth: '250px',
             cell: s => {
@@ -82,7 +83,7 @@ const StudentList = (props) => {
             }
         },
         {
-            name: 'Date/Time',
+            name: `${t('DATE/TIME')}`,
             sortable: false,
             minWidth: '100px',
             cell: s => {
@@ -94,7 +95,7 @@ const StudentList = (props) => {
             }
         },
         {
-            name: 'Action',
+            name: `${t('Action')}`,
             minWidth: '250px',
             omit:isNew,
             cell: s => {
@@ -103,14 +104,14 @@ const StudentList = (props) => {
                         <Button.Ripple color='flat-primary'
                             onClick={() => handleViewStudent(s.userId)}
                         >
-                            View
+                            {t('View')}
                         </Button.Ripple>
                     </>
                 )
             }
         },
         {
-            name: 'Assign',
+            name: `${t('Assign')}`,
             minWidth: '250px',
             omit:!isNew,
             cell: s => {
@@ -119,7 +120,7 @@ const StudentList = (props) => {
                         <Button.Ripple color='flat-primary'
                             onClick={() => onSelect(s)}
                         >
-                            Assign 
+                            {t('Assign')} 
                         </Button.Ripple>
                     </>
                 )

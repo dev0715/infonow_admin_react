@@ -14,6 +14,7 @@ import {
 
 } from './store/actions'
 
+import { useTranslation } from 'react-i18next'
 import { withRouter } from 'react-router';
 
 import { GET_IMAGE_URL } from '../../helpers/url_helper'
@@ -21,7 +22,8 @@ import { GET_IMAGE_URL } from '../../helpers/url_helper'
 import { notifyError, notifySuccess } from '../../utility/toast'
 
 const GeneralTabs = (props) => {
-  
+
+  const { t } = useTranslation()
   const [isEditing, setIsEditing] = useState(false)
   const [avatar, setAvatar] = useState('')
   const [name, setName] = useState(props.user.name || "")
@@ -71,7 +73,7 @@ const GeneralTabs = (props) => {
     if(county){
       let citiesDataList = props.countiesData.cities || {};
       let citiesList = citiesDataList[county] || []
-      let filteredCities = citiesList.map(x=>{return {label: x.name, value: x.name}});
+      let filteredCities = citiesList.map(x => { return { label: x.name, value: x.name } });
       setCities(filteredCities)
     }
   },[county, props.countiesData])
@@ -100,22 +102,22 @@ const GeneralTabs = (props) => {
   useEffect(() => {
     if (isEditing && !props.updateProfileLoading && !props.updateProfileError) {
       setIsEditing(false)
-      notifySuccess("Update Profile", "Profile updated successfully")
+      notifySuccess(t("Update Profile"), t("Profile updated successfully"))
     }
     else if (isEditing && !props.updateProfileLoading && props.updateProfileError) {
-      notifyError("Update Profile", props.updateProfileError)
+      notifyError(t("Update Profile"), props.updateProfileError)
     }
   }, [props.updateProfileLoading])
 
   useEffect(() => {
     if (file && !props.updateProfilePictureLoading && !props.updateProfilePictureError) {
       setFile(null)
-      notifySuccess("Update Profile Picture", "Profile picture updated successfully")
+      notifySuccess(t("Update Profile Picture"), t("Profile picture updated successfully"))
       window.location.reload()
     }
     else if (file && !props.updateProfilePictureLoading && props.updateProfilePictureError) {
       setFile(null)
-      notifyError("Update Profile Picture", props.updateProfilePictureError)
+      notifyError(t("Update Profile Picture"), props.updateProfilePictureError)
     }
   }, [props.updateProfilePictureLoading])
 
@@ -140,7 +142,7 @@ const GeneralTabs = (props) => {
     <Fragment>
       <Media>
         <Media className='mr-25' left>
-          <Media object className='rounded mr-50' src={file ? avatar : GET_IMAGE_URL(props.user.profilePicture)} alt='No Profile Picture' height='80' width='80' />
+          <Media object className='rounded mr-50' src={file ? avatar : GET_IMAGE_URL(props.user.profilePicture)} alt={t('No Profile Picture')} height='80' width='80' />
         </Media>
         <Media className='mt-75 ml-1' body>
           {
@@ -160,17 +162,17 @@ const GeneralTabs = (props) => {
                 outline
                 onClick={() => resetImage()}
               >
-                Reset
+                {t("Reset")}
               </Button.Ripple>
             </>
               :
               <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
-                Upload
+                {t("Upload")}
                 <Input type='file' onChange={onChange} hidden accept='image/*' />
               </Button.Ripple>
           }
 
-          <p>Allowed JPG, GIF or PNG. Max size of 800kB</p>
+          <p>{t('Allowed JPG, GIF or PNG. Max size of 800kB')}</p>
         </Media>
       </Media>
       <form className='mt-2'
@@ -180,12 +182,12 @@ const GeneralTabs = (props) => {
           <Col md='6'>
             <FormGroup>
               <Label className="ml-25">
-                Name
+                {t('Name')}
               </Label>
               <InputGroup className='input-group-merge'>
                 <Input
                   type="text"
-                  placeholder='Enter Name'
+                  placeholder={t('Enter Name')}
                   value={name}
                   onChange={e => setName(e.target.value)}
                   disabled={!isEditing}
@@ -196,12 +198,12 @@ const GeneralTabs = (props) => {
           <Col md='6'>
             <FormGroup>
               <Label className="ml-25">
-                Email
+                {t('Email')}
               </Label>
               <InputGroup className='input-group-merge'>
                 <Input
                   type="mail"
-                  placeholder='Enter Email'
+                  placeholder={t('Enter Email')}
                   value={props.user.email || ""}
                   disabled
                 />
@@ -211,12 +213,12 @@ const GeneralTabs = (props) => {
           <Col md='6'>
             <FormGroup>
               <Label className="ml-25">
-                Address
+                {t('Address')}
               </Label>
               <InputGroup className='input-group-merge'>
                 <Input
                   type="text"
-                  placeholder='Enter Address'
+                  placeholder={t('Enter Address')}
                   value={address || ""}
                   onChange={e => setAddress(e.target.value)}
                   disabled={!isEditing}
@@ -228,7 +230,7 @@ const GeneralTabs = (props) => {
           <Col md='6'>
             <FormGroup>
               <Label className="ml-25">
-                County
+                {t('County')}
               </Label>
               {
                 isEditing &&
@@ -249,7 +251,7 @@ const GeneralTabs = (props) => {
                 <InputGroup className='input-group-merge'>
                 <Input
                   type="text"
-                  placeholder='Your county'
+                  placeholder={t('Your county')}
                   value={county}
                   disabled={!isEditing}
                 />
@@ -260,7 +262,7 @@ const GeneralTabs = (props) => {
           <Col md='6'>
             <FormGroup>
               <Label className="ml-25">
-                City
+                {t('City')}
               </Label>
               {
                 isEditing &&
@@ -281,7 +283,7 @@ const GeneralTabs = (props) => {
                 <InputGroup className='input-group-merge'>
                 <Input
                   type="text"
-                  placeholder='Your City'
+                  placeholder={t('Your City')}
                   value={city}
                   disabled={!isEditing}
                 />
@@ -289,10 +291,10 @@ const GeneralTabs = (props) => {
                } 
             </FormGroup>
           </Col>
-          
+
           <Col md='6'>
             <FormGroup>
-              <Label className="ml-25">Country</Label>
+              <Label className="ml-25">{t("Country")}</Label>
               {
                 isEditing &&
                 <Select
@@ -323,7 +325,7 @@ const GeneralTabs = (props) => {
               <Input
                 type='textarea'
                 rows='4'
-                placeholder='About'
+                placeholder={t('About')}
                 value={about}
                 onChange={e => setAbout(e.target.value)}
                 disabled={!isEditing}
@@ -336,14 +338,14 @@ const GeneralTabs = (props) => {
               isEditing &&
               <>
                 <Button.Ripple type='submit' className='mr-1' color='primary'>
-                  Save changes
+                 {t('Save changes')}
                 </Button.Ripple>
                 <Button.Ripple
                   type={'button'}
                   color='secondary' outline
                   onClick={() => cancelEditing()}
                 >
-                  Cancel
+                  {t('Cancel')}
                 </Button.Ripple>
               </>
             }
@@ -359,7 +361,7 @@ const GeneralTabs = (props) => {
           color='primary'
           onClick={() => setIsEditing(true)}
         >
-          Edit
+          {t('Edit')}
         </Button.Ripple>
       }
     </Fragment >

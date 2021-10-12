@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 import { Link } from 'react-router-dom'
@@ -13,10 +13,11 @@ import {
     Card, Row, Col, Button,
     Input, FormGroup, Label, ModalFooter, Modal, ModalBody, ModalHeader
 } from 'reactstrap'
-
+import { useTranslation } from 'react-i18next'
 const ProfileDetail = (props) => {
 
-    const { user , isTeacher ,paymentPlan , updateOrCreateSubscribtion} = props;
+    const { t } = useTranslation()
+    const { user, isTeacher, paymentPlan, updateOrCreateSubscribtion } = props;
     const [isOpen, setIsOpen] = useState(false)
     const [planDurationInDays, setPlanDurationInDays] = useState(7)
     const [price, setPrice] = useState(10)
@@ -29,37 +30,37 @@ const ProfileDetail = (props) => {
         setIsOpen(!isOpen)
     }
 
-    const SaveSubscribtion = () => { 
+    const SaveSubscribtion = () => {
         let data = {
-            "price":price,
-            "planTerm":planTerms,
-            "planDuration":planDuration,
-            "currencyCode":currencyCode,
-            "planDurationInDays":planDurationInDays
+            "price": price,
+            "planTerm": planTerms,
+            "planDuration": planDuration,
+            "currencyCode": currencyCode,
+            "planDurationInDays": planDurationInDays
         }
-        if(updateOrCreateSubscribtion)
+        if (updateOrCreateSubscribtion)
             updateOrCreateSubscribtion(data)
-        
-        
+
+
     }
 
-     useEffect(() => {
-       if(paymentPlan){
-           setPlanDurationInDays(paymentPlan.planDurationInDays)
-           setPrice(paymentPlan.price)
-           setPlanTerms(paymentPlan.planTerm)
-           setPlanDuration(paymentPlan.planDuration)
-           setCurrencyCode(paymentPlan.currencyCode)
-           
-       }
+    useEffect(() => {
+        if (paymentPlan) {
+            setPlanDurationInDays(paymentPlan.planDurationInDays)
+            setPrice(paymentPlan.price)
+            setPlanTerms(paymentPlan.planTerm)
+            setPlanDuration(paymentPlan.planDuration)
+            setCurrencyCode(paymentPlan.currencyCode)
+
+        }
     }, [paymentPlan])
 
- 
-   
+
+
 
     const planDurationChange = (e) => {
-        if(e.value == '1 Week') setPlanDurationInDays(7)
-        else if(e.value == '1 Month') setPlanDurationInDays(30)
+        if (e.value == '1 Week') setPlanDurationInDays(7)
+        else if (e.value == '1 Month') setPlanDurationInDays(30)
         else setPlanDurationInDays(90)
 
         setPlanDuration(e.value)
@@ -146,23 +147,23 @@ const ProfileDetail = (props) => {
 
                         </Row>
                         {
-                              isTeacher &&
-                              <Button color="flat-primary" onClick={toggleModal}>Subscribtion</Button>
+                            isTeacher &&
+                            <Button color="flat-primary" onClick={toggleModal}>{t('Subscribtion')}</Button>
                         }
-                       
+
                     </div>
 
                     <Modal className='modal-lg' isOpen={isOpen} toggle={toggleModal}>
-                        <ModalHeader> Subscribtion </ModalHeader>
+                        <ModalHeader> {t('Subscribtion')} </ModalHeader>
                         <ModalBody>
 
                             <FormGroup  >
-                                <Label for='basicInput'>Price</Label>
-                                <Input type='number' id='basicInput' placeholder='Enter price' value={price}  onChange={e => setPrice(e.target.value)}/>
+                                <Label for='basicInput'>{t('Price')}</Label>
+                                <Input type='number' id='basicInput' placeholder={t('Enter price')} value={price} onChange={e => setPrice(e.target.value)} />
                             </FormGroup>
 
                             <FormGroup >
-                                <Label >Currency Code </Label>
+                                <Label >{t('Currency Code')} </Label>
                                 <Select
                                     theme={selectThemeColors}
                                     className='react-select'
@@ -175,7 +176,7 @@ const ProfileDetail = (props) => {
                             </FormGroup>
 
                             <FormGroup >
-                                <Label >Plan Terms</Label>
+                                <Label >{t('Plan Terms')}</Label>
                                 <Select
                                     theme={selectThemeColors}
                                     className='react-select'
@@ -188,12 +189,12 @@ const ProfileDetail = (props) => {
                             </FormGroup>
 
                             <FormGroup >
-                                <Label >Plan Duration</Label>
+                                <Label >{t('Plan Duration')}</Label>
                                 <Select
                                     theme={selectThemeColors}
                                     className='react-select'
                                     classNamePrefix='select'
-                                    defaultValue={planDurationOptions.find(e => (e.value == planDuration)) }
+                                    defaultValue={planDurationOptions.find(e => (e.value == planDuration))}
                                     options={planDurationOptions}
                                     isClearable={false}
                                     onChange={e => planDurationChange(e)}
@@ -201,12 +202,12 @@ const ProfileDetail = (props) => {
                             </FormGroup>
 
                             <FormGroup  >
-                                <Label for='basicInput'>Plan Duration in Days</Label>
-                                <Input value={planDurationInDays} type='number' id='basicInput' placeholder='Enter price' disabled/>
+                                <Label for='basicInput'>{t('Plan Duration in Days')}</Label>
+                                <Input value={planDurationInDays} type='number' id='basicInput' placeholder={t('Enter price')} disabled />
                             </FormGroup>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color='primary' onClick={SaveSubscribtion}> {paymentPlan ? `Update` : `Create`}  </Button>
+                            <Button color='primary' onClick={SaveSubscribtion}> {paymentPlan ? `${t('Update')}` : `${t('Create')}`}  </Button>
                         </ModalFooter>
                     </Modal>
                 </>

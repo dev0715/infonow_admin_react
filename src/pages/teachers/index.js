@@ -28,6 +28,7 @@ import UILoader from '../../@core/components/ui-loader';
 import NotFound from '../../components/not-found';
 import NoNetwork from '../../components/no-network';
 import { StatsItemCard } from '../../views/stats-item-card'
+import { useTranslation } from 'react-i18next'
 // ** Styles
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import './style.scss'
@@ -35,8 +36,8 @@ import './style.scss'
 const Teachers = (props) => {
 
     const [currentPage, setCurrentPage] = useState(0)
-
-    const {teachersStats} = props
+    const { t } = useTranslation();
+    const { teachersStats } = props
 
     // ** Function to handle Pagination
     const handlePagination = page => {
@@ -49,7 +50,7 @@ const Teachers = (props) => {
             nextLabel=''
             forcePage={currentPage}
             onPageChange={page => handlePagination(page)}
-            pageCount={  teachersStats.teachers.data.length > 0 ?   teachersStats.teachers.data.length / 10 : 1}
+            pageCount={teachersStats.teachers.data.length > 0 ? teachersStats.teachers.data.length / 10 : 1}
             // pageCount={1}
             breakLabel='...'
             pageRangeDisplayed={2}
@@ -73,16 +74,16 @@ const Teachers = (props) => {
         props.history.push(`/teacher-history/${id}`)
     }
 
-    const onSelect = (student) =>{
+    const onSelect = (student) => {
         props.history.push({
             pathname: `/assign-unassign-teacher`,
-            state: { user: student , isTeacher:false }
+            state: { user: student, isTeacher: false }
         })
     }
 
     const columns = [
         {
-            name: 'Name',
+            name: t('Name'),
             sortable: true,
             minWidth: '250px',
             cell: t => {
@@ -96,7 +97,7 @@ const Teachers = (props) => {
             }
         },
         {
-            name: 'Email',
+            name: t('Email'),
             sortable: true,
             minWidth: '250px',
             cell: t => {
@@ -110,27 +111,27 @@ const Teachers = (props) => {
             }
         },
         {
-            name: 'Date/Time',
+            name: t('DATE/TIME'),
             sortable: false,
             minWidth: '100px',
-            cell: t => {
+            cell: te => {
                 return (
                     <>
-                        <DateTime dateTime={t.createdAt} />
+                        <DateTime dateTime={te.createdAt} />
                     </>
                 )
             }
         },
         {
-            name: 'Action',
+            name: t('Action'),
             minWidth: '250px',
-            cell: t => {
+            cell: te => {
                 return (
                     <>
                         <Button.Ripple color='flat-primary'
-                            onClick={() => handleViewTeacher(t.userId)}
+                            onClick={() => handleViewTeacher(te.userId)}
                         >
-                            View
+                            {t('View')}
                         </Button.Ripple>
                     </>
                 )
@@ -139,13 +140,13 @@ const Teachers = (props) => {
         {
             name: 'Unassign',
             minWidth: '250px',
-            cell: t => {
+            cell: te => {
                 return (
                     <>
                         <Button.Ripple color='flat-primary'
-                            onClick={() => onSelect(t)}
+                            onClick={() => onSelect(te)}
                         >
-                            Unassign 
+                            {t('Unassign')}
                         </Button.Ripple>
                     </>
                 )
@@ -167,32 +168,32 @@ const Teachers = (props) => {
                         <Row className="d-flex align-items-center">
                             <Col sm='6'>
                                 <h4 className="m-0">
-                                    Teachers
+                                    {t('Teachers')}
                                 </h4>
                             </Col>
                         </Row>
                         <Row className="mt-2">
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
-                                    label={"Teachers January"}
+                                    label={`${t('Teachers')} January`}
                                     value={teachersStats.thisMonthCount}
                                 />
                             </Col>
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
-                                    label={"Teachers 2021"}
+                                    label={`${t('Teachers')} 2021`}
                                     value={teachersStats.thisYearCount}
                                 />
                             </Col>
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
-                                    label={"Teachers All"}
+                                    label={`${t('Teachers')} ${t('All')}`}
                                     value={teachersStats.allTimeCount}
                                 />
                             </Col>
                             <Col sm='12' md='6' lg='3'>
                                 <StatsItemCard
-                                    label={"Teachers Active"}
+                                    label={`${t('Teachers')} ${t('Active')}`}
                                     value={teachersStats.activeCount}
                                 />
                             </Col>
@@ -209,7 +210,7 @@ const Teachers = (props) => {
                                 teachersStats.teachers &&
                                 teachersStats.teachers.data &&
                                 teachersStats.teachers.data.length == 0 &&
-                                <NotFound message="No teacher found" />
+                                <NotFound message={t("No teacher found")} />
                             }
                             {
                                 !props.teachersLoading &&

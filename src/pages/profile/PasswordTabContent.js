@@ -13,9 +13,12 @@ import { updatePassword } from './store/actions'
 
 import { withRouter } from 'react-router';
 
+import { useTranslation } from 'react-i18next'
 import { notifyError, notifySuccess } from '../../utility/toast'
 
 const PasswordTabContent = (props) => {
+
+  const { t } = useTranslation()
   const SignupSchema = yup.object().shape({
     'currentPassword': yup.string().min(1).required(),
     'newPassword': yup.string().min(1).required(),
@@ -44,11 +47,11 @@ const PasswordTabContent = (props) => {
     if (isUpdating && !props.updatePasswordLoading && !props.updatePasswordError) {
       setIsUpdating(false)
       resetChangePassword()
-      notifySuccess("Update Password", "Password updated successfully")
+      notifySuccess(t("Update Password"), t("Password updated successfully"))
     }
     else if (isUpdating && !props.updatePasswordLoading && props.updatePasswordError) {
       setIsUpdating(false)
-      notifyError("Update Password", props.updatePasswordError)
+      notifyError(t("Update Password"), props.updatePasswordError)
     }
   }, [props.updatePasswordLoading])
 
@@ -115,12 +118,12 @@ const PasswordTabContent = (props) => {
         </Col>
         <Col className='mt-1' sm='12'>
           <Button.Ripple type='submit' className='mr-1' color='primary'>
-            Save changes
+           {t('Save changes')}
           </Button.Ripple>
           <Button.Ripple color='secondary' outline
             onClick={() => resetChangePassword()}
           >
-            Cancel
+            {t('Cancel')}
           </Button.Ripple>
         </Col>
       </Row>

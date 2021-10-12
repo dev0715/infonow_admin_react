@@ -12,12 +12,14 @@ import TestCropper from "./cropper"
 import UILoader from '../../@core/components/ui-loader';
 import { errorAlertDialog, successAlertDialog } from "../../helpers/HelperFunctions"
 import { DOCUMENT_BASE_URL } from "../../helpers/url_helper"
+import { useTranslation } from 'react-i18next'
 const filePlaceholder = require(`@src/assets/images/custom-placeholder/file_preview_placeholder.jpg`);
 const imgPlaceholder = require(`@src/assets/images/custom-placeholder/img_preview_placeholder.jpeg`);
 
 
 const EditEbook = (props) => {
 
+    const {t} = useTranslation()
     const { putEbookSuccess,
         putEbookError,
         putEbookLoading } = props
@@ -110,7 +112,7 @@ const EditEbook = (props) => {
 
     useEffect(() => {
         if (putEbookError) errorAlertDialog(putEbookError)
-        if (putEbookSuccess) successAlertDialog("Ebook updated successfully")
+        if (putEbookSuccess) successAlertDialog(t("Ebook updated successfully"))
     }, [putEbookError, putEbookSuccess])
 
 
@@ -126,14 +128,14 @@ const EditEbook = (props) => {
 
                                     <Col md='6'>
                                         <FormGroup className='mb-2'>
-                                            <Label for='blog-edit-title'>Title</Label>
+                                            <Label for='blog-edit-title'>{t('Title')}</Label>
                                             <Input id='blog-edit-title' value={title} onChange={e => setTitle(e.target.value)} />
                                         </FormGroup>
                                     </Col>
 
                                     <Col md='6'>
                                         <FormGroup className='mb-2'>
-                                            <Label for='blog-edit-title'>Description</Label>
+                                            <Label for='blog-edit-title'>{t('Description')}</Label>
                                             <Input id='blog-edit-title' value={description} onChange={e => setDescription(e.target.value)} />
                                         </FormGroup>
                                     </Col>
@@ -144,7 +146,7 @@ const EditEbook = (props) => {
                                         <ImagePickerWithPreview
                                             Image={coverImage}
                                             type={"cover"}
-                                            lblTitle={"Cover Image"}
+                                            lblTitle={t("Cover Image")}
                                             acceptType={'.jpg, .png, .jpeg'}
                                             onChange={onChange}
                                         />
@@ -154,7 +156,7 @@ const EditEbook = (props) => {
                                         <ImagePickerWithPreview
                                             Image={previewImage}
                                             type={"preview"}
-                                            lblTitle={"Preview Image"}
+                                            lblTitle={t("Preview Image")}
                                             acceptType={'.jpg, .png,  .jpeg'}
                                             onChange={onChange}
                                         />
@@ -164,7 +166,7 @@ const EditEbook = (props) => {
                                         <ImagePickerWithPreview
                                             Image={bookUrl}
                                             type={"bookUrl"}
-                                            lblTitle={"Pdf book file"}
+                                            lblTitle={t("Pdf book file")}
                                             acceptType={'.pdf'}
                                             onChange={onChange}
                                         />
@@ -172,7 +174,7 @@ const EditEbook = (props) => {
 
                                     <Col className='mt-50'>
                                         <Button.Ripple color='primary' onClick={EditEbook} >
-                                            Edit Book
+                                            {t('Edit book')}
                                         </Button.Ripple>
                                     </Col>
 

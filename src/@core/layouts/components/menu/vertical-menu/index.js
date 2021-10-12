@@ -12,11 +12,18 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 // ** Vertical Menu Components
 import VerticalMenuHeader from './VerticalMenuHeader'
 import VerticalNavMenuItems from './VerticalNavMenuItems'
+import { useTranslation } from 'react-i18next';
 
 const Sidebar = props => {
   // ** Props
   const { menuCollapsed, routerProps, menu, currentActiveItem, skin } = props
-
+  const {t} = useTranslation();
+  const translatedMenu = navigation.map(x=>{
+    return {
+      ...x,
+      title: t(x.title)
+    }
+  })
   // ** States
   const [groupOpen, setGroupOpen] = useState([])
   const [groupActive, setGroupActive] = useState([])
@@ -75,7 +82,7 @@ const Sidebar = props => {
             >
               <ul className='navigation navigation-main'>
                 <VerticalNavMenuItems
-                  items={navigation}
+                  items={translatedMenu}
                   groupActive={groupActive}
                   setGroupActive={setGroupActive}
                   activeItem={activeItem}

@@ -4,7 +4,7 @@ import { Fragment } from 'react'
 
 // ** Third Party Components
 import {
-    Card, CardBody, Row, Col, Button, Table, TableHead,
+    Card, CardBody, Row, Col, Button, Table,
 } from 'reactstrap'
 
 // ** Store & Actions
@@ -23,13 +23,13 @@ import {
 
 import { DateTime } from '../../components/date-time';
 import UILoader from '../../@core/components/ui-loader';
-
+import { useTranslation } from 'react-i18next'
 import { StatsItemCard } from '../../views/stats-item-card'
-
 import './style.scss'
 
 const Dashboard = (props) => {
 
+    const { t } = useTranslation()
 
     useEffect(() => {
         if (Object.keys(props.data).length == 0)
@@ -41,10 +41,9 @@ const Dashboard = (props) => {
     }
 
     const handleViewStudent = (id) => {
-        // props.history.push('/students/' + id)
-       
         props.history.push(`/student-history/${id}`)
     }
+
 
     return (
         <Fragment >
@@ -59,7 +58,7 @@ const Dashboard = (props) => {
                                 <Row className="d-flex align-items-center">
                                     <Col sm='6'>
                                         <h4 className="m-0">
-                                            Statistics
+                                            {t('Statistics')}
                                         </h4>
                                     </Col>
                                     <Col sm='6'>
@@ -82,7 +81,7 @@ const Dashboard = (props) => {
                                             icon={<Users size={21} />}
                                             color='info'
                                             stats={`${props.data.studentsCount}`}
-                                            statTitle='Students'
+                                            statTitle={t('Students')}
                                         />
                                     </Col>
                                     <Col xl='4' md='4' sm='6'>
@@ -91,7 +90,7 @@ const Dashboard = (props) => {
                                             icon={<User size={21} />}
                                             color='warning'
                                             stats={`${props.data.teachersCount}`}
-                                            statTitle='Teachers'
+                                            statTitle={t('Teachers')}
                                         />
                                     </Col>
                                     <Col xl='2' md='4' sm='6' className="d-none">
@@ -100,7 +99,7 @@ const Dashboard = (props) => {
                                             icon={<TrendingUp size={21} />}
                                             color='danger'
                                             stats='97.8k'
-                                            statTitle='Revenue'
+                                            statTitle={t('Revenue')}
                                         />
                                     </Col>
                                     <Col xl='2' md='4' sm='6' className="d-none">
@@ -109,7 +108,7 @@ const Dashboard = (props) => {
                                             icon={<TrendingDown size={21} />}
                                             color='primary'
                                             stats='26.8'
-                                            statTitle='Cancellations'
+                                            statTitle={t('Cancellations')}
                                         />
                                     </Col>
                                     <Col xl='4' md='4' sm='6'>
@@ -118,44 +117,44 @@ const Dashboard = (props) => {
                                             icon={<Book size={21} />}
                                             color='success'
                                             stats='689'
-                                            statTitle='E-Book Sales'
+                                            statTitle={t('E-Book Sales')}
                                         />
                                     </Col>
                                 </Row>
                                 <Row className="mt-2">
                                     <Col sm='12' md='6' lg='3'>
                                         <StatsItemCard
-                                            label={"New Students"}
+                                            label={t("New Students")}
                                             value={props.data.newStudentsCount}
                                         />
                                     </Col>
                                     <Col sm='12' md='6' lg='3'>
                                         <StatsItemCard
-                                            label={"New Teachers"}
+                                            label={t("New Teachers")}
                                             value={props.data.newTeachersCount}
                                         />
                                     </Col>
                                     <Col sm='12' md='6' lg='3'>
                                         <StatsItemCard
-                                            label={"E-Book Sales"}
+                                            label={t("E-Book Sales")}
                                             value={0}
                                         />
                                     </Col>
                                     <Col sm='12' md='6' lg='3'>
                                         <StatsItemCard
-                                            label={"Subs Payments"}
+                                            label={t("Subs Payments")}
                                             value={0}
                                         />
                                     </Col>
                                 </Row>
                                 <div className="shadow-stats-item mt-3">
                                     <h5 className="p-1">
-                                        Teachers
+                                        {t('Teachers')}
                                     </h5>
                                     {
                                         props.data.teachers.length == 0 &&
                                         <div className="text-center">
-                                            No Teacher Found
+                                            {t('No Teacher Found')}
                                         </div>
                                     }
                                     {
@@ -163,27 +162,27 @@ const Dashboard = (props) => {
                                         <Table responsive hover >
                                             <thead>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Date/Time</th>
-                                                    <th>Action</th>
+                                                    <th>{t('Name')}</th>
+                                                    <th>{t('Email')}</th>
+                                                    <th>{t('DATE/TIME')}</th>
+                                                    <th>{t('Action')}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {props.data.teachers.map((t, index) =>
+                                                {props.data.teachers.filter((tea, i) => i < 5).map((teacher, index) =>
                                                     <tr key={'teachers' + index} >
                                                         <td>
-                                                            {t.name}
+                                                            {teacher.name}
                                                         </td>
                                                         <td>
-                                                            {t.email}
+                                                            {teacher.email}
                                                         </td>
                                                         <td><DateTime dateTime={t.createdAt} /></td>
                                                         <td>
                                                             <Button.Ripple color='flat-primary'
-                                                                onClick={() => handleViewTeacher(t.userId)}
+                                                                onClick={() => handleViewTeacher(teacher.userId)}
                                                             >
-                                                                View
+                                                                {t('View')}
                                                             </Button.Ripple>
                                                         </td>
                                                     </tr>
@@ -194,12 +193,12 @@ const Dashboard = (props) => {
                                 </div>
                                 <div className="shadow-stats-item mt-3">
                                     <h5 className="p-1">
-                                        Students
+                                        {t('Students')}
                                     </h5>
                                     {
                                         props.data.teachers.length == 0 &&
                                         <div className="text-center">
-                                            No Student Found
+                                            {t('No Student Found')}
                                         </div>
                                     }
                                     {
@@ -207,14 +206,14 @@ const Dashboard = (props) => {
                                         <Table responsive hover >
                                             <thead>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Date/Time</th>
-                                                    <th>Action</th>
+                                                    <th>{t('Name')}</th>
+                                                    <th>{t('Email')}</th>
+                                                    <th>{t('DATE/TIME')}</th>
+                                                    <th>{t('Action')}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {props.data.students.map((s, index) =>
+                                                {props.data.students.filter((std, i) => i < 5).map((s, index) =>
                                                     <tr key={'student' + index} >
                                                         <td>
                                                             {s.name}
@@ -227,7 +226,7 @@ const Dashboard = (props) => {
                                                             <Button.Ripple color='flat-primary'
                                                                 onClick={() => handleViewStudent(s.userId)}
                                                             >
-                                                                View
+                                                                {t('View')}
                                                             </Button.Ripple>
                                                         </td>
                                                     </tr>

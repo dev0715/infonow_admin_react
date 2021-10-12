@@ -9,23 +9,22 @@ import Avatar from '@components/avatar'
 // ** Utils
 import { isUserAuthenticated, getLoggedInUser } from '@helpers/backend-helpers'
 
-
 // ** Store & Actions
-import { connect, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { logoutUser } from '@store/actions'
 
 // ** Third Party Components
 import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap'
-import { User, Mail, CheckSquare, MessageSquare, Settings, CreditCard, HelpCircle, Power } from 'react-feather'
+import { User, Power } from 'react-feather'
 
 // ** Default Avatar Image
 import defaultAvatar from '@src/assets/images/portrait/small/avatar-default.jpg'
 import { GET_IMAGE_URL } from '../../../../helpers/url_helper';
+import { useTranslation } from 'react-i18next'
 
 const UserDropdown = (props) => {
 
-
-
+  const { t } = useTranslation()
   const history = useHistory()
 
   // ** State
@@ -61,11 +60,11 @@ const UserDropdown = (props) => {
         }}
         >
           <User size={14} className='mr-75' />
-          <span className='align-middle'>Profile</span>
+          <span className='align-middle'>{t('Profile')}</span>
         </DropdownItem>
         <DropdownItem tag={Link} to='#' onClick={() => props.logoutUser(history)}>
           <Power size={14} className='mr-75' />
-          <span className='align-middle'>Logout</span>
+          <span className='align-middle'>{t("Logout")}</span>
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>

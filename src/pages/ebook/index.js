@@ -11,8 +11,10 @@ import {
 } from '@store/actions'
 import { DOCUMENT_BASE_URL } from '../../helpers/url_helper';
 import PreviewBookModal from './preview-book-modal';
+import {useTranslation} from 'react-i18next'
 const Ebook = (props) => {
 
+    const {t} = useTranslation()
     const { ebooks,
         ebooksError,
         ebooksLoading } = props
@@ -55,7 +57,7 @@ const Ebook = (props) => {
                 <Row className="mb-2" >
                     <Col >
                         <Button.Ripple outline color="primary" onClick={() => addNewBook()}>
-                            Add Ebook
+                            {t('Add Ebook')}
                         </Button.Ripple>
 
                     </Col>
@@ -76,13 +78,13 @@ const Ebook = (props) => {
                                                 {book.description}
                                             </CardText>
                                             <Button.Ripple color='primary' outline>
-                                                Download
+                                                {t('Download')}
                                             </Button.Ripple>
                                             <Button.Ripple onClick= {() => setPreviewImage(book.previewImage)} className="ml-2" color='secondary' outline>
-                                                Preview
+                                                {t('Preview')}
                                             </Button.Ripple>
                                             <Button.Ripple  onClick= {() => EditEbook(book)} className="ml-2" color='primary' outline>
-                                                Edit
+                                                {t('Edit')}
                                             </Button.Ripple>
                                         </CardBody>
                                     </Card>

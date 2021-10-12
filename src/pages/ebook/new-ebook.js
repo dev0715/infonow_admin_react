@@ -1,6 +1,6 @@
 
 import React from "react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { Row, Col, Card, CardBody, Input, Form, FormGroup, Button, Label } from "reactstrap"
 import ImagePickerWithPreview from "./image-picker-with-preview"
 import { connect } from 'react-redux'
@@ -11,13 +11,14 @@ import {
 import TestCropper from "./cropper"
 import UILoader from '../../@core/components/ui-loader';
 import { errorAlertDialog, successAlertDialog } from "../../helpers/HelperFunctions"
-import { FileWatcherEventKind } from "typescript"
+import { useTranslation } from 'react-i18next'
 const filePlaceholder = require(`@src/assets/images/custom-placeholder/file_preview_placeholder.jpg`);
 const imgPlaceholder = require(`@src/assets/images/custom-placeholder/img_preview_placeholder.jpeg`);
 
 
 const CreateEbook = (props) => {
 
+    const { t } = useTranslation()
     const { postEbookSuccess,
         postEbookError,
         postEbookLoading } = props
@@ -97,17 +98,17 @@ const CreateEbook = (props) => {
         var fileOfPreviewBlob = new File([previewBlob], previewFile.name);
 
         if (fileOfCoverBlob) fd.append(`coverImage`, fileOfCoverBlob, fileOfCoverBlob.name);
-        if (fileOfPreviewBlob) fd.append(`previewImage`,fileOfPreviewBlob, fileOfPreviewBlob.name);
+        if (fileOfPreviewBlob) fd.append(`previewImage`, fileOfPreviewBlob, fileOfPreviewBlob.name);
         if (bookFile) fd.append(`bookUrl`, bookFile, bookFile.name);
         fd.append(`title`, title);
         fd.append(`description`, description);
-       
-         props.postEbook(fd)
+
+        props.postEbook(fd)
     }
 
     useEffect(() => {
         if (postEbookError) errorAlertDialog(postEbookError)
-        if (postEbookSuccess) successAlertDialog("Ebook saved successfully")
+        if (postEbookSuccess) successAlertDialog(t("Ebook saved successfully"))
     }, [postEbookError, postEbookSuccess])
 
 
@@ -123,14 +124,14 @@ const CreateEbook = (props) => {
 
                                     <Col md='6'>
                                         <FormGroup className='mb-2'>
-                                            <Label for='blog-edit-title'>Title</Label>
+                                            <Label for='blog-edit-title'>{t('Title')}</Label>
                                             <Input id='blog-edit-title' value={title} onChange={e => setTitle(e.target.value)} />
                                         </FormGroup>
                                     </Col>
 
                                     <Col md='6'>
                                         <FormGroup className='mb-2'>
-                                            <Label for='blog-edit-title'>Description</Label>
+                                            <Label for='blog-edit-title'>{t('Description')}</Label>
                                             <Input id='blog-edit-title' value={description} onChange={e => setDescription(e.target.value)} />
                                         </FormGroup>
                                     </Col>
@@ -141,7 +142,7 @@ const CreateEbook = (props) => {
                                         <ImagePickerWithPreview
                                             Image={coverImage}
                                             type={"cover"}
-                                            lblTitle={"Cover Image"}
+                                            lblTitle={t("Cover Image")}
                                             acceptType={'.jpg, .png, .jpeg'}
                                             onChange={onChange}
                                         />
@@ -151,7 +152,7 @@ const CreateEbook = (props) => {
                                         <ImagePickerWithPreview
                                             Image={previewImage}
                                             type={"preview"}
-                                            lblTitle={"Preview Image"}
+                                            lblTitle={t("Preview Image")}
                                             acceptType={'.jpg, .png,  .jpeg'}
                                             onChange={onChange}
                                         />
@@ -161,7 +162,7 @@ const CreateEbook = (props) => {
                                         <ImagePickerWithPreview
                                             Image={bookUrl}
                                             type={"bookUrl"}
-                                            lblTitle={"Pdf book file"}
+                                            lblTitle={t("Pdf book file")}
                                             acceptType={'.pdf'}
                                             onChange={onChange}
                                         />
@@ -169,7 +170,7 @@ const CreateEbook = (props) => {
 
                                     <Col className='mt-50'>
                                         <Button.Ripple color='primary' onClick={AddEbook} >
-                                            Add Book
+                                           {t('Add book')}
                                         </Button.Ripple>
                                     </Col>
 
