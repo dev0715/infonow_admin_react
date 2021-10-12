@@ -75,7 +75,6 @@ const Login = (props) => {
                             <AvField
                                 name='email'
                                 label={'Email'}
-                                value={'admin@mail.com'}
                                 className='form-control'
                                 placeholder='john@example.com'
                                 type='email'
@@ -94,7 +93,6 @@ const Login = (props) => {
                             <AvField
                                 name='password'
                                 label=''
-                                value='12345678'
                                 type='password'
                                 required
                                 placeholder='Enter Password'
