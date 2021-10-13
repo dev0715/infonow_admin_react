@@ -58,7 +58,7 @@ export const GET_STUDENTS_STATS = `${BASE_URL}/api/v1/admins/student-stats`
 export const GET_STUDENTS = `${BASE_URL}/api/v1/students`
 export const STUDENT = (studentId) => `${BASE_URL}/api/v1/students/${studentId}`
 export const GET_STUDENTS_BY_ACTIVE_STATUS = `${BASE_URL}/api/v1/admins/students-by-status`
-export const GET_STUDENTS_BY_NEW_OR_WAITING_STATUS = `${BASE_URL}/api/v1/admins/students-by-status?isActiveStudent=false`
+export const GET_STUDENTS_BY_NEW_OR_WAITING_STATUS = `${BASE_URL}/api/v1/admins/students-by-status`
 
 //Assign
 export const ASSIGN_UNASSIGN_TEACHER = `${BASE_URL}/api/v1/admins/assign`

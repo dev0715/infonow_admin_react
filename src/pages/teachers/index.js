@@ -4,22 +4,19 @@ import { Fragment } from 'react'
 
 // ** Third Party Components
 import {
-    Card, CardBody, Row, Col, Button,
+    Card, CardBody, Row, Col, Button, Table, Label, Input
 } from 'reactstrap'
 
 
-import ReactPaginate from 'react-paginate'
-import DataTable from 'react-data-table-component'
 
 // ** Store & Actions
 import { connect } from 'react-redux'
-
 import { withRouter } from 'react-router';
 import {
-    getTeachersStats
+    getTeachersStats, getAllTeachers, onSearchTeacherChange
 } from './store/actions'
 
-import { ChevronDown } from 'react-feather'
+import { RefreshCcw } from 'react-feather'
 
 
 import { DateTime } from '../../components/date-time';
@@ -32,43 +29,17 @@ import { useTranslation } from 'react-i18next'
 // ** Styles
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import './style.scss'
+import CustomPagination from '../pagination';
 
 const Teachers = (props) => {
 
+    const [searchValue, setSearchValue] = useState()
     const [currentPage, setCurrentPage] = useState(0)
+    const [pagesCount, setPagesCount] = useState(0)
     const { t } = useTranslation();
-    const { teachersStats } = props
-
-    // ** Function to handle Pagination
-    const handlePagination = page => {
-        setCurrentPage(page.selected)
-    }
-    // ** Custom Pagination
-    const CustomPagination = () => (
-        <ReactPaginate
-            previousLabel=''
-            nextLabel=''
-            forcePage={currentPage}
-            onPageChange={page => handlePagination(page)}
-            pageCount={teachersStats.teachers.data.length > 0 ? teachersStats.teachers.data.length / 10 : 1}
-            // pageCount={1}
-            breakLabel='...'
-            pageRangeDisplayed={2}
-            marginPagesDisplayed={2}
-            activeClassName='active'
-            pageClassName='page-item'
-            breakClassName='page-item'
-            breakLinkClassName='page-link'
-            nextLinkClassName='page-link'
-            nextClassName='page-item next'
-            previousClassName='page-item prev'
-            previousLinkClassName='page-link'
-            pageLinkClassName='page-link'
-            breakClassName='page-item'
-            breakLinkClassName='page-link'
-            containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-end pr-1 mt-1'
-        />
-    )
+    const { teachersStats, teacherListData, allTeachers,
+        allTeachersLoading, allTeachersError, } = props
+    const [teachersList, setTeachersList] = useState([])
 
     const handleViewTeacher = (id) => {
         props.history.push(`/teacher-history/${id}`)
@@ -81,82 +52,37 @@ const Teachers = (props) => {
         })
     }
 
-    const columns = [
-        {
-            name: t('Name'),
-            sortable: true,
-            minWidth: '250px',
-            cell: t => {
-                return (
-                    <>
-                        {
-                            t.name
-                        }
-                    </>
-                )
-            }
-        },
-        {
-            name: t('Email'),
-            sortable: true,
-            minWidth: '250px',
-            cell: t => {
-                return (
-                    <>
-                        {
-                            t.email
-                        }
-                    </>
-                )
-            }
-        },
-        {
-            name: t('DATE/TIME'),
-            sortable: false,
-            minWidth: '100px',
-            cell: te => {
-                return (
-                    <>
-                        <DateTime dateTime={te.createdAt} />
-                    </>
-                )
-            }
-        },
-        {
-            name: t('Action'),
-            minWidth: '250px',
-            cell: te => {
-                return (
-                    <>
-                        <Button.Ripple color='flat-primary'
-                            onClick={() => handleViewTeacher(te.userId)}
-                        >
-                            {t('View')}
-                        </Button.Ripple>
-                    </>
-                )
-            }
-        },
-        {
-            name: 'Unassign',
-            minWidth: '250px',
-            cell: te => {
-                return (
-                    <>
-                        <Button.Ripple color='flat-primary'
-                            onClick={() => onSelect(te)}
-                        >
-                            {t('Unassign')}
-                        </Button.Ripple>
-                    </>
-                )
-            }
-        },
-    ]
+    useEffect(() => {
+        if (teachersStats && teachersStats.teachers && teachersStats.teachers.data) setTeachersList(teachersStats.teachers.data)
+        if (teachersStats && teachersStats.teachers && teachersStats.teachers.pages) setPagesCount(teachersStats.teachers.pages)
+    }, [teachersStats])
 
     useEffect(() => {
-        props.getTeachersStats()
+        if (allTeachers && allTeachers.data) setTeachersList(allTeachers.data)
+        if (allTeachers && allTeachers.count) setPagesCount(allTeachers.count)
+    }, [allTeachers])
+
+
+    useEffect(() => {
+        props.getTeachersStats({ page: 1, limit: 20 })
     }, [])
+
+    useEffect(() => {
+        props.onSearchTeacherChange()
+    }, [searchValue])
+
+    const onSelectPage = (page) => {
+        if (teacherListData[page]) setTeachersList(teacherListData[page])
+        else { fetchTeacherList(page) }
+    }
+
+    const searchTeacherByName = () => {
+        fetchTeacherList(1)
+    }
+
+    const fetchTeacherList = (page) => {
+        props.getAllTeachers({ page: page, limit: 20, search: searchValue })
+    }
 
     return (
         <Fragment >
@@ -198,6 +124,24 @@ const Teachers = (props) => {
                                 />
                             </Col>
                         </Row>
+
+                        <Row className=' mx-0 mt-1 mb-50'>
+                            <Col className=' d-flex align-items-center justify-content-sm-end mt-sm-0 mt-1' sm='12'>
+                                <Label className='mr-1' for='search-input'>
+                                    {t('Search')}
+                                </Label>
+                                <Input
+                                    className='dataTable-filter'
+                                    type='text'
+                                    bsSize='sm'
+                                    id='search-input'
+                                    value={searchValue}
+                                    onChange={e => { setSearchValue(e.target.value) }}
+                                />
+                                <Button.Ripple className="btn-icon ml-1" size="sm" onClick={searchTeacherByName}><RefreshCcw size={14} /></Button.Ripple>
+                            </Col>
+                        </Row>
+
                         <div className="shadow-stats-item mt-3">
                             {
                                 !props.teachersLoading &&
@@ -207,28 +151,52 @@ const Teachers = (props) => {
                             {
                                 !props.teachersLoading &&
                                 !props.teachersError &&
-                                teachersStats.teachers &&
-                                teachersStats.teachers.data &&
-                                teachersStats.teachers.data.length == 0 &&
+                                teachersList.length == 0 &&
                                 <NotFound message={t("No teacher found")} />
                             }
                             {
                                 !props.teachersLoading &&
                                 !props.teachersError &&
-                                teachersStats.teachers &&
-                                teachersStats.teachers.data &&
-                                teachersStats.teachers.data.length > 0 &&
-                                <DataTable
-                                    noHeader
-                                    pagination
-                                    columns={columns}
-                                    paginationPerPage={10}
-                                    className='react-dataTable '
-                                    sortIcon={<ChevronDown size={10} />}
-                                    paginationDefaultPage={currentPage + 1}
-                                    paginationComponent={CustomPagination}
-                                    data={teachersStats.teachers.data}
-                                />}
+                                teachersList.length > 0 &&
+
+
+                                <Table responsive hover >
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{t('Name')}</th>
+                                            <th>{t('Email')}</th>
+                                            <th>{t('DATE/TIME')}</th>
+                                            <th>{t('Action')}</th>
+                                            <th>{t('Unassign')}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            teachersList.map((te, i) =>
+
+                                                <tr key={"assignment-" + i}>
+                                                    <td>{i + 1}</td>
+                                                    <td>
+                                                        <span className='align-middle font-weight-bold'>
+                                                            {te.name}
+                                                        </span>
+                                                    </td>
+                                                    <td>{te.email}</td>
+                                                    <td><DateTime dateTime={te.createdAt} type="dateTime" /></td>
+                                                    <td><Button color="flat-primary" onClick={() => handleViewTeacher(te.userId)}>{t('View')}</Button></td>
+                                                    <td><Button color="flat-primary" onClick={() => onSelect(te)}>{t('Unassign')}</Button></td>
+                                                </tr>
+                                            )}
+                                    </tbody>
+                                </Table>
+                            }
+                            {
+                                teachersStats.teachers && teachersStats.teachers.pages &&
+                                <CustomPagination pages={Math.ceil(pagesCount / 20)} onSelect={onSelectPage} />
+
+                            }
+
                         </div>
                     </CardBody>
                 </Card>
@@ -243,17 +211,28 @@ const mapStateToProps = (state) => {
         teachersStats,
         teachersError,
         teachersLoading,
+
+        allTeachers,
+        allTeachersLoading,
+        allTeachersError,
+
+        teacherListData
     } = state.Teachers
 
     return {
         teachersStats,
         teachersError,
         teachersLoading,
+
+        teacherListData,
+        allTeachers,
+        allTeachersLoading,
+        allTeachersError,
     }
 }
 
 export default withRouter(
     connect(mapStateToProps, {
-        getTeachersStats
+        getTeachersStats, getAllTeachers ,onSearchTeacherChange
     })(Teachers)
 )

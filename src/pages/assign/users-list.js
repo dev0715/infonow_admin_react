@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, Fragment } from 'react';
 
 import {
-    CardBody,
+    CardBody, Table,
     Card,
     CardText,
     Row,
@@ -19,13 +19,14 @@ import { useTranslation } from 'react-i18next'
 // ** Styles
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import CardReload from '../../@core/components/card-reload';
+import { DateTime } from '../../components/date-time';
+import CustomPagination from '../pagination';
 
 const UsersList = (props) => {
 
     const { t } = useTranslation()
-    const { listData, fetchListData, isReloading, isTeacher } = props;
+    const { listData, fetchListData, isReloading, isTeacher, onSelectPage ,pagesCount } = props;
     const [searchValue, setSearchValue] = useState('')
-    const [currentPage, setCurrentPage] = useState(1)
 
     const onAssignTeacher = (teacher) => {
         props.onAssignTeacher(teacher)
@@ -40,94 +41,6 @@ const UsersList = (props) => {
             props.fetchData(searchValue)
     }
 
-    // ** Function to handle Pagination and get data
-    const handlePagination = page => {
-        setCurrentPage(page.selected + 1)
-    }
-
-    // ** Custom Pagination
-    const CustomPagination = () => {
-        // const count = Number((store.total / rowsPerPage).toFixed(0))
-        const count = 1
-        return (
-            <ReactPaginate
-                previousLabel={''}
-                nextLabel={''}
-                breakLabel='...'
-                pageCount={count || 1}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={2}
-                activeClassName='active'
-                forcePage={currentPage !== 0 ? currentPage - 1 : 0}
-                onPageChange={page => handlePagination(page)}
-                pageClassName={'page-item'}
-                nextLinkClassName={'page-link'}
-                nextClassName={'page-item next'}
-                previousClassName={'page-item prev'}
-                previousLinkClassName={'page-link'}
-                pageLinkClassName={'page-link'}
-                breakClassName='page-item'
-                breakLinkClassName='page-link'
-                containerClassName={
-                    'pagination react-paginate separated-pagination pagination-sm justify-content-end pr-1 mt-1'
-                }
-            />
-        )
-    }
-
-    const columns = [
-        {
-            name: t('Name'),
-            selector: 'name',
-            sortable: true,
-            minWidth: '225px'
-        },
-        {
-            name: t('Email'),
-            selector: 'email',
-            sortable: true,
-            minWidth: '250px'
-        },
-        {
-            name: t('Start Date'),
-            selector: 'createdAt',
-            sortable: true,
-            minWidth: '150px'
-        },
-        {
-            name: t('Assign'),
-            minWidth: '250px',
-            omit: !isTeacher,
-            cell: te => {
-                return (
-                    <>
-                        <Button.Ripple color='flat-primary'
-                            onClick={() => onAssignTeacher(te)}
-                        >
-                            {t('Assign')}
-                        </Button.Ripple>
-                    </>
-                )
-            }
-        },
-        {
-            name: t('Unassign'),
-            minWidth: '250px',
-            omit: isTeacher,
-            cell: s => {
-                return (
-                    <>
-                        <Button.Ripple color='flat-primary'
-                            onClick={() => onUnAssignTeacher(s)}
-                        >
-                            {t('Unassign')}
-                        </Button.Ripple>
-                    </>
-                )
-            }
-        },
-    ]
-
 
     return (
         <Fragment>
@@ -136,33 +49,84 @@ const UsersList = (props) => {
                 onReload={fetchListData}
                 isReloading={isReloading}>
 
-                <Row className=' mx-0 mt-1 mb-50'>
-                    <Col className=' d-flex align-items-center justify-content-sm-end mt-sm-0 mt-1' sm='12'>
-                        <Label className='mr-1' for='search-input'>
-                            {t('Search')}
-                        </Label>
-                        <Input
-                            className='text-right dataTable-filter'
-                            type='text'
-                            bsSize='sm'
-                            id='search-input'
-                            value={searchValue}
-                            onChange={e => { setSearchValue(e.target.value) }}
-                        />
-                        <Button.Ripple className="btn-icon ml-1" size="sm" onClick={searchTeacherByName}><RefreshCcw size={14} /></Button.Ripple>
-                    </Col>
-                </Row>
+                {
+                    isTeacher &&
+                    <Row className=' mx-0 mt-1 mb-50'>
+                        <Col className=' d-flex align-items-center justify-content-sm-end mt-sm-0 mt-1' sm='12'>
+                            <Label className='mr-1' for='search-input'>
+                                {t('Search')}
+                            </Label>
+                            <Input
+                                className='dataTable-filter'
+                                type='text'
+                                bsSize='sm'
+                                id='search-input'
+                                value={searchValue}
+                                onChange={e => { setSearchValue(e.target.value) }}
+                            />
+                            <Button.Ripple className="btn-icon ml-1" size="sm" onClick={searchTeacherByName}><RefreshCcw size={14} /></Button.Ripple>
+                        </Col>
+                    </Row>
+                }
 
-                <DataTable
-                    noHeader
-                    pagination
-                    paginationServer
-                    className='react-dataTable'
-                    columns={columns}
-                    sortIcon={<ChevronDown size={10} />}
-                    paginationComponent={CustomPagination}
-                    data={listData}
-                />
+                <Table responsive hover >
+                    <thead>
+                        <tr>
+                            <th>{t('Name')}</th>
+                            <th>{t('Email')}</th>
+                            <th>{t('Start Date')}</th>
+                            {
+                                isTeacher &&
+                                <th>{t('Assign')}</th>
+                            }
+                            {
+                                !isTeacher &&
+                                <th>{t('Unassign')}</th>
+                            }
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        {listData.map((s, index) =>
+                            <tr key={'student' + index} >
+                                <td>
+                                    {s.name}
+                                </td>
+                                <td>
+                                    {s.email}
+                                </td>
+                                <td><DateTime dateTime={s.createdAt} /></td>
+                                <td>
+                                    {
+                                        isTeacher &&
+
+                                        <Button.Ripple color='flat-primary'
+                                            onClick={() => onAssignTeacher(s)} >
+                                            {t('Assign')}
+                                        </Button.Ripple>
+
+                                    }
+                                    {
+                                        !isTeacher &&
+                                        <Button.Ripple color='flat-primary'
+                                            onClick={() => onUnAssignTeacher(s)}
+                                        >
+                                            {t('Unassign')}
+                                        </Button.Ripple>
+
+                                    }
+                                </td>
+
+                            </tr>
+                        )}
+                    </tbody>
+                </Table>
+                
+                {
+                    isTeacher &&
+                     <CustomPagination pages={Math.ceil(pagesCount / 20)} onSelect={onSelectPage} />
+                }
+
             </CardReload>
         </Fragment>
     );

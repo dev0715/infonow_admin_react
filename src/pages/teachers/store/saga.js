@@ -44,12 +44,16 @@ function* getTeacherDetailsHttp({ payload }) {
     }
 }
 
-function* getAllTeachersHttp({payload}) {
+function* getAllTeachersHttp({payload:data}) {
     try {
-      
-        const response = yield call(getAllTeachers, payload);
+        
+        const response = yield call(getAllTeachers, data);
         if (response) {
-            yield put(getAllTeachersSuccess(response))
+            let res = {
+                "res":response,
+                "page":data.page
+            }
+            yield put(getAllTeachersSuccess(res))
             return;
         }
         throw "Unknown response received from Server";

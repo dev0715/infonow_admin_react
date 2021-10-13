@@ -22,9 +22,10 @@ const assignTeacher = (props) => {
     const { allTeachers, allTeachersError, allTeachersLoading,
         teacherStudents, teacherStudentsError, teacherStudentsLoading,
         unassignTeacher, unassignTeacherSuccess, unassignTeacherError, unassignTeacherLoading,
-        assignTeacher, assignTeacherSuccess, assignTeacherError, assignTeacherLoading, } = props
+        assignTeacher, assignTeacherSuccess, assignTeacherError, assignTeacherLoading, teacherListData} = props
 
     const [listData, setlistData] = useState([])
+    const [pagesCount, setPagesCount] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
@@ -61,9 +62,10 @@ const assignTeacher = (props) => {
         fetchData()
     }, [])
 
-    const fetchData = (data) => {
+    const fetchData = (name) => {
         if (isTeacher) {
-            props.getAllTeachers(data)
+            let params = {limit:20, page:1, search:name}
+            props.getAllTeachers(params)
         } else {
             props.getTeacherStudents(user.userId)
         }
@@ -86,10 +88,15 @@ const assignTeacher = (props) => {
 
     useEffect(() => {
         setlistData([])
-        if (allTeachers.length > 0) setlistData(allTeachers)
-        if (teacherStudents.length > 0) setlistData(teacherStudents)
+         if (isTeacher) setPagesCount(allTeachers.count)
+         if (isTeacher && allTeachers.data && allTeachers.data.length > 0) setlistData(allTeachers.data)
+        else if (teacherStudents.length > 0) setlistData(teacherStudents)
+      
     }, [allTeachers, teacherStudents])
 
+    const onSelectPage = (page) => {
+        if(teacherListData[page]) setlistData(teacherListData[page])
+    }
 
     return (
         <>
@@ -110,7 +117,9 @@ const assignTeacher = (props) => {
                             isReloading={isTeacher ? allTeachersLoading : teacherStudentsLoading}
                             onAssignTeacher={onAssignTeacher}
                             onUnassignTeacher={onUnassignTeacher}
-                            fetchData={fetchData} />
+                            fetchData={fetchData}
+                            onSelectPage={onSelectPage}
+                            pagesCount={pagesCount} />
                     </Card>
                 }
             </UILoader>
@@ -124,6 +133,7 @@ const mapStateToProps = (state) => {
         allTeachers,
         allTeachersError,
         allTeachersLoading,
+        teacherListData,
 
         teacherStudents,
         teacherStudentsLoading,
@@ -148,6 +158,7 @@ const mapStateToProps = (state) => {
         allTeachers,
         allTeachersError,
         allTeachersLoading,
+        teacherListData,
 
         teacherStudents,
         teacherStudentsLoading,

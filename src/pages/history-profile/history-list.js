@@ -13,46 +13,48 @@ import { useTranslation } from 'react-i18next'
 
 const HistoryList = (props) => {
 
-    const { users, isTeacher, fetchHistory, isReloading  } = props;
-    const {t} = useTranslation()
-   
+    const { users, isTeacher, fetchHistory, isReloading } = props;
+    const { t } = useTranslation()
+
 
     return (
         <CardReload className="p-0"
             title={isTeacher ? `${t('Students')}` : `${t('Teachers')}`}
             onReload={fetchHistory}
             isReloading={isReloading}>
-           
+
             <CardBody>
+               
                 <Table responsive hover >
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>{t('Name')}</th>
-                            <th>{t('Created At')}</th>
+                            <th>{t('Assigned On')}</th>
                             <th>{t('Action')}</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        {users && users.map((u, i) =>
+                        {
+                            users && users.map((u, i) =>
 
-                            <tr key={u.userId} >
-                                <td>{i + 1}</td>
-                                <td>
-                                    <span className='align-middle font-weight-bold'>
-                                        {u.name}
-                                    </span>
-                                </td>
-                                <td><DateTime dateTime={u.createdAt} type="dateTime" /></td>
-                                <td>
-                                    <Button.Ripple  color='flat-primary'  >
-                                        <span className='align-middle'>{t('View')}</span>
-                                    </Button.Ripple>
-                               </td>
-                              
-                            </tr>
-                        )}
+                                <tr key={i + 1} >
+                                    <td>{i + 1}</td>
+                                    <td>
+                                        <span className='align-middle font-weight-bold'>
+                                            {isTeacher ? u.student.user.name : u.teacher.user.name}
+                                        </span>
+                                    </td>
+                                    <td><DateTime dateTime={u.createdAt} type="dateTime" /></td>
+                                    <td>
+                                        <Button.Ripple color='flat-primary'  >
+                                            <span className='align-middle'>{t('View')}</span>
+                                        </Button.Ripple>
+                                    </td>
+
+                                </tr>
+                            )}
                     </tbody>
                 </Table>
             </CardBody>

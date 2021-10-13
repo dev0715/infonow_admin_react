@@ -34,11 +34,11 @@ export const StudentHistory = (props) => {
         if (studentHistory && studentHistory.history && studentHistory.history.data.length > 0) {
 
             setUser(studentHistory.history.data[0].student.user)
-            let studentData = []
+            let teachersData = []
             studentHistory.history.data.forEach(e => {
-                studentData.push(e.teacher.user)
+                teachersData.push(e.teacher.user)
             })
-            setTeachers(studentData)
+            setTeachers(teachersData)
         }
 
     }
@@ -60,9 +60,9 @@ export const StudentHistory = (props) => {
             <Row>
                 <Col md="9">
                     {
-                        teachers &&
+                        studentHistory && studentHistory.history && studentHistory.history.data.length > 0 &&
                         <HistoryList
-                            users={teachers}
+                            users={studentHistory.history.data}
                             isTeacher={false}
                             fetchHistory={fetchStudentHistory}
                             isReloading={studentHistoryLoading}

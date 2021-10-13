@@ -12,8 +12,10 @@ import {
   GET_ALL_TEACHERS_FAILURE,
 
   GET_TEACHER_STUDENTS,
-GET_TEACHER_STUDENTS_SUCCESS,
-GET_TEACHER_STUDENTS_FAILURE,
+  GET_TEACHER_STUDENTS_SUCCESS,
+  GET_TEACHER_STUDENTS_FAILURE,
+
+  ON_SEARCH_TEACHER_CHANGE
 
 } from "./actionTypes"
 
@@ -61,7 +63,7 @@ export const getTeacherDetailsFailure = (error) => {
 export const getAllTeachers = (data) => {
   return {
     type: GET_ALL_TEACHERS,
-    payload:data
+    payload: data
   }
 }
 
@@ -98,5 +100,11 @@ export const getTeacherStudentsFailure = (error) => {
   return {
     type: GET_TEACHER_STUDENTS_FAILURE,
     payload: error,
+  }
+}
+
+export const onSearchTeacherChange = () => {
+  return {
+    type: ON_SEARCH_TEACHER_CHANGE
   }
 }

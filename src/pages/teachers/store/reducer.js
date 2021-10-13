@@ -14,9 +14,12 @@ import {
     GET_TEACHER_STUDENTS,
     GET_TEACHER_STUDENTS_SUCCESS,
     GET_TEACHER_STUDENTS_FAILURE,
+
+    ON_SEARCH_TEACHER_CHANGE
 } from "./actionTypes"
 
 const initialState = {
+    teacherListData: {},
     teachersStats: {},
     teachersError: null,
     teachersLoading: false,
@@ -29,9 +32,9 @@ const initialState = {
     allTeachersLoading: false,
     allTeachersError: null,
 
-    teacherStudents:[],
-    teacherStudentsLoading:false,
-    teacherStudentsError : null
+    teacherStudents: [],
+    teacherStudentsLoading: false,
+    teacherStudentsError: null
 }
 
 const teachersReducer = (state = initialState, action) => {
@@ -41,7 +44,12 @@ const teachersReducer = (state = initialState, action) => {
             return { ...state, teachersLoading: true }
 
         case GET_TEACHERS_STATS_SUCCESS:
-            return { ...state, teachersStats: action.payload, teachersLoading: false }
+            return {
+                ...state,
+                teachersStats: action.payload,
+                teacherListData: { ...state.teacherListData, [1]: action.payload.teachers.data },
+                teachersLoading: false
+            }
 
         case GET_TEACHERS_STATS_FAILURE:
             return { ...state, teachersError: action.payload, teachersLoading: false }
@@ -59,10 +67,19 @@ const teachersReducer = (state = initialState, action) => {
             return { ...state, allTeachersLoading: true }
 
         case GET_ALL_TEACHERS_SUCCESS:
-            return { ...state, allTeachers: action.payload, allTeachersLoading: false }
+            return {
+                ...state,
+                teacherListData: { ...state.teacherListData, [action.payload.page]: action.payload.res.data },
+                allTeachers: action.payload.res,
+                allTeachersLoading: false
+            }
 
         case GET_ALL_TEACHERS_FAILURE:
-            return { ...state,allTeachers:[], allTeachersError: action.payload, allTeachersLoading: false }
+            return {
+                ...state, allTeachers: [],
+                allTeachersError: action.payload,
+                allTeachersLoading: false
+            }
 
         case GET_TEACHER_STUDENTS:
             return { ...state, teacherStudentsLoading: true }
@@ -71,8 +88,14 @@ const teachersReducer = (state = initialState, action) => {
             return { ...state, teacherStudents: action.payload, teacherStudentsLoading: false }
 
         case GET_TEACHER_STUDENTS_FAILURE:
-            return { ...state, teacherStudents:[], teacherStudentsError: action.payload, teacherStudentsLoading: false }
+            return { ...state, teacherStudents: [], teacherStudentsError: action.payload, teacherStudentsLoading: false }
 
+        case ON_SEARCH_TEACHER_CHANGE:
+            return {
+                ...state,
+                teacherListData: {},
+                allTeachers: []
+            }
         default:
             return state
     }
