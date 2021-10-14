@@ -9,7 +9,7 @@ import BrandLogo from '../../../components/brand-logo'
 import { connect } from 'react-redux'
 import { useEffect } from 'react';
 import {useTranslation} from 'react-i18next'
-
+import PasswordToggle from '../../../components/password-toggle'
 
 const Login = (props) => {
     const [skin, setSkin] = useSkin()
@@ -88,14 +88,10 @@ const Login = (props) => {
                                     <small>{t('Forgot Password?')}</small>
                                 </Link>
                             </div>
-                            <AvField
+                            <PasswordToggle
                                 name='password'
-                                label=''
-                                type='password'
-                                required
-                                placeholder={t('Enter Password')}
+                                label={t('Enter Password')}
                             />
-
                             <FormGroup>
                                 <CustomInput type='checkbox' className='custom-control-Primary' id='remember-me' label='Remember Me' />
                             </FormGroup>
@@ -105,7 +101,7 @@ const Login = (props) => {
                                 color='primary'
                                 block
                                 disabled={props.loading}>
-                                {(props.loading) && <><i className="las la-spinner la-spin"></i>&nbsp;&nbsp;</>}{t('Sign in')}
+                                {(props.loading) && <><i  className="las la-spinner la-spin"></i>&nbsp;&nbsp;</>}{t('Sign in')}
                             </Button.Ripple>
                         </AvForm>
                     </Col>
