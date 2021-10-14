@@ -101,9 +101,9 @@ export const TeacherHistory = (props) => {
                 <Row>
                     <Col md="9">
                         {
-                            students &&
+                            teacherHistory && teacherHistory.history && teacherHistory.history.data.length > 0 &&
                             <HistoryList
-                                users={students}
+                                users={teacherHistory.history.data}
                                 isTeacher={true}
                                 fetchHistory={fetchTeacherHistory}
                                 isReloading={teacherHistoryLoading}

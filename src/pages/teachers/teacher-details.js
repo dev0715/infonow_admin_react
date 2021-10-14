@@ -44,94 +44,6 @@ const TeacherDetails = (props) => {
         props.getTeacherDetails(id)
     }, [])
 
-
-    // ** Function to handle Pagination
-    // const handlePagination = page => {
-    //     setCurrentPage(page.selected)
-    // }
-    // ** Custom Pagination
-    // const CustomPagination = () => (
-    //     <ReactPaginate
-    //         previousLabel=''
-    //         nextLabel=''
-    //         forcePage={currentPage}
-    //         onPageChange={page => handlePagination(page)}
-    //         // pageCount={props.newAssignments.length > 0 ? props.newAssignments.length / 10 : 1}
-    //         pageCount={1}
-    //         breakLabel='...'
-    //         pageRangeDisplayed={2}
-    //         marginPagesDisplayed={2}
-    //         activeClassName='active'
-    //         pageClassName='page-item'
-    //         breakClassName='page-item'
-    //         breakLinkClassName='page-link'
-    //         nextLinkClassName='page-link'
-    //         nextClassName='page-item next'
-    //         previousClassName='page-item prev'
-    //         previousLinkClassName='page-link'
-    //         pageLinkClassName='page-link'
-    //         breakClassName='page-item'
-    //         breakLinkClassName='page-link'
-    //         containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-end pr-1 mt-1'
-    //     />
-    // )
-
-    // const columns = [
-    //     {
-    //         name: 'Name',
-    //         sortable: true,
-    //         minWidth: '250px',
-    //         cell: t => {
-    //             return (
-    //                 <>
-    //                     {
-    //                         t.name
-    //                     }
-    //                 </>
-    //             )
-    //         }
-    //     },
-    //     {
-    //         name: 'Email',
-    //         sortable: true,
-    //         minWidth: '250px',
-    //         cell: t => {
-    //             return (
-    //                 <>
-    //                     {
-    //                         t.email
-    //                     }
-    //                 </>
-    //             )
-    //         }
-    //     },
-    //     {
-    //         name: 'Date/Time',
-    //         sortable: false,
-    //         minWidth: '100px',
-    //         cell: t => {
-    //             return (
-    //                 <>
-    //                     <DateTime dateTime={t.createdAt} />
-    //                 </>
-    //             )
-    //         }
-    //     },
-    //     {
-    //         name: 'Action',
-    //         minWidth: '250px',
-    //         cell: t => {
-    //             return (
-    //                 <>
-    //                     <Button.Ripple color='flat-primary'>
-    //                         View
-    //                     </Button.Ripple>
-    //                 </>
-    //             )
-    //         }
-    //     },
-    // ]
-
     const handleViewStudent = (id) => {
         props.history.push('/students/' + id)
     }
@@ -164,7 +76,7 @@ const TeacherDetails = (props) => {
                                                 {
                                                     props.teacher.teacher.students.length == 0 &&
                                                     <div className="text-center p-1">
-                                                        No Student Found
+                                                        {t('No Student Found')}
                                                     </div>
                                                 }
                                                 {
@@ -172,10 +84,10 @@ const TeacherDetails = (props) => {
                                                     <Table responsive hover >
                                                         <thead>
                                                             <tr>
-                                                                <th>Name</th>
-                                                                <th>Email</th>
-                                                                <th>Assigned On</th>
-                                                                <th>Action</th>
+                                                                <th>{t('Name')}</th>
+                                                                <th>{t('Email')}</th>
+                                                                <th>{t('Assigned On')}</th>
+                                                                <th>{t('Action')}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -192,7 +104,7 @@ const TeacherDetails = (props) => {
                                                                         <Button.Ripple color='flat-primary'
                                                                             onClick={() => handleViewStudent(s.user.userId)}
                                                                         >
-                                                                            View
+                                                                            {t('View')}
                                                                         </Button.Ripple>
                                                                     </td>
                                                                 </tr>

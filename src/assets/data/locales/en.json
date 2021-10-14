@@ -1,5 +1,5 @@
 {
-  "All":"Toate",
+  "All":"All",
   "Students": "Students",
   "Teachers": "Teachers",
   "Revenue": "Revenue",
@@ -26,7 +26,7 @@
   "Name":"Name",
   "Email":"Email",
   "Edit":"Edit",
-  "Tecaher Profile":"Tecaher Profile",
+  "Teacher Profile":"Teacher Profile",
   "Student Profile":"Student Profile",
   "Active":"Active",
   "New":"New",

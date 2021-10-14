@@ -12,8 +12,14 @@ import {
   GET_ALL_STUDENTS_FAILURE,
 
   GET_STUDENT_NEW_OR_WAITING_STATUS,
-GET_STUDENT_NEW_OR_WAITING_STATUS_SUCCESS,
-GET_STUDENT_NEW_OR_WAITING_STATUS_FAILURE,
+  GET_STUDENT_NEW_OR_WAITING_STATUS_SUCCESS,
+  GET_STUDENT_NEW_OR_WAITING_STATUS_FAILURE,
+
+  GET_ACTIVE_STUDENTS,
+  GET_ACTIVE_STUDENTS_SUCCESS,
+  GET_ACTIVE_STUDENTS_FAILURE,
+
+  ON_SEARCH_CHANGE
 
 } from "./actionTypes"
 
@@ -58,9 +64,10 @@ export const getStudentDetailsFailure = (error) => {
   }
 }
 
-export const getAllStudents = () => {
+export const getAllStudents = (data) => {
   return {
-    type: GET_ALL_STUDENTS
+    type: GET_ALL_STUDENTS,
+    payload: data
   }
 }
 
@@ -79,13 +86,14 @@ export const getAllStudentsFailure = (error) => {
 }
 
 
-export const getStudentNewOrWaitingStatus = () => {
+export const getStudentNewOrWaitingStatus = (data) => {
   return {
-    type:   GET_STUDENT_NEW_OR_WAITING_STATUS,
+    type: GET_STUDENT_NEW_OR_WAITING_STATUS,
+    payload: data
   }
 }
 
-export const getStudentNewOrWaitingStatusSucces = (data) => {
+export const getStudentNewOrWaitingStatusSuccess = (data) => {
   return {
     type: GET_STUDENT_NEW_OR_WAITING_STATUS_SUCCESS,
     payload: data
@@ -95,6 +103,33 @@ export const getStudentNewOrWaitingStatusSucces = (data) => {
 export const getStudentNewOrWaitingStatusFailure = (error) => {
   return {
     type: GET_STUDENT_NEW_OR_WAITING_STATUS_FAILURE,
+    payload: error
+  }
+}
+
+export const onSearchChange = () => {
+  return {
+    type: ON_SEARCH_CHANGE
+  }
+}
+
+export const getActiveStudents = (data) => {
+  return {
+    type: GET_ACTIVE_STUDENTS,
+    payload: data
+  }
+}
+
+export const getActiveStudentsSuccess = (data) => {
+  return {
+    type: GET_ACTIVE_STUDENTS_SUCCESS,
+    payload: data
+  }
+}
+
+export const getActiveStudentsFailure = (error) => {
+  return {
+    type: GET_ACTIVE_STUDENTS_FAILURE,
     payload: error
   }
 }

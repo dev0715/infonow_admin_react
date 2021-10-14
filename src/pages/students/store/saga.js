@@ -4,16 +4,20 @@ import { call, put, takeEvery } from "redux-saga/effects"
 import { GET_STUDENTS_STATS,
          GET_STUDENT_DETAILS ,
          GET_ALL_STUDENTS ,
-         GET_STUDENT_NEW_OR_WAITING_STATUS,} from "./actionTypes"
+         GET_STUDENT_NEW_OR_WAITING_STATUS,
+         GET_ACTIVE_STUDENTS
+        } from "./actionTypes"
 import {
     getStudentsStatsSuccess, getStudentsStatsFailure,
     getStudentDetailsSuccess, getStudentDetailsFailure,
     getAllStudentsSuccess, getAllStudentsFailure,
-    getStudentNewOrWaitingStatusSucces, getStudentNewOrWaitingStatusFailure
+    getStudentNewOrWaitingStatusSuccess, getStudentNewOrWaitingStatusFailure,
+    getActiveStudentsSuccess,getActiveStudentsFailure
 } from "./actions"
 
 //Include Both Helper File with needed methods
-import { getStudentsStats, getStudent , getAllStudents , getStudentOfStatusNewOrWaiting } from "../../../helpers/backend-helpers";
+import { getStudentsStats, getStudent , getAllStudents ,
+     getStudentOfStatusNewOrWaiting ,getActiveStudents} from "../../../helpers/backend-helpers";
 
 
 function* getStudentsStatsHttp() {
@@ -44,11 +48,15 @@ function* getStudentDetailsHttp({ payload }) {
     }
 }
 
-function* getAllStudentsHttp() {
+function* getAllStudentsHttp({payload:data}) {
     try {
-        const response = yield call(getAllStudents);
+        const response = yield call(getAllStudents,data);
         if (response) {
-            yield put(getAllStudentsSuccess(response))
+            let res = {
+                "res":response,
+                "page":data.page
+            }
+            yield put(getAllStudentsSuccess(res))
             return;
         }
         throw "Unknown response received from Server";
@@ -58,17 +66,39 @@ function* getAllStudentsHttp() {
     }
 }
 
-function* getStudentsNewOrWaitingStatusHttp() {
+function* getStudentsNewOrWaitingStatusHttp({payload:data}) {
     try {
-        const response = yield call(getStudentOfStatusNewOrWaiting);
+        const response = yield call(getStudentOfStatusNewOrWaiting, data);
         if (response) {
-            yield put(getStudentNewOrWaitingStatusSucces(response))
+            let res = {
+                "res":response,
+                "page":data.page
+            }
+            yield put(getStudentNewOrWaitingStatusSuccess(res))
             return;
         }
         throw "Unknown response received from Server";
 
     } catch (error) {
         yield put(getStudentNewOrWaitingStatusFailure(error.message ? error.message : error))
+    }
+}
+
+function* getActiveStudentsHttp({payload:data}) {
+    try {
+        const response = yield call(getActiveStudents,data);
+        if (response) {
+            let res = {
+                "res":response,
+                "page":data.page
+            }
+            yield put(getActiveStudentsSuccess(res))
+            return;
+        }
+        throw "Unknown response received from Server";
+
+    } catch (error) {
+        yield put(getActiveStudentsFailure(error.message ? error.message : error))
     }
 }
 
@@ -79,6 +109,7 @@ function* StudentsSaga() {
     yield takeEvery(GET_STUDENT_DETAILS, getStudentDetailsHttp)
     yield takeEvery(GET_ALL_STUDENTS, getAllStudentsHttp)
     yield takeEvery(GET_STUDENT_NEW_OR_WAITING_STATUS, getStudentsNewOrWaitingStatusHttp)
+    yield takeEvery(GET_ACTIVE_STUDENTS, getActiveStudentsHttp)
 }
 
 export default StudentsSaga

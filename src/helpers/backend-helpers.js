@@ -1,4 +1,4 @@
-import { post, del, get, put, postForm, putForm } from "./api_helper"
+import { post, del, get, put, postForm, putForm, GetUrlWithPagingParams } from "./api_helper"
 import * as  url from "./url_helper"
 
 
@@ -54,10 +54,10 @@ export const updatePassword = (id, data) => put(url.UPDATE_PASSWORD(id), data);
 
 //Teacher 
 export const getTeachersStats = () => get(url.GET_TEACHERS_STATS)
-export const getAllTeachers  = (search) => {
-  let endpoint = url.GET_TEACHERS;
-  if(search) endpoint +=  `?name=${search}`  
-  return get(endpoint)
+export const getAllTeachers  = (params) => {
+  let endUrl = GetUrlWithPagingParams(url.GET_TEACHERS,params)
+  if(params.search) endUrl +=  `&name=${params.search}` 
+  return get(endUrl)
 }
 export const getTeacher = (teacherId) => get(url.TEACHER(teacherId))
 export const getTeacherStudents = (teacherId) => get(url.GET_TEACHER_STUDENTS(teacherId))
@@ -67,9 +67,27 @@ export const putTeacherPaymentPlan = (teacherId,data) => put(url.UPDATE_TEACHER_
 
 //Student 
 export const getStudentsStats = () => get(url.GET_STUDENTS_STATS)
-export const getAllStudents = () => get(url.GET_STUDENTS)
+// export const getAllStudents = () => get(url.GET_STUDENTS)
+export const getAllStudents = (params) => {
+  let endUrl = GetUrlWithPagingParams(url.GET_STUDENTS,params)
+  if(params.search) endUrl +=  `&name=${params.search}` 
+  return get(endUrl)
+}
 export const getStudent = (studentId) => get(url.STUDENT(studentId))
-export const getStudentOfStatusNewOrWaiting = () => get(url.GET_STUDENTS_BY_NEW_OR_WAITING_STATUS)
+// export const getStudentOfStatusNewOrWaiting = () => get(url.GET_STUDENTS_BY_NEW_OR_WAITING_STATUS)
+export const getStudentOfStatusNewOrWaiting = (params) => {
+  let endUrl = GetUrlWithPagingParams(url.GET_STUDENTS_BY_NEW_OR_WAITING_STATUS,params)
+  if(params.search) endUrl +=  `&name=${params.search}` 
+  let endPoint = endUrl+'&isActiveStudent=false'
+  return get(endPoint)
+}
+
+export const getActiveStudents = (params) => {
+  let endUrl = GetUrlWithPagingParams(url.GET_STUDENTS_BY_NEW_OR_WAITING_STATUS,params)
+  if(params.search) endUrl +=  `&name=${params.search}` 
+  let endPoint = endUrl+'&isActiveStudent=true'
+  return get(endPoint)
+}
 
 //Assign
 export const postAssignTeacher = data => post(url.ASSIGN_UNASSIGN_TEACHER,data)

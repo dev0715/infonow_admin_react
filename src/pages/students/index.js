@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // ** React Imports
 import { Fragment } from 'react'
 
 // ** Third Party Components
 import {
-    Card, CardBody, Row, Col,
+    Card, CardBody, Row, Col, Label, Input, Button
 } from 'reactstrap'
 
-
+import { RefreshCcw } from 'react-feather';
 // ** Store & Actions
 import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router';
 import {
-    getStudentsStats
+    getStudentsStats,  onSearchChange,getActiveStudents
 } from './store/actions'
 
 import { useTranslation } from 'react-i18next'
@@ -27,20 +27,37 @@ import './style.scss'
 import NotFound from '../../components/not-found';
 import NoNetwork from '../../components/no-network';
 import StudentList from './student-list';
+import CustomPagination from '../pagination';
 
 const ActiveStudents = (props) => {
 
-    const { studentStats,
-        studentStatsError,
-        studentStatsLoading, } = props
-  
-    // console.log("CHECK b ==>", useTranslation());
-    const { t } = useTranslation()
-    // console.log("CHECK a ==>", t);
+    const { studentListData, studentStats,
+        studentStatsError, studentStatsLoading,
+        activeStudents, activeStudentsLoading,activeStudentsError,
+       } = props
 
+    const [searchValue, setSearchValue] = useState()
+    const [studentList, setStudentList] = useState([])
+    const [pagesCount, setPagesCount] = useState(0)
+
+    const { t } = useTranslation()
     useEffect(() => {
         props.getStudentsStats()
     }, [])
+
+    useEffect(() => {
+        if (studentStats && studentStats.students && studentStats.students.data) setStudentList(studentStats.students.data)
+    }, [studentStats])
+
+    useEffect(() => {
+        console.log("CHECK DATA", activeStudents);
+        if (activeStudents && activeStudents.data) setStudentList(activeStudents.data)
+        if (activeStudents && activeStudents.pages) setPagesCount(activeStudents.count)
+    }, [activeStudents])
+
+    useEffect(() => {
+        props.onSearchChange()
+    }, [searchValue])
 
     const onSelect = (student) => {
         props.history.push({
@@ -53,12 +70,25 @@ const ActiveStudents = (props) => {
         props.history.push(`/student-history/${id}`)
     }
 
+    const onSelectPage = (page) => {
+        if (studentListData[page]) setStudentList(studentListData[page])
+        else { fetchStudentList(page) }
+    }
+
+    const searchStudentByName = () => {
+        fetchStudentList(1)
+    }
+
+    const fetchStudentList = (page) => {
+        let data = { page: page, limit: 20, search: searchValue }
+        props.getActiveStudents(data)
+    }
 
 
     return (
         <Fragment >
             <UILoader
-                blocking={props.studentsLoading}
+                blocking={props.allStudentsLoading || props.studentStatsLoading}
             >
                 <Card>
                     <CardBody >
@@ -96,6 +126,23 @@ const ActiveStudents = (props) => {
                             </Col>
                         </Row>
 
+                        <Row className=' mx-0 mt-1 mb-50'>
+                            <Col className=' d-flex align-items-center justify-content-sm-end mt-sm-0 mt-1' sm='12'>
+                                <Label className='mr-1' for='search-input'>
+                                    {t('Search')}
+                                </Label>
+                                <Input
+                                    className='dataTable-filter'
+                                    type='text'
+                                    bsSize='sm'
+                                    id='search-input'
+                                    value={searchValue}
+                                    onChange={e => { setSearchValue(e.target.value) }}
+                                />
+                                <Button.Ripple className="btn-icon ml-1" size="sm" onClick={searchStudentByName}><RefreshCcw size={14} /></Button.Ripple>
+                            </Col>
+                        </Row>
+
                         <div className="shadow-stats-item mt-3">
                             {
                                 !studentStatsLoading &&
@@ -115,16 +162,20 @@ const ActiveStudents = (props) => {
                             {
                                 !studentStatsLoading &&
                                 !studentStatsError &&
-                                studentStats.students &&
-                                studentStats.students.data &&
-                                studentStats.students.data.length > 0 &&
+                                studentList.length > 0 &&
 
                                 <StudentList
                                     isNew={false}
-                                    dataList={studentStats.students.data}
+                                    dataList={studentList}
                                     handleViewStudent={handleViewStudent}
                                 />
                             }
+                            {
+                                studentList.length > 0 &&
+                                <CustomPagination pages={Math.ceil(pagesCount / 20)} onSelect={onSelectPage} />
+                            }
+
+
                         </div>
                     </CardBody>
                 </Card>
@@ -136,21 +187,33 @@ const ActiveStudents = (props) => {
 const mapStateToProps = (state) => {
 
     const {
+        studentListData,
         studentStats,
         studentStatsError,
         studentStatsLoading,
+
+        activeStudents,
+        activeStudentsLoading,
+        activeStudentsError,
 
     } = state.Students
 
     return {
+        studentListData,
         studentStats,
         studentStatsError,
         studentStatsLoading,
+
+        activeStudents,
+        activeStudentsLoading,
+        activeStudentsError,
     }
 }
 
 export default withRouter(
     connect(mapStateToProps, {
-        getStudentsStats
+        getStudentsStats,
+        onSearchChange,
+        getActiveStudents
     })(ActiveStudents)
 )

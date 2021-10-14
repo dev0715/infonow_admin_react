@@ -4,8 +4,9 @@ import Backend from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import translationEN from '../assets/data/locales/en.json'
 import translationRO from '../assets/data/locales/ro.json'
+import { getLocalizedLang } from '../helpers/HelperFunctions';
 
-const fallbackLng = ['ro'];
+const fallbackLng = getLocalizedLang()
 const availableLanguages = ['en', 'ro'];
 
 const resources = {

@@ -62,14 +62,18 @@ export default [
     id: 'customer-service',
     title: 'Customer Service',
     icon: <i className="las la-thumbs-up" />,
-    navLink: '/customer-service',
+    navLink: 'https://support.infonow.ro/scp/login.php',
+    newTab: true,
+    externalLink: true,
     accessToAdmin: true
   },
   {
     id: 'cms',
     title: 'CMS',
     icon: <i className="las la-columns" />,
-    navLink: '/cms',
+    navLink: 'https://cms.infonow.ro/admin',
+    newTab: true,
+    externalLink: true,
     accessToAdmin: true
   },
   {
