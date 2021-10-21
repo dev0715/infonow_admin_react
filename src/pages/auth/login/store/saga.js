@@ -5,14 +5,14 @@ import { LOGIN_USER, LOGOUT_USER } from "./actionTypes"
 import { loginError, loginSuccess } from "./actions"
 
 //Include Both Helper File with needed methods
-import { postStudentLogin } from "../../../../helpers/backend-helpers";
+import { postUserLogin } from "../../../../helpers/backend-helpers";
 
 import { resetAPIAuthToken } from "../../../../helpers/api_helper";
 
 
 function* loginUser({ payload: { user, history } }) {
     try {
-        const response = yield call(postStudentLogin, user);
+        const response = yield call(postUserLogin, user);
         if (response.user) {
             response.user = { ...response.user, userType: user.userType }
             localStorage.setItem("authUser", JSON.stringify(response.user))

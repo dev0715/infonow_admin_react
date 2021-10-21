@@ -27,6 +27,31 @@ const Routes = [
     }
   },
   {
+    path: '/admins',
+    exact: true,
+    className: 'teachers-application',
+    component: lazy(() => import('../../pages/admins')),
+    meta: {
+      accessToAdmin: true
+    }
+  },
+  {
+    path: '/register-admin',
+    exact: true,
+    component: lazy(() => import('../../pages/admins/register-admin')),
+    meta: {
+      accessToAdmin: true
+    }
+  },
+  {
+    path: '/edit-user-profile/:userId',
+    exact: true,
+    component: lazy(() => import('../../pages/users-profile/edit-profile-user')),
+    meta: {
+      accessToAdmin: true
+    }
+  },
+  {
     path: '/teachers',
     exact: true,
     className: 'teachers-application',

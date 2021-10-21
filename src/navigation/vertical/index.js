@@ -15,6 +15,13 @@ export default [
     accessToAdmin: true
   },
   {
+    id: 'admins',
+    title: 'Admins',
+    icon: <i className="la la-user" />,
+    navLink: '/admins',
+    accessToAdmin: true
+  },
+  {
     id: 'teachers',
     title: 'Teachers',
     icon: <i className="la la-user" />,

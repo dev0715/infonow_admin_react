@@ -41,7 +41,11 @@ export const postCommentOnBlog = (data) => post(url.COMMENT_ON_BLOG, data)
 export const uploadBlogImage = (data, options) => postForm(url.UPLOAD_BLOG_IMAGE_URL, data, options);
 
 // Admin Actions
-export const postStudentLogin = data => post(url.POST_STUDENT_LOGIN, data);
+export const postUserLogin = data =>{
+  let userType = data.userType
+   data.userType = undefined
+  return post(`${url.POST_USER_LOGIN}/${userType}`, data);
+} 
 export const forgotAccountPassword = data => post(url.FORGOT_PASSWORD, data);
 export const resetAccountPassword = data => post(url.RESET_PASSWORD, data);
 
@@ -52,6 +56,17 @@ export const updateProfileData = (id, data) => put(url.UPDATE_PROFILE_DATA(id), 
 export const uploadProfilePicture = (id, data) => postForm(url.UPLOAD_PROFILE_PICTURE(id), data);
 export const updatePassword = (id, data) => put(url.UPDATE_PASSWORD(id), data);
 
+//Admins 
+export const getAllAdmins  = (params) => {
+  let endUrl = GetUrlWithPagingParams(url.GET_ADMINS,params)
+  if(params.search) endUrl +=  `&name=${params.search}` 
+  return get(endUrl)
+}
+export const getAdminDetail = (adminId) => get(url.ADMIN_DETAIL(adminId))
+export const registerAdmin = (data) => post(url.REGISTER_ADMIN,data)
+export const putAdminProfile = (data) => put(url.UPDATE_ADMIN_PROFILE(data.userId),data)
+export const uploadAdminProfilePicture = (userId, data) => postForm(url.POST_ADMIN_PROFILE_PICTURE(userId), data);
+
 //Teacher 
 export const getTeachersStats = () => get(url.GET_TEACHERS_STATS)
 export const getAllTeachers  = (params) => {
@@ -59,6 +74,8 @@ export const getAllTeachers  = (params) => {
   if(params.search) endUrl +=  `&name=${params.search}` 
   return get(endUrl)
 }
+export const putTeacherProfile = (data) => put(url.UPDATE_TEACHER_PROFILE(data.userId),data)
+export const uploadTeacherProfilePicture = (userId, data) => postForm(url.POST_TEACHER_PROFILE_PICTUTRE(userId), data);
 export const getTeacher = (teacherId) => get(url.TEACHER(teacherId))
 export const getTeacherStudents = (teacherId) => get(url.GET_TEACHER_STUDENTS(teacherId))
 export const getTeacherPaymentPlan = (teacherId) => get(url.GET_TEACHER_PAYMENT_PLAN(teacherId))
@@ -73,6 +90,9 @@ export const getAllStudents = (params) => {
   if(params.search) endUrl +=  `&name=${params.search}` 
   return get(endUrl)
 }
+
+export const putStudentProfile = (data) => put(url.UPDATE_STUDENT_PROFILE(data.userId),data)
+export const uploadStudentProfilePicture = (userId, data) => postForm(url.POST_STUDENT_PROFILE_PICTURE(userId), data);
 export const getStudent = (studentId) => get(url.STUDENT(studentId))
 // export const getStudentOfStatusNewOrWaiting = () => get(url.GET_STUDENTS_BY_NEW_OR_WAITING_STATUS)
 export const getStudentOfStatusNewOrWaiting = (params) => {
@@ -100,3 +120,6 @@ export const getEbooks = () => get(url.GET_EBOOKS)
 
 //Counties
 export const getCounties = () => get(url.GET_COUNTIES)
+
+//Super-Admin
+export const updateUserPassword = (data) => put(url.UPDATE_USER_PASSWORD(data.userId), data)

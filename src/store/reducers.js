@@ -14,6 +14,8 @@ import Students from './../pages/students/store/reducer'
 import History from './../pages/history-profile/store/reducer'
 import Assign from './../pages/assign/store/reducer'
 import Ebook from './../pages/ebook/store/reducer'
+import Admins from './../pages/admins/store/reducer'
+import UsersProfile from './../pages/users-profile/store/reducer'
 
 const rootReducer = combineReducers({
 
@@ -30,6 +32,8 @@ const rootReducer = combineReducers({
   History,
   Assign,
   Ebook,
+  Admins,
+  UsersProfile,
 });
 
 export default rootReducer;

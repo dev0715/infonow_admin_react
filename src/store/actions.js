@@ -36,3 +36,9 @@ export * from './../pages/assign/store/actions'
 
 //Ebook
 export * from './../pages/ebook/store/actions'
+
+//Admins
+export * from './../pages/admins/store/actions'
+
+//Users-Profile
+export * from './../pages/users-profile/store/actions'
