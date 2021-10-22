@@ -50,7 +50,6 @@ const ActiveStudents = (props) => {
     }, [studentStats])
 
     useEffect(() => {
-        console.log("CHECK DATA", activeStudents);
         if (activeStudents && activeStudents.data) setStudentList(activeStudents.data)
         if (activeStudents && activeStudents.pages) setPagesCount(activeStudents.count)
     }, [activeStudents])
@@ -66,8 +65,11 @@ const ActiveStudents = (props) => {
         })
     }
 
-    const handleViewStudent = (id) => {
-        props.history.push(`/student-history/${id}`)
+    const handleViewStudent = (student) => {
+        props.history.push({
+            pathname:`/student-history/${student.userId}`,
+            state:{user:student}
+        })
     }
 
     const onSelectPage = (page) => {

@@ -41,8 +41,11 @@ const Teachers = (props) => {
         allTeachersLoading, allTeachersError, } = props
     const [teachersList, setTeachersList] = useState([])
 
-    const handleViewTeacher = (id) => {
-        props.history.push(`/teacher-history/${id}`)
+    const handleViewTeacher = (teacher) => {
+        props.history.push({
+            pathname:`/teacher-history/${teacher.userId}`,
+            state:{user:teacher}
+        })
     }
 
     const onSelect = (student) => {
@@ -184,7 +187,7 @@ const Teachers = (props) => {
                                                     </td>
                                                     <td>{te.email}</td>
                                                     <td><DateTime dateTime={te.createdAt} type="dateTime" /></td>
-                                                    <td><Button color="flat-primary" onClick={() => handleViewTeacher(te.userId)}>{t('View')}</Button></td>
+                                                    <td><Button color="flat-primary" onClick={() => handleViewTeacher(te)}>{t('View')}</Button></td>
                                                     <td><Button color="flat-primary" onClick={() => onSelect(te)}>{t('Unassign')}</Button></td>
                                                 </tr>
                                             )}

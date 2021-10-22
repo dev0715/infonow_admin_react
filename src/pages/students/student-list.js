@@ -13,8 +13,8 @@ const StudentList = (props) => {
         props.onSelect(student)
     }
 
-    const handleViewStudent = (id) => {
-        props.handleViewStudent(id)
+    const handleViewStudent = (student) => {
+        props.handleViewStudent(student)
     }
 
    
@@ -45,7 +45,7 @@ const StudentList = (props) => {
                                 </td>
                                 <td>{s.email}</td>
                                 <td><DateTime dateTime={s.createdAt} type="dateTime" /></td>
-                                <td><Button color="flat-primary" onClick={() => handleViewStudent(s.userId)}>{t('View')}</Button></td>
+                                <td><Button color="flat-primary" onClick={() => handleViewStudent(s)}>{t('View')}</Button></td>
                                 <td><Button color="flat-primary" onClick={() => onSelect(s)}>{t('Assign')}</Button></td>
                             </tr>
                         )}

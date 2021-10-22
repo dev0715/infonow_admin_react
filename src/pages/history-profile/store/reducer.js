@@ -49,14 +49,14 @@ const initialState = {
 const historyReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_TEACHER_HISTORY_STATS:
-      return { ...state, teacherHistoryLoading: true }
+      return { ...state, teacherHistoryLoading: true , teacherHistory:{} }
     case GET_TEACHER_HISTORY_STATS_SUCCESS:
       return { ...state, teacherHistoryLoading: false, teacherHistory: action.payload }
     case GET_TEACHER_HISTORY_STATS_FAILURE:
       return { ...state, teacherHistoryLoading: false, teacherHistoryError: action.payload }
 
     case GET_STUDENT_HISTORY_STATS:
-      return { ...state, studentHistoryLoading: true }
+      return { ...state, studentHistoryLoading: true ,studentHistory:{}}
     case GET_STUDENT_HISTORY_STATS_SUCCESS:
       return { ...state, studentHistoryLoading: false, studentHistory: action.payload }
     case GET_STUDENT_HISTORY_STATS_FAILURE:

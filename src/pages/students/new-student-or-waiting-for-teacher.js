@@ -58,8 +58,11 @@ const NewStudentsOrWaitingForTeachers = (props) => {
         if (waitingOrNewStudents && waitingOrNewStudents.data) setStudentList(waitingOrNewStudents.data)
     }, [waitingOrNewStudents])
 
-    const handleViewStudent = (id) => {
-        props.history.push(`/student-history/${id}`)
+    const handleViewStudent = (student) => {
+        props.history.push({
+            pathname:`/student-history/${student.userId}`,
+            state:{user:student}
+        })
     }
 
     const onSelect = (student) => {

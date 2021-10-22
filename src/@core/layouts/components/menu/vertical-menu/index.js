@@ -13,17 +13,20 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import VerticalMenuHeader from './VerticalMenuHeader'
 import VerticalNavMenuItems from './VerticalNavMenuItems'
 import { useTranslation } from 'react-i18next';
+import { getLoggedInUser } from '../../../../../helpers/backend-helpers';
 
 const Sidebar = props => {
   // ** Props
+  const user = getLoggedInUser()
   const { menuCollapsed, routerProps, menu, currentActiveItem, skin } = props
   const {t} = useTranslation();
-  const translatedMenu = navigation.map(x=>{
+  let translatedMenu = navigation.map(x=> {
     return {
       ...x,
       title: t(x.title)
     }
   })
+ translatedMenu = user.role.roleName != 'Super Admin' ? translatedMenu.filter(t => (t.id != 'admins')) : translatedMenu
   // ** States
   const [groupOpen, setGroupOpen] = useState([])
   const [groupActive, setGroupActive] = useState([])
