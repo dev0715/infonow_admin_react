@@ -24,7 +24,7 @@ const InfoTabContent = (props) => {
 
   const {t} = useTranslation()
 
-  const linkedInRegex = /^https:\/\/[a-z]{2,3}\.linkedin\.com\/.*$/
+  const linkedInRegex = /^https:\/\/?(?:www.)?\.linkedin\.com\/.*$/
   const facebookRegex = /(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\-]*)?/
   const githubRegex = /^(http(s)?:\/\/)?(www\.)?github\.com\/(?!-)(?:[A-z0-9-]){1,39}[^-]\/?$/
   const twitterRegex = /^(http(s)?:\/\/)?(www\.)?twitter\.com\/[A-z 0-9 _]{1,15}\/?$/

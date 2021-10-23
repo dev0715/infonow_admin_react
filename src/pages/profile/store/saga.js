@@ -28,7 +28,10 @@ import {
   uploadProfilePicture,
   updatePassword,
   getLoggedInUser,
-  getCounties
+  getCounties,
+  updateSuperAdminProfileData,
+  uploadSuperAdminProfilePicture,
+  updateSuperAdminPassword,
 
 } from "../../../helpers/backend-helpers"
 
@@ -36,7 +39,10 @@ import {
 function* updatePasswordHttp({ payload }) {
   try {
     let user = getLoggedInUser() || {}
-    const response = yield call(updatePassword, user.userId, payload);
+    let response
+    user.role.roleName == 'Admin' 
+    ? response = yield call(updatePassword, user.userId, payload)
+    : response = yield call(updateSuperAdminPassword, user.userId, payload);
     if (response) {
       yield put(updatePasswordSuccess(response))
       return;
@@ -51,7 +57,10 @@ function* updatePasswordHttp({ payload }) {
 function* uploadProfilePictureHttp({ payload }) {
   try {
     let user = getLoggedInUser() || {}
-    const response = yield call(uploadProfilePicture, user.userId, payload);
+    let response
+    user.role.roleName == 'Admin' 
+    ? response = yield call(uploadProfilePicture, user.userId, payload)
+    : response = yield call(uploadSuperAdminProfilePicture, user.userId, payload);
     if (response) {
       yield put(uploadProfilePictureSuccess(response))
       return;
@@ -66,8 +75,10 @@ function* uploadProfilePictureHttp({ payload }) {
 function* updateProfileDataHttp({ payload }) {
   try {
     let user = getLoggedInUser() || {}
-    console.log("data", payload)
-    const response = yield call(updateProfileData, user.userId, payload);
+    let response
+    user.role.roleName == 'Admin' 
+    ? response = yield call(updateProfileData, user.userId, payload)
+    : response = yield call(updateSuperAdminProfileData, user.userId, payload);
     if (response) {
       yield put(updateProfileDataSuccess(response))
       return;

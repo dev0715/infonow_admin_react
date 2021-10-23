@@ -1,17 +1,17 @@
 
-// export const BASE_URL = `http://192.168.10.102:3600`
-// export const DOCUMENT_BASE_URL = `${BASE_URL}/public`
-// export const MEETING_API_URL = `http://192.168.10.104:3900`
-// export const CHAT_API_URL = `http://192.168.10.104:3700`
-// export const CHAT_SOCKET_API_URL = `http://192.168.10.104:3701`
-// export const BLOG_API_URL = `http://192.168.10.102:1337`
-
-export const BASE_URL = `https://api.infonow.ro`
+export const BASE_URL = `http://192.168.10.102:3600`
 export const DOCUMENT_BASE_URL = `${BASE_URL}/public`
-export const MEETING_API_URL = `https://meet.infonow.ro/api`
-export const CHAT_API_URL = `https://chat.infonow.ro/`
-export const CHAT_SOCKET_API_URL = `https://live-chat.infonow.ro/`
-export const BLOG_API_URL = `https://cms.infonow.ro/`
+export const MEETING_API_URL = `http://192.168.10.104:3900`
+export const CHAT_API_URL = `http://192.168.10.104:3700`
+export const CHAT_SOCKET_API_URL = `http://192.168.10.104:3701`
+export const BLOG_API_URL = `http://192.168.10.102:1337`
+
+// export const BASE_URL = `https://api.infonow.ro`
+// export const DOCUMENT_BASE_URL = `${BASE_URL}/public`
+// export const MEETING_API_URL = `https://meet.infonow.ro/api`
+// export const CHAT_API_URL = `https://chat.infonow.ro/`
+// export const CHAT_SOCKET_API_URL = `https://live-chat.infonow.ro/`
+// export const BLOG_API_URL = `https://cms.infonow.ro/`
 
 export const GET_IMAGE_URL = url => url ? DOCUMENT_BASE_URL + url : DOCUMENT_BASE_URL + "/profile-pictures/default.png"
 export const GET_BLOG_IMAGE_URL = url => BLOG_API_URL + url
@@ -40,6 +40,10 @@ export const COMMENT_ON_BLOG = `${BASE_URL}/api/v1/strapi/comments`
 
 export const UPLOAD_BLOG_IMAGE_URL = `${BASE_URL}/api/v1/strapi/uploads`;
 
+//Super Admin Profile
+export const UPDATE_SUPER_ADMIN_PROFILE_DATA = id => `${BASE_URL}/api/v1/super-admin/${id}/profile`
+export const UPLOAD_SUPER_ADMIN_PROFILE_PICTURE = id => `${BASE_URL}/api/v1/super-admin/${id}/profile-picture`
+export const UPDATE_SUPER_ADMIN_PASSWORD = id => `${BASE_URL}/api/v1/super-admin/${id}/password`
 
 //Profile
 export const UPDATE_PROFILE_DATA = id => `${BASE_URL}/api/v1/admins/${id}/profile`

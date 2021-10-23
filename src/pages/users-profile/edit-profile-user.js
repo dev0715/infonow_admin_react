@@ -65,7 +65,7 @@ const EditProfileUser = (props) => {
   const [county, setCounty] = useState(selectedUser.county || "");
   const [country, setCountry] = useState("Romania");
   const [address, setAddress] = useState(selectedUser.address || "");
-  const [about, setAbout] = useState(selectedUser.about);
+  const [about, setAbout] = useState(selectedUser.about || "");
   const [file, setFile] = useState(null);
   const [cities, setCities] = useState([]);
 

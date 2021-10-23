@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { Link } from 'react-router-dom'
 import Select from 'react-select'
 import { selectThemeColors } from '@utils'
 
 // ** Custom Components
+import { Edit3 } from 'react-feather';
 import Avatar from '@components/avatar'
 import { PhoneCall, GitHub, Facebook, Linkedin, Twitter } from 'react-feather'
 import { GET_IMAGE_URL } from '../../helpers/url_helper';
@@ -40,8 +42,6 @@ const ProfileDetail = (props) => {
         }
         if (updateOrCreateSubscribtion)
             updateOrCreateSubscribtion(data)
-
-
     }
 
     useEffect(() => {
@@ -54,9 +54,6 @@ const ProfileDetail = (props) => {
 
         }
     }, [paymentPlan])
-
-
-
 
     const planDurationChange = (e) => {
         if (e.value == '1 Week') setPlanDurationInDays(7)
@@ -100,6 +97,15 @@ const ProfileDetail = (props) => {
         )
     }
 
+    const viewOrEditUser = (u) => {
+        console.log("USE", u);
+        let userType = isTeacher ? 'Teacher' : 'Student'
+        props.history.push({
+          pathname:`/edit-user-profile/${u.userId}`,
+          state:{user:u , userType}
+        })
+      };
+
     return (
         <Card>
 
@@ -114,8 +120,9 @@ const ProfileDetail = (props) => {
                             />
                         </div>
                         <h5 className="mt-2 mb-0">
-                            {user.name}
+                            {user.name}  <Edit3 size={16} onClick={e => viewOrEditUser(user)}/>
                         </h5>
+                       
                         <Link color="primary" to={'#'} >
                             <small>{user.email}</small>
                         </Link>
@@ -219,10 +226,8 @@ const ProfileDetail = (props) => {
     );
 };
 
-
-
-
-export default ProfileDetail;
+export default withRouter((ProfileDetail));
+  
 
 
 

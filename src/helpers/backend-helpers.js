@@ -49,6 +49,11 @@ export const postUserLogin = data =>{
 export const forgotAccountPassword = data => post(url.FORGOT_PASSWORD, data);
 export const resetAccountPassword = data => post(url.RESET_PASSWORD, data);
 
+//Super Admin Profile
+
+export const updateSuperAdminProfileData = (id, data) => put(url.UPDATE_SUPER_ADMIN_PROFILE_DATA(id), data);
+export const uploadSuperAdminProfilePicture = (id, data) => postForm(url.UPLOAD_SUPER_ADMIN_PROFILE_PICTURE(id), data);
+export const updateSuperAdminPassword = (id, data) => put(url.UPDATE_SUPER_ADMIN_PASSWORD(id), data);
 
 //Profile
 
