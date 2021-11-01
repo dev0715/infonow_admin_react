@@ -31,7 +31,6 @@ import {
 
   function* unAssignTeacherHttp({payload:{data}}) {
     try {
-      console.log("SAGA ==>", data);
       const response = yield call(deleteAssignTeacher , data);
       if (response) {
         yield put(unassignTeacherSuccess(response))

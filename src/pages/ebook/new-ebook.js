@@ -25,6 +25,7 @@ const CreateEbook = (props) => {
 
     const [title, setTitle] = useState()
     const [description, setDescription] = useState()
+    const [price, setPrice] = useState()
     const [currentType, setCurrentType] = useState()
 
     const [selectedImage, setSelectedImage] = useState()
@@ -87,21 +88,30 @@ const CreateEbook = (props) => {
 
 
     const AddEbook = async () => {
-        const fd = new FormData();
-
+        
+        if(!coverImage){errorAlertDialog('Please select a cover Image'); return}
+        if(!previewImage){errorAlertDialog('Please select a preview Image'); return}
+        if(!bookFile){errorAlertDialog('Please select a book file'); return}
+        if(!title){errorAlertDialog('Please enter book title'); return}
+        if(!description){errorAlertDialog('Please enter book description'); return}
+        if(!price){errorAlertDialog('Please enter book price'); return}
+        
         var coverBlobData = await fetch(coverImage)
         var coverBlob = await coverBlobData.blob()
         var fileOfCoverBlob = new File([coverBlob], coverFile.name);
-
+        
         var previewBlobData = await fetch(previewImage)
         var previewBlob = await previewBlobData.blob()
         var fileOfPreviewBlob = new File([previewBlob], previewFile.name);
-
+        
         if (fileOfCoverBlob) fd.append(`coverImage`, fileOfCoverBlob, fileOfCoverBlob.name);
         if (fileOfPreviewBlob) fd.append(`previewImage`, fileOfPreviewBlob, fileOfPreviewBlob.name);
         if (bookFile) fd.append(`bookUrl`, bookFile, bookFile.name);
+        const fd = new FormData();
         fd.append(`title`, title);
         fd.append(`description`, description);
+        fd.append(`price`, price);
+        fd.append(`priceInCents`, price*100);
 
         props.postEbook(fd)
     }
@@ -122,17 +132,24 @@ const CreateEbook = (props) => {
                             <Form className='mt-2' onSubmit={e => e.preventDefault()}>
                                 <Row>
 
-                                    <Col md='6'>
+                                    <Col md='4'>
                                         <FormGroup className='mb-2'>
                                             <Label for='blog-edit-title'>{t('Title')}</Label>
-                                            <Input id='blog-edit-title' value={title} onChange={e => setTitle(e.target.value)} />
+                                            <Input id='blog-edit-title' value={title} onChange={e => setTitle(e.target.value)}/>
                                         </FormGroup>
                                     </Col>
 
-                                    <Col md='6'>
+                                    <Col md='4'>
                                         <FormGroup className='mb-2'>
                                             <Label for='blog-edit-title'>{t('Description')}</Label>
-                                            <Input id='blog-edit-title' value={description} onChange={e => setDescription(e.target.value)} />
+                                            <Input id='blog-edit-title' value={description} onChange={e => setDescription(e.target.value)}/>
+                                        </FormGroup>
+                                    </Col>
+
+                                    <Col md='4'>
+                                        <FormGroup className='mb-2'>
+                                            <Label for='blog-edit-title'>{t('Price')}</Label>
+                                            <Input type="number" id='blog-edit-title' value={price} onChange={e => setPrice(e.target.value)}/>
                                         </FormGroup>
                                     </Col>
                                 </Row>

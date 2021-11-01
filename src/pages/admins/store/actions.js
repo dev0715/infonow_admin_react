@@ -55,7 +55,6 @@ export const getAdminDetailFailure = (error) => {
 }
 
 export const registerAdmin =(data)=>{
-  console.log("data",data);
   return {
     type:REGISTER_ADMIN,
     payload:data
