@@ -96,6 +96,7 @@ const CreateEbook = (props) => {
         if(!description){errorAlertDialog('Please enter book description'); return}
         if(!price){errorAlertDialog('Please enter book price'); return}
         
+        const fd = new FormData();
         var coverBlobData = await fetch(coverImage)
         var coverBlob = await coverBlobData.blob()
         var fileOfCoverBlob = new File([coverBlob], coverFile.name);
@@ -107,7 +108,6 @@ const CreateEbook = (props) => {
         if (fileOfCoverBlob) fd.append(`coverImage`, fileOfCoverBlob, fileOfCoverBlob.name);
         if (fileOfPreviewBlob) fd.append(`previewImage`, fileOfPreviewBlob, fileOfPreviewBlob.name);
         if (bookFile) fd.append(`bookUrl`, bookFile, bookFile.name);
-        const fd = new FormData();
         fd.append(`title`, title);
         fd.append(`description`, description);
         fd.append(`price`, price);
