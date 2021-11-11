@@ -77,19 +77,16 @@ const Router = () => {
       resource = route.meta.resource ? route.meta.resource : null
     }
     if (!isUserAuthenticated()) {
-      // console.log("CHECK 1", route.meta);
       if (!route.meta) return <Redirect to='/login' />
       if (route.meta.authRoute) return <route.component {...props} />
       return <Redirect to='/login' />
     }
     else if (route.meta && route.meta.authRoute && isUserAuthenticated()) {
       // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
-      // console.log("CHECK 2");
       return <Redirect to='/' />
     }
     else {
       // ** If none of the above render component
-      // console.log("CHECK 3");
 
       return <route.component {...props} />
     }

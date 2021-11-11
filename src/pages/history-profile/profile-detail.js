@@ -98,7 +98,6 @@ const ProfileDetail = (props) => {
     }
 
     const viewOrEditUser = (u) => {
-        console.log("USE", u);
         let userType = isTeacher ? 'Teacher' : 'Student'
         props.history.push({
           pathname:`/edit-user-profile/${u.userId}`,
