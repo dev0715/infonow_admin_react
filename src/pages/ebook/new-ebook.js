@@ -31,11 +31,11 @@ const CreateEbook = (props) => {
     const [selectedImage, setSelectedImage] = useState()
     const [isModalOpen, setIsModalOpen] = useState(false)
 
-    const [coverImage, setCoverImage] = useState(imgPlaceholder)
-    const [coverFile, setCoverFile] = useState(null)
+    const [coverImageThumbnail, setCoverImageThumbnail] = useState(imgPlaceholder)
+    const [coverOrignalFile, setCoverOrignalFile] = useState(null)
 
-    const [previewImage, setPreviewImage] = useState(imgPlaceholder)
-    const [previewFile, setPreviewFile] = useState(null)
+    const [previewImageThumbnail, setPreviewImageThumbnail] = useState(imgPlaceholder)
+    const [previewOrignalFile, setPreviewOrignalFile] = useState(null)
 
     const [bookUrl, setBookUrl] = useState(filePlaceholder)
     const [bookFile, setBookFile] = useState(null)
@@ -57,15 +57,14 @@ const CreateEbook = (props) => {
 
             if (selectedFile == 'cover') {
                 setSelectedImage(reader.result)
-                setCoverFile(files[0])
+                setCoverOrignalFile(files[0])
             }
             else if (selectedFile == 'preview') {
                 setSelectedImage(reader.result)
-                setPreviewFile(files[0])
+                setPreviewOrignalFile(files[0])
             }
 
             else if (selectedFile == 'bookUrl') {
-                setBookUrl(reader.result)
                 setBookFile(files[0])
             }
         }
@@ -74,10 +73,10 @@ const CreateEbook = (props) => {
 
     const onCrop = (type, cropImage) => {
         if (type == 'cover') {
-            setCoverImage(cropImage)
+            setCoverImageThumbnail(cropImage)
         }
         if (type == 'preview') {
-            setPreviewImage(cropImage)
+            setPreviewImageThumbnail(cropImage)
         }
         setSelectedImage(null)
     }
@@ -89,30 +88,30 @@ const CreateEbook = (props) => {
 
     const AddEbook = async () => {
         
-        if(!coverImage){errorAlertDialog('Please select a cover Image'); return}
-        if(!previewImage){errorAlertDialog('Please select a preview Image'); return}
+        if(!coverImageThumbnail){errorAlertDialog('Please select a cover Image'); return}
+        if(!previewImageThumbnail){errorAlertDialog('Please select a preview Image'); return}
         if(!bookFile){errorAlertDialog('Please select a book file'); return}
         if(!title){errorAlertDialog('Please enter book title'); return}
         if(!description){errorAlertDialog('Please enter book description'); return}
         if(!price){errorAlertDialog('Please enter book price'); return}
         
         const fd = new FormData();
-        var coverBlobData = await fetch(coverImage)
+        var coverBlobData = await fetch(coverImageThumbnail)
         var coverBlob = await coverBlobData.blob()
-        var fileOfCoverBlob = new File([coverBlob], coverFile.name);
+        var coverFile = new File([coverBlob], coverOrignalFile.name);
         
-        var previewBlobData = await fetch(previewImage)
+        var previewBlobData = await fetch(previewImageThumbnail)
         var previewBlob = await previewBlobData.blob()
-        var fileOfPreviewBlob = new File([previewBlob], previewFile.name);
+        var previewFile = new File([previewBlob], previewOrignalFile.name);
         
-        if (fileOfCoverBlob) fd.append(`coverImage`, fileOfCoverBlob, fileOfCoverBlob.name);
-        if (fileOfPreviewBlob) fd.append(`previewImage`, fileOfPreviewBlob, fileOfPreviewBlob.name);
+        if (coverFile) fd.append(`coverImage`, coverFile, coverFile.name);
+        if (previewFile) fd.append(`previewImage`, previewFile, previewFile.name);
         if (bookFile) fd.append(`bookUrl`, bookFile, bookFile.name);
         fd.append(`title`, title);
         fd.append(`description`, description);
         fd.append(`price`, price);
         fd.append(`priceInCents`, price*100);
-
+        
         props.postEbook(fd)
     }
 
@@ -157,7 +156,7 @@ const CreateEbook = (props) => {
                                 <Row>
                                     <Col className='mb-2' sm='12' md='6'>
                                         <ImagePickerWithPreview
-                                            Image={coverImage}
+                                            Image={coverImageThumbnail}
                                             type={"cover"}
                                             lblTitle={t("Cover Image")}
                                             acceptType={'.jpg, .png, .jpeg'}
@@ -167,7 +166,7 @@ const CreateEbook = (props) => {
 
                                     <Col className='mb-2' sm='12' md='6'>
                                         <ImagePickerWithPreview
-                                            Image={previewImage}
+                                            Image={previewImageThumbnail}
                                             type={"preview"}
                                             lblTitle={t("Preview Image")}
                                             acceptType={'.jpg, .png,  .jpeg'}

@@ -52,7 +52,7 @@ function* updateAdminProfileHttp({ payload: data }) {
 
 function* updateTeacherProfileHttp({ payload: data }) {
   try {
-    const response = yield call(putStudentProfile, data);
+    const response = yield call(putTeacherProfile, data);
     if (response) {
       yield put(updateTeacherProfileSuccess(response));
       return;
@@ -67,7 +67,7 @@ function* updateTeacherProfileHttp({ payload: data }) {
 
 function* updateStudentProfileHttp({ payload: data }) {
   try {
-    const response = yield call(putTeacherProfile, data);
+    const response = yield call(putStudentProfile, data);
     if (response) {
       yield put(updateStudentProfileSuccess(response));
       return;

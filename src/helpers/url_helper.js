@@ -71,7 +71,7 @@ export const UPDATE_TEACHER_PAYMENT_PLAN = (teacherId) => `${BASE_URL}/api/v1/ad
 //Student 
 export const GET_STUDENTS_STATS = `${BASE_URL}/api/v1/admins/student-stats`
 export const GET_STUDENTS = `${BASE_URL}/api/v1/students`
-export const UPDATE_STUDENT_PROFILE = (studentId) => `${BASE_URL}/api/v1/teachers/${studentId}/profile`
+export const UPDATE_STUDENT_PROFILE = (studentId) => `${BASE_URL}/api/v1/students/${studentId}/profile`
 export const POST_STUDENT_PROFILE_PICTURE = (studentId) => `${BASE_URL}/api/v1/teachers/${studentId}/profile-picture`
 export const STUDENT = (studentId) => `${BASE_URL}/api/v1/students/${studentId}`
 export const GET_STUDENTS_BY_ACTIVE_STATUS = `${BASE_URL}/api/v1/admins/students-by-status`

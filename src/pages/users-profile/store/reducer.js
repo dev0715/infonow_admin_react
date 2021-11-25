@@ -23,9 +23,9 @@ import {
 } from "./actionsTypes";
 
 const initialState = {
-  admin: {},
-  tecaher: {},
-  student: {},
+  admin: null,
+  tecaher: null,
+  student: null,
 
   adminProfileLoading: false,
   adminProfileSuccess: false,

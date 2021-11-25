@@ -37,7 +37,8 @@ import {
 import { useTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { GET_IMAGE_URL } from "../../helpers/url_helper";
-import { notifyError, notifySuccess } from "../../utility/toast";
+import { notifyError, notifyInfo, notifySuccess } from "../../utility/toast";
+import UILoader from "../../@core/components/ui-loader";
 
 const EditProfileUser = (props) => {
 
@@ -54,11 +55,12 @@ const EditProfileUser = (props) => {
   const { register, errors, handleSubmit, trigger } = useForm({
     resolver: yupResolver(UpdatePasswordSchema)
   })
-
+console.log("STATE ==>",props.history.location.state );
   const { user, userType } = props.history.location.state;
   const [selectedUser, setSelectedUser] = useState(user);
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
+  const [storage, setStorage] = useState(0);
   const [avatar, setAvatar] = useState("");
   const [name, setName] = useState(selectedUser.name || "");
   const [city, setCity] = useState(selectedUser.city || "");
@@ -253,16 +255,29 @@ const EditProfileUser = (props) => {
       resetChangePassword()
       notifySuccess(t("Update Password"), t("Password updated successfully"))
     }
-    return ()=> props.updateUserPasswordFailure(null)
+    return () => props.updateUserPasswordFailure(null)
   }, [props.userPasswordSuccess])
 
   useEffect(() => {
     if (props.userPasswordError) {
       notifyError(t("Update Password"), props.userPasswordError)
     }
-    return ()=> props.updateUserPasswordFailure(null)
+    return () => props.updateUserPasswordFailure(null)
   }, [props.userPasswordError])
 
+  useEffect(() => {
+    if(userType == 'Student' && props.student) setSelectedUser(props.student)
+    if(userType == 'Teacher' && props.teacher) setSelectedUser(props.teacher)
+    if(userType == 'Admin' && props.admin) setSelectedUser(props.admin)
+
+  }, [props.teacher, props.student, props.admin])
+
+  
+  const bytesToSize = (bytes, decimals = 2) => {
+    let SIZES = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    for (var i = 0, r = bytes, b = 1024; r > b; i++) r /= b;
+    return `${parseFloat(r.toFixed(decimals))} ${SIZES[i]}`;
+}
   const updateBasicProfile = (e) => {
     e.preventDefault();
     let data = {
@@ -289,10 +304,30 @@ const EditProfileUser = (props) => {
     let confirmPassword = document.getElementById("confirmPassword").value;
     if (!newPassword || newPassword != confirmPassword) return;
     props.updateUserPassword({
-      userId:user.userId,
+      userId: user.userId,
       newPassword,
       confirmPassword,
     });
+  };
+  const onUpdateStorage = (e) => {
+    e.preventDefault();
+    console.log(userType);
+    if(storage <= 0){
+      notifyInfo("Update storage","Please enter storage in Mb's ")
+      return
+   }
+    let data = {
+      userId: selectedUser.userId,
+      role: selectedUser.role,
+      storage:storage
+    };
+    if (userType == "Admin") {
+      props.updateAdminProfile(data);
+    } else if (userType == "Student") {
+      props.updateStudentProfile(data);
+    } else if (userType == "Teacher") {
+      props.updateTeacherProfile(data);
+    }
   };
 
   const resetChangePassword = () => {
@@ -308,6 +343,9 @@ const EditProfileUser = (props) => {
   const countryOptions = [{ value: "Romania", label: "Romania" }];
 
   return (
+    <UILoader blocking= { props.adminProfileLoading  || props.teacherProfileLoading ||
+     props.studentProfileLoading || props.adminProfilePictureLoading ||
+      props.teacherProfilePictureLoading || props.studentProfilePictureLoading || props.userPasswordLoading}>
     <Row>
       <Col sm="12" lg="4" md="6">
         <Card>
@@ -551,54 +589,79 @@ const EditProfileUser = (props) => {
       <Col sm="12" lg="4" md="6">
         <Card>
           <div className="m-2">
-        <Form onSubmit={handleSubmit(onUpdatePassword)}>
-          <Row>
-            <Col >
-              <FormGroup>
-                <InputPasswordToggle
-                  label="New Password"
-                  htmlFor="newPassword"
-                  name="newPassword"
-                  innerRef={register({ required: true })}
-                  className={classnames("input-group-merge", {
-                    "is-invalid": errors["newPassword"],
-                  })}
-                />
-              </FormGroup>
-            </Col>
-          </Row>
-          <Row>
-            <Col >
-              <FormGroup>
-                <InputPasswordToggle
-                  label="Retype New Password"
-                  htmlFor="confirmPassword"
-                  name="confirmPassword"
-                  innerRef={register({ required: true })}
-                  className={classnames("input-group-merge", {
-                    "is-invalid": errors["confirmPassword"],
-                  })}
-                />
-              </FormGroup>
-            </Col>
-            <Col className="mt-1" sm="12">
-              <Button.Ripple type="submit" className="mr-1" color="primary">
-                {t("Save changes")}
-              </Button.Ripple>
-              <Button.Ripple
-                color="secondary"
-                outline
-                onClick={() => resetChangePassword()}
-              >
-                {t("Cancel")}
-              </Button.Ripple>
-            </Col>
-          </Row>
-        </Form>
-        </div>
+            <Form onSubmit={handleSubmit(onUpdatePassword)}>
+              <Row>
+                <Col >
+                  <FormGroup>
+                    <InputPasswordToggle
+                      label="New Password"
+                      htmlFor="newPassword"
+                      name="newPassword"
+                      innerRef={register({ required: true })}
+                      className={classnames("input-group-merge", {
+                        "is-invalid": errors["newPassword"],
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col >
+                  <FormGroup>
+                    <InputPasswordToggle
+                      label="Retype New Password"
+                      htmlFor="confirmPassword"
+                      name="confirmPassword"
+                      innerRef={register({ required: true })}
+                      className={classnames("input-group-merge", {
+                        "is-invalid": errors["confirmPassword"],
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col className="mt-1" sm="12">
+                  <Button.Ripple type="submit" className="mr-1" color="primary">
+                    {t("Save changes")}
+                  </Button.Ripple>
+                  <Button.Ripple
+                    color="secondary"
+                    outline
+                    onClick={() => resetChangePassword()}
+                  >
+                    {t("Cancel")}
+                  </Button.Ripple>
+                </Col>
+              </Row>
+            </Form>
+          </div>
+        </Card>
+
+        <Card >
+          <div className="m-2">
+            <p>Current storage: {bytesToSize(selectedUser.storage)}</p>
+            <Label className="ml-25">{t("Storage in Mbs")}</Label>
+
+            <Input
+              type="text"
+              value={storage}
+              placeholder={t("Enter storage")}
+              onChange={(e) => setStorage(e.target.value)}
+            />
+            <Button.Ripple
+            className="mt-2" sm="12"
+                  type={"button"}
+                  color="primary"
+                  onClick={(e) => onUpdateStorage(e)}
+                >
+                  {t("Update storage")}
+                </Button.Ripple>
+          </div>
         </Card>
       </Col>
+
+
     </Row>
+    </UILoader>
   );
 };
 

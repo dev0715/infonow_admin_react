@@ -36,12 +36,18 @@ const Dashboard = (props) => {
             props.getDashboardData()
     }, [])
 
-    const handleViewTeacher = (id) => {
-        props.history.push(`/teacher-history/${id}`)
+    const handleViewTeacher = (teacher) => {
+        props.history.push({
+            pathname:`/teacher-history/${teacher.userId}`,
+            state:{user:teacher}
+        })
     }
 
-    const handleViewStudent = (id) => {
-        props.history.push(`/student-history/${id}`)
+    const handleViewStudent = (student) => {
+            props.history.push({
+            pathname:`/student-history/${student.userId}`,
+            state:{user:student}
+        })
     }
 
 
@@ -142,7 +148,7 @@ const Dashboard = (props) => {
                                     </Col>
                                     <Col sm='12' md='6' lg='3'>
                                         <StatsItemCard
-                                            label={t("Subs Payments")}
+                                            label={t("Sub Payments")}
                                             value={0}
                                         />
                                     </Col>
@@ -180,7 +186,7 @@ const Dashboard = (props) => {
                                                         <td><DateTime dateTime={t.createdAt} /></td>
                                                         <td>
                                                             <Button.Ripple color='flat-primary'
-                                                                onClick={() => handleViewTeacher(teacher.userId)}
+                                                                onClick={() => handleViewTeacher(teacher)}
                                                             >
                                                                 {t('View')}
                                                             </Button.Ripple>
@@ -224,7 +230,7 @@ const Dashboard = (props) => {
                                                         <td><DateTime dateTime={s.createdAt} /></td>
                                                         <td>
                                                             <Button.Ripple color='flat-primary'
-                                                                onClick={() => handleViewStudent(s.userId)}
+                                                                onClick={() => handleViewStudent(s)}
                                                             >
                                                                 {t('View')}
                                                             </Button.Ripple>
