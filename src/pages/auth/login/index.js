@@ -1,5 +1,5 @@
 import React from "react";
-import {useState} from "react";
+import { useState } from "react";
 import { useSkin } from "@hooks/useSkin";
 import { Link, useHistory, withRouter } from "react-router-dom";
 import { loginUser, loginError } from "@store/actions";
@@ -21,8 +21,11 @@ import { connect } from "react-redux";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import PasswordToggle from "../../../components/password-toggle";
+import ReCAPTCHA from "react-google-recaptcha";
+import { GOOGLE_RECAPTCHA_KEY } from '../../../helpers/url_helper';
 
 const Login = (props) => {
+  const recaptchaRef = React.useRef();
   const [skin, setSkin] = useSkin();
 
   const { t } = useTranslation();
@@ -43,7 +46,9 @@ const Login = (props) => {
   }, [props.success]);
 
   const handleValidSubmit = (event, data) => {
-      data.userType = userType
+    const token = recaptchaRef.current.getValue();
+    data.reCaptchaToken = token
+    data.userType = userType
     props.loginUser(data, history);
   };
 
@@ -134,6 +139,15 @@ const Login = (props) => {
                 />
               </FormGroup>
 
+              <div className='d-flex justify-content-center mt-2 mb-2' >
+                <ReCAPTCHA
+                  theme={skin}
+                  ref={recaptchaRef}
+                  size="normal"
+                  type="image"
+                  sitekey={GOOGLE_RECAPTCHA_KEY}
+                />
+              </div>
               <Button.Ripple
                 type="submit"
                 color="primary"

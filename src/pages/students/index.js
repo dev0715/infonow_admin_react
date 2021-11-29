@@ -170,6 +170,8 @@ const ActiveStudents = (props) => {
                                     isNew={false}
                                     dataList={studentList}
                                     handleViewStudent={handleViewStudent}
+                                    onSelect={onSelect}
+                                    isActiveStudent={true}
                                 />
                             }
                             {

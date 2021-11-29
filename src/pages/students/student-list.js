@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 const StudentList = (props) => {
 
     const { t } = useTranslation();
-    const { dataList, isNew } = props
+    const { dataList, isNew ,isActiveStudent} = props
 
     const onSelect = (student) => {
         props.onSelect(student)
@@ -29,7 +29,11 @@ const StudentList = (props) => {
                         <th>{t('Email')}</th>
                         <th>{t('DATE/TIME')}</th>
                         <th>{t('Action')}</th>
-                        <th>{t('Assign')}</th>
+                        {
+                            !isActiveStudent &&
+                            <th>{t('Assign')}</th>
+                        }
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -46,7 +50,10 @@ const StudentList = (props) => {
                                 <td>{s.email}</td>
                                 <td><DateTime dateTime={s.createdAt} type="dateTime" /></td>
                                 <td><Button color="flat-primary" onClick={() => handleViewStudent(s)}>{t('View')}</Button></td>
-                                <td><Button color="flat-primary" onClick={() => onSelect(s)}>{t('Assign')}</Button></td>
+                                {
+                                    !isActiveStudent &&
+                                    <td><Button color="flat-primary" onClick={() => onSelect(s)}>{t('Assign')}</Button></td>
+                                }
                             </tr>
                         )}
                 </tbody>
