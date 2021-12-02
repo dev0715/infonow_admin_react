@@ -9,6 +9,8 @@ import CardReload from '../../@core/components/card-reload';
 import { Button } from 'reactstrap'
 
 import { useTranslation } from 'react-i18next'
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 
 
 const HistoryList = (props) => {
@@ -16,15 +18,21 @@ const HistoryList = (props) => {
     const { users, isTeacher, fetchHistory, isReloading } = props;
     const { t } = useTranslation()
 
+    const goToTeacherProfile = (id) => {
+        props.history.push("/")
+    }
+
+    const goToStudentProfile = (id) => {
+        props.history.push("/")
+    }
+
 
     return (
         <CardReload className="p-0"
             title={isTeacher ? `${t('Students')}` : `${t('Teachers')}`}
             onReload={fetchHistory}
             isReloading={isReloading}>
-
             <CardBody>
-               
                 <Table responsive hover >
                     <thead>
                         <tr>
@@ -37,31 +45,50 @@ const HistoryList = (props) => {
                     <tbody>
 
                         {
-                            users && users.map((u, i) =>{
-                                let name = "";
-                                if(u && u.student && u.student.user){
-                                    name = u.student.user.name
-                                }
-                                if(isTeacher && u && u.teacher && u.teacher.user){
-                                    name = u.teacher.user.name
-                                }
-                                return <tr key={i + 1} >
-                                    <td>{i + 1}</td>
-                                    <td>
-                                        <span className='align-middle font-weight-bold'>
-                                            {name}
-                                        </span>
-                                    </td>
-                                    <td><DateTime dateTime={u.createdAt} type="dateTime" /></td>
-                                    <td>
-                                        <Button.Ripple color='flat-primary'  >
-                                            <span className='align-middle'>{t('View')}</span>
-                                        </Button.Ripple>
-                                    </td>
-
-                                </tr>
-                            })
+                            users && users.map((u, i) => {
+                                let studentName = "";
+                                let teacherName = "";
+                                let studentId = "";
+                                let teacherId = "";
                                 
+                                if (u && u.student && u.student.user) {
+                                    studentName = u.student.user.name
+                                    studentId = u.student.user.userId
+                                    console.log(u.student)
+                                }
+
+                                if (u && u.teacher && u.teacher.user) {
+                                    teacherName = u.teacher.user.name
+                                    teacherId = u.teacher.user.userId
+                                    console.log(u.teacher)
+                                }
+
+                                return (
+                                    <tr key={i + 1} >
+                                        <td>{i + 1}</td>
+                                        <td>
+                                            <span className='align-middle font-weight-bold'>
+                                                {isTeacher ? studentName : teacherName}
+                                            </span>
+                                        </td>
+                                        <td><DateTime dateTime={u.createdAt} type="dateTime" /></td>
+                                        <td>
+                                            <Button.Ripple color='flat-primary'
+                                                onClick={() => {
+                                                    if (isTeacher)
+                                                        goToStudentProfile(studentId)
+                                                    else
+                                                        goToTeacherProfile(teacherId)
+
+                                                }}>
+                                                <span className='align-middle'>{t('View')}</span>
+                                            </Button.Ripple>
+                                        </td>
+
+                                    </tr>
+                                )
+                            })
+
                         }
                     </tbody>
                 </Table>
@@ -77,7 +104,7 @@ HistoryList.propTypes = {
 }
 
 
-export default HistoryList;
+export default withRouter(HistoryList)
 
 
 
