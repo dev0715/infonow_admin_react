@@ -37,13 +37,19 @@ const HistoryList = (props) => {
                     <tbody>
 
                         {
-                            users && users.map((u, i) =>
-
-                                <tr key={i + 1} >
+                            users && users.map((u, i) =>{
+                                let name = "";
+                                if(u && u.student && u.student.user){
+                                    name = u.student.user.name
+                                }
+                                if(isTeacher && u && u.teacher && u.teacher.user){
+                                    name = u.teacher.user.name
+                                }
+                                return <tr key={i + 1} >
                                     <td>{i + 1}</td>
                                     <td>
                                         <span className='align-middle font-weight-bold'>
-                                            {isTeacher ? u.student.user.name : u.teacher.user.name}
+                                            {name}
                                         </span>
                                     </td>
                                     <td><DateTime dateTime={u.createdAt} type="dateTime" /></td>
@@ -54,7 +60,9 @@ const HistoryList = (props) => {
                                     </td>
 
                                 </tr>
-                            )}
+                            })
+                                
+                        }
                     </tbody>
                 </Table>
             </CardBody>
