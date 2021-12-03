@@ -18,18 +18,26 @@ const HistoryList = (props) => {
     const { users, isTeacher, fetchHistory, isReloading } = props;
     const { t } = useTranslation()
 
-    const goToTeacherProfile = (id) => {
-        props.history.push("/")
+    const goToTeacherProfile = (teacher) => {
+        props.history.push({
+            pathname:`/teacher-history/${teacher.userId}`,
+            state:{user:teacher}
+        })
     }
 
-    const goToStudentProfile = (id) => {
-        props.history.push("/")
+    const goToStudentProfile = (student) => {
+        props.history.push({
+            pathname:`/student-history/${student.userId}`,
+            state:{user:student}
+        })
     }
+
+   
 
 
     return (
         <CardReload className="p-0"
-            title={isTeacher ? `${t('Students')}` : `${t('Teachers')}`}
+            title={`${isTeacher ? `${t('Students')}` : `${t('Teachers')}`} history`}
             onReload={fetchHistory}
             isReloading={isReloading}>
             <CardBody>
@@ -76,9 +84,9 @@ const HistoryList = (props) => {
                                             <Button.Ripple color='flat-primary'
                                                 onClick={() => {
                                                     if (isTeacher)
-                                                        goToStudentProfile(studentId)
+                                                        goToStudentProfile(u.student.user)
                                                     else
-                                                        goToTeacherProfile(teacherId)
+                                                        goToTeacherProfile(u.teacher.user)
 
                                                 }}>
                                                 <span className='align-middle'>{t('View')}</span>

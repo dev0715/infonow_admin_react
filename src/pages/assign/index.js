@@ -22,7 +22,7 @@ const assignTeacher = (props) => {
     const { allTeachers, allTeachersError, allTeachersLoading,
         teacherStudents, teacherStudentsError, teacherStudentsLoading,
         unassignTeacher, unassignTeacherSuccess, unassignTeacherError, unassignTeacherLoading,
-        assignTeacher, assignTeacherSuccess, assignTeacherError, assignTeacherLoading, teacherListData} = props
+        assignTeacher, assignTeacherSuccess, assignTeacherError, assignTeacherLoading, teacherListData } = props
 
     const [listData, setlistData] = useState([])
     const [pagesCount, setPagesCount] = useState(0)
@@ -64,7 +64,7 @@ const assignTeacher = (props) => {
 
     const fetchData = (name) => {
         if (isTeacher) {
-            let params = {limit:20, page:1, search:name}
+            let params = { limit: 20, page: 1, search: name }
             props.getAllTeachers(params)
         } else {
             props.getTeacherStudents(user.userId)
@@ -88,14 +88,18 @@ const assignTeacher = (props) => {
 
     useEffect(() => {
         setlistData([])
-         if (isTeacher) setPagesCount(allTeachers.count)
-         if (isTeacher && allTeachers.data && allTeachers.data.length > 0) setlistData(allTeachers.data)
+        if (isTeacher) setPagesCount(allTeachers.count)
+        if (isTeacher && allTeachers.data && allTeachers.data.length > 0) setlistData(allTeachers.data)
         else if (teacherStudents.length > 0) setlistData(teacherStudents)
-      
+
     }, [allTeachers, teacherStudents])
 
     const onSelectPage = (page) => {
-        if(teacherListData[page]) setlistData(teacherListData[page])
+        if (teacherListData[page]) setlistData(teacherListData[page])
+        else {
+            let params = { limit: 20, page: page }
+            props.getAllTeachers(params)
+        }
     }
 
     return (

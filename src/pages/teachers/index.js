@@ -56,11 +56,6 @@ const Teachers = (props) => {
     }
 
     useEffect(() => {
-        if (teachersStats && teachersStats.teachers && teachersStats.teachers.data) setTeachersList(teachersStats.teachers.data)
-        if (teachersStats && teachersStats.teachers && teachersStats.teachers.pages) setPagesCount(teachersStats.teachers.pages)
-    }, [teachersStats])
-
-    useEffect(() => {
         if (allTeachers && allTeachers.data) setTeachersList(allTeachers.data)
         if (allTeachers && allTeachers.count) setPagesCount(allTeachers.count)
     }, [allTeachers])
@@ -68,6 +63,7 @@ const Teachers = (props) => {
 
     useEffect(() => {
         props.getTeachersStats({ page: 1, limit: 20 })
+        fetchTeacherList(0)
     }, [])
 
     useEffect(() => {
@@ -172,23 +168,24 @@ const Teachers = (props) => {
                                             <th>{t('DATE/TIME')}</th>
                                             <th>{t('Action')}</th>
                                             <th>{t('Unassign')}</th>
+                                            <th>{t('Expiry')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {
-                                            teachersList.map((te, i) =>
-
+                                            teachersList.map((teacher, i) =>
                                                 <tr key={"assignment-" + i}>
                                                     <td>{i + 1}</td>
                                                     <td>
                                                         <span className='align-middle font-weight-bold'>
-                                                            {te.name}
+                                                            {teacher.name}
                                                         </span>
                                                     </td>
-                                                    <td>{te.email}</td>
-                                                    <td><DateTime dateTime={te.createdAt} type="dateTime" /></td>
-                                                    <td><Button color="flat-primary" onClick={() => handleViewTeacher(te)}>{t('View')}</Button></td>
-                                                    <td><Button color="flat-primary" onClick={() => onSelect(te)}>{t('Unassign')}</Button></td>
+                                                    <td>{teacher.email}</td>
+                                                    <td><DateTime dateTime={teacher.createdAt} type="dateTime" /></td>
+                                                    <td><Button color="flat-primary" onClick={() => handleViewTeacher(teacher)}>{t('View')}</Button></td>
+                                                    <td><Button color="flat-primary" onClick={() => onSelect(teacher)}>{t('Unassign')}</Button></td>
+                                                    <td>{teacher.paymentPlan ? teacher.paymentPlan.endDate : 'N/A'}</td>
                                                 </tr>
                                             )}
                                     </tbody>

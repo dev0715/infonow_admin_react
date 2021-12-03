@@ -347,7 +347,7 @@ console.log("STATE ==>",props.history.location.state );
      props.studentProfileLoading || props.adminProfilePictureLoading ||
       props.teacherProfilePictureLoading || props.studentProfilePictureLoading || props.userPasswordLoading}>
     <Row>
-      <Col sm="12" lg="4" md="6">
+      <Col sm="12" lg="6" md="6">
         <Card>
           <Fragment>
             <div className="m-2">
